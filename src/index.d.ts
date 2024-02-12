@@ -12,3 +12,17 @@ declare module "maybe.ts" {
 
   export function maybe<T>(value: T | null): Maybe<T>;
 }
+
+declare module "maybe.ts/utils" {
+  import { Maybe } from "maybe.ts";
+
+  export function call<T>(fn: () => T): T;
+
+  export function mergeMap<L, R, N>(
+    left: Maybe<L>,
+    right: Maybe<R>,
+    cb: (left: L, right: R) => N,
+  ): Maybe<N>;
+
+  export function undefinedToMaybe<T>(from: T | undefined): Maybe<T>;
+}
