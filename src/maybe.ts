@@ -6,7 +6,7 @@ export interface Maybe<T> {
   flatGetOrElse: <R>(dv: R) => R | Maybe<T>;
   asyncMap: <R>(
     fn: (v: T) => Promise<R>,
-    error: (err: unknown) => void,
+    error?: (err: unknown) => void,
   ) => Promise<Maybe<R>>;
   merge: <R>(om: Maybe<R>) => Maybe<{ left: T; right: R }>;
   value: T | null;
