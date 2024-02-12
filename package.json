@@ -1,12 +1,18 @@
 {
   "name": "@victorenokh/maybe.ts",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "description": "Maybe monad",
   "main": "./src/index.ts",
   "scripts": {
     "build": "tsc --build"
   },
-  "keywords": [],
+  "keywords": [
+    "fp",
+    "ts",
+    "monad",
+    "maybe",
+    "option"
+  ],
   "author": "Victor Enokh Kuptsov",
   "license": "MIT",
   "dependencies": {

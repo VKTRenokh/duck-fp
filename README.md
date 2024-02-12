@@ -64,6 +64,7 @@ const b = maybe('something again')
 
 const merged = a.merge(b).map(console.log) // { left: "something", right: "somethibg again" }
 ```
+if something doesn't have value
 ```ts
 const a = maybe<string>(null)
 const b = maybe('something again')
