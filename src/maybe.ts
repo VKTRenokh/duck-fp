@@ -4,7 +4,10 @@ export interface Maybe<T> {
   flatMap: <R>(f: (v: T) => Maybe<R>) => Maybe<R>;
   getOrElse: (dv: T) => T;
   flatGetOrElse: <R>(dv: R) => R | Maybe<T>;
-  asyncMap: <R>(fn: (v: T) => Promise<R>) => Promise<Maybe<R>>;
+  asyncMap: <R>(
+    fn: (v: T) => Promise<R>,
+    error: (err: unknown) => void,
+  ) => Promise<Maybe<R>>;
   merge: <R>(om: Maybe<R>) => Maybe<{ left: T; right: R }>;
   value: T | null;
 }
@@ -18,8 +21,18 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
   flatGetOrElse: <R>(dv: R) => (value === null ? dv : maybe<T>(value)),
   merge: <R>(om: Maybe<R>): Maybe<{ left: T; right: R }> =>
     maybe<T>(value).flatMap((v: T) => om.map((ov) => ({ left: v, right: ov }))),
-  asyncMap: async <R>(fn: (v: T) => Promise<R>): Promise<Maybe<R>> =>
-    value === null ? maybe<R>(null) : fn(value).then((mapped) => maybe(mapped)),
+  asyncMap: async <R>(
+    fn: (v: T) => Promise<R>,
+    error?: (err: unknown) => void,
+  ): Promise<Maybe<R>> =>
+    value === null
+      ? maybe<R>(null)
+      : fn(value)
+          .then((mapped) => maybe(mapped))
+          .catch((err) => {
+            error?.(err);
+            return maybe<R>(null);
+          }),
   get value() {
     return value;
   },

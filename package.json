@@ -1,6 +1,6 @@
 {
   "name": "@victorenokh/maybe.ts",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Maybe monad",
   "main": "./src/index.ts",
   "scripts": {
