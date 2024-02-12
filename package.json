@@ -2,7 +2,8 @@
   "name": "@victorenokh/maybe.ts",
   "version": "1.0.12",
   "description": "Maybe monad",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build"
   },
