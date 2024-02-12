@@ -2,7 +2,7 @@
 
 maybe monad implementation in typescript with great types and some utils
 
-# Docs
+# Examples
 
 ## .map()
 ```ts
