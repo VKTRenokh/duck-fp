@@ -1,4 +1,4 @@
-import { Maybe } from "../maybe";
+import { Maybe } from "maybe.ts";
 
 export const mergeMap = <L, R, N>(
   left: Maybe<L>,
