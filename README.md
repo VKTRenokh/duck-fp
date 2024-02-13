@@ -87,5 +87,7 @@ const a = maybe(5)
 const b = maybe('hello')
 const c = maybe({someKey: 'someValue'})
 
-longMerge(a, b, c)
+const merged = longMerge(a, b, c) // type is Maybe<[number, string, {someKey: 'someValue'}]>
+
+merged.map(console.log) // [5, 'hello', { someKey: 'someValue' }] or if some maybe is nothing, nothing going to happen
 ```
