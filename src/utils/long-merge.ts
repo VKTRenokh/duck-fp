@@ -19,11 +19,6 @@ export const longMerge = <MT extends Maybe<any>[], MU = UnwrapMaybeArray<MT>>(
   ...maybes: MT
 ): Maybe<MU> => {
   return maybes.reduce(
-    /**
-     * @param {Maybe<MT[]>} acc - The accumulated Maybe monad.
-     * @param {Maybe<UnwrapMaybe<MT>>} curr - The current Maybe monad.
-     * @returns {Maybe<MU>} A new Maybe monad containing the merged values as an array, or an empty Maybe if any of the input Maybe monads are empty.
-     */
     (acc, curr) => acc.flatMap((res) => curr.map((v) => [...res, v])),
     maybe<MT[]>([]),
   );
