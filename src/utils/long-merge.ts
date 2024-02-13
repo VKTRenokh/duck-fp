@@ -5,7 +5,7 @@ import { Maybe, maybe, UnwrapMaybe } from "../maybe";
  * @template T - The type of the array of Maybe monads.
  * @typedef {[K in keyof T]: UnwrapMaybe<T[K]>} UnwrapMaybeArray
  */
-type UnwrapMaybeArray<T extends Array<Maybe<any>>> = {
+export type UnwrapMaybeArray<T extends Array<Maybe<any>>> = {
   [K in keyof T]: UnwrapMaybe<T[K]>;
 };
 /**

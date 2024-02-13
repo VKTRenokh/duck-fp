@@ -10,12 +10,6 @@ const maybe_1 = require("../maybe");
  * @returns {Maybe<MU>} A new Maybe monad containing the merged values as an array, or an empty Maybe if any of the input Maybe monads are empty.
  */
 const longMerge = (...maybes) => {
-    return maybes.reduce(
-    /**
-     * @param {Maybe<MT[]>} acc - The accumulated Maybe monad.
-     * @param {Maybe<UnwrapMaybe<MT>>} curr - The current Maybe monad.
-     * @returns {Maybe<MU>} A new Maybe monad containing the merged values as an array, or an empty Maybe if any of the input Maybe monads are empty.
-     */
-    (acc, curr) => acc.flatMap((res) => curr.map((v) => [...res, v])), (0, maybe_1.maybe)([]));
+    return maybes.reduce((acc, curr) => acc.flatMap((res) => curr.map((v) => [...res, v])), (0, maybe_1.maybe)([]));
 };
 exports.longMerge = longMerge;

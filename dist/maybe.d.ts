@@ -67,5 +67,11 @@ export interface Maybe<T> {
      */
     value: T | null;
 }
+/**
+ * Creates a Maybe monad containing the specified value.
+ * @template T - The type of the value contained in the Maybe monad.
+ * @param {T | null} value - The value to contain in the Maybe monad.
+ * @returns {Maybe<T>} A new Maybe monad containing the specified value.
+ */
 export declare const maybe: <T>(value: T | null) => Maybe<T>;
 export type UnwrapMaybe<T extends Maybe<any>> = T extends Maybe<infer U> ? U : never;

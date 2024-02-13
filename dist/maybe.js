@@ -1,20 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.maybe = void 0;
-// export interface Maybe<T> {
-//   map: <R>(fn: (_: T) => R) => Maybe<R>;
-//   mapNullable: <R>(fn: (v: T) => R | undefined | null) => Maybe<R>;
-//   equals: (m: Maybe<unknown>) => boolean;
-//   flatMap: <R>(f: (v: T) => Maybe<R>) => Maybe<R>;
-//   getOrElse: (dv: T) => T;
-//   flatGetOrElse: <R>(dv: R) => R | Maybe<T>;
-//   asyncMap: <R>(
-//     fn: (v: T) => Promise<R>,
-//     error?: (err: unknown) => void,
-//   ) => Promise<Maybe<R>>;
-//   merge: <R>(om: Maybe<R>) => Maybe<{ left: T; right: R }>;
-//   value: T | null;
-// }
+/**
+ * Creates a Maybe monad containing the specified value.
+ * @template T - The type of the value contained in the Maybe monad.
+ * @param {T | null} value - The value to contain in the Maybe monad.
+ * @returns {Maybe<T>} A new Maybe monad containing the specified value.
+ */
 const maybe = (value) => ({
     map: (fn) => (value ? (0, exports.maybe)(fn(value)) : (0, exports.maybe)(null)),
     mapNullable: (fn) => {
