@@ -1,6 +1,6 @@
 {
   "name": "@victorenokh/maybe.ts",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Maybe monad",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",

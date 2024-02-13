@@ -1,5 +1,6 @@
 export interface Maybe<T> {
   map: <R>(fn: (_: T) => R) => Maybe<R>;
+  mapNullable: <R>(fn: (v: T) => R | undefined | null) => Maybe<R>;
   equals: (m: Maybe<unknown>) => boolean;
   flatMap: <R>(f: (v: T) => Maybe<R>) => Maybe<R>;
   getOrElse: (dv: T) => T;
@@ -14,6 +15,18 @@ export interface Maybe<T> {
 
 export const maybe = <T>(value: T | null): Maybe<T> => ({
   map: <R>(fn: (_: T) => R) => (value ? maybe<R>(fn(value)) : maybe<R>(null)),
+  mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
+    if (value === null) {
+      return maybe<R>(null);
+    }
+    const next = fn(value);
+
+    if (next === null || next === undefined) {
+      return maybe<R>(null);
+    }
+
+    return maybe<R>(next);
+  },
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : maybe<R>(null),
