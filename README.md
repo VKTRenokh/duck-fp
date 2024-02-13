@@ -103,3 +103,10 @@ const final = mergeMap(a, b, add)
 
 final.map(console.log) // 105 or if some maybe is nothing, nothing going to happen
 ```
+
+# call()
+```ts
+const mfn = maybe(() => console.log('hey!'))
+
+mfn.map(call) // hey
+```
