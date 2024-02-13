@@ -37,3 +37,7 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
     return value;
   },
 });
+
+export type UnwrapMaybe<T extends Maybe<any>> = T extends Maybe<infer U>
+  ? U
+  : never;

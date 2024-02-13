@@ -71,3 +71,21 @@ const b = maybe('something again')
 
 const merged = a.merge(b).map(console.log) // nothing happens
 ```
+
+## undefinedToMaybe()
+```ts
+const getNumberOrUndefined = () => Math.random() > 0.5 ? 5 : undefined
+
+const number = undefinedToMaybe(getNumberOrUndefined())
+
+number.map(console.log) // 5 or nothing
+```
+
+## longMerge()
+```ts
+const a = maybe(5)
+const b = maybe('hello')
+const c = maybe({someKey: 'someValue'})
+
+longMerge(a, b, c)
+```
