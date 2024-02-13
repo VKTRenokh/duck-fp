@@ -1,5 +1,6 @@
 export interface Maybe<T> {
     map: <R>(fn: (_: T) => R) => Maybe<R>;
+    mapNullable: <R>(fn: (v: T) => R | undefined | null) => Maybe<R>;
     equals: (m: Maybe<unknown>) => boolean;
     flatMap: <R>(f: (v: T) => Maybe<R>) => Maybe<R>;
     getOrElse: (dv: T) => T;
