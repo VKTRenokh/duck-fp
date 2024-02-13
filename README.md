@@ -91,3 +91,15 @@ const merged = longMerge(a, b, c) // type is Maybe<[number, string, {someKey: 's
 
 merged.map(console.log) // [5, 'hello', { someKey: 'someValue' }] or if some maybe is nothing, nothing going to happen
 ```
+
+# mergeMap()
+```ts
+const add = (a: number, b: number) => a + b
+
+const a = maybe(5)
+const b = maybe(100)
+
+const final = mergeMap(a, b, add)
+
+final.map(console.log) // 105 or if some maybe is nothing, nothing going to happen
+```
