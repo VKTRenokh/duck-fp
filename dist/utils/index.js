@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./call"), exports);
 __exportStar(require("./merge-map"), exports);
 __exportStar(require("./undefined-to-maybe"), exports);
+__exportStar(require("./long-merge"), exports);
