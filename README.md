@@ -9,6 +9,14 @@ maybe monad implementation in typescript with great types and some utils
 maybe(42).map(num => num * 2).map(console.log) // Output: 84
 ```
 
+## .mapNullable()
+```ts
+const getOrUndefined = (num) => num > 2 ? null : num
+
+const a = maybe(4).map(getOrUndefined) // type is Maybe<number | null>
+const a = maybe(4).mapNullable(getOrUndefined) // type is Maybe<number>
+```
+
 ## .asyncMap()
 ```ts
 const sleep = (ms: number): Promise<number> =>
