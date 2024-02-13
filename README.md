@@ -108,5 +108,5 @@ final.map(console.log) // 105 or if some maybe is nothing, nothing going to happ
 ```ts
 const mfn = maybe(() => console.log('hey!'))
 
-mfn.map(call) // hey
+mfn.map(call) // hey!
 ```
