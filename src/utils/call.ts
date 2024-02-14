@@ -1,1 +1,1 @@
-export const call = <T>(fn: () => T) => fn();
+export const call = <T>(fn: () => T) => fn()
