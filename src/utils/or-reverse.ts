@@ -2,23 +2,14 @@ import { Maybe, maybe } from 'src/maybe'
 
 /**
  * Combines multiple Maybe monads into one, returning the first non-empty Maybe monad.
- * This function prioritizes the Maybe monads in the order they are provided.
  * @template MT - The types of the Maybe monads to combine.
  * @param {...MT[]} maybies - The Maybe monads to combine.
  * @returns {MT[number]} The first non-empty Maybe monad, or `null` if all input Maybe monads are empty.
  */
-export const or = <MT extends Maybe<any>[]>(
+export const orReverse = <MT extends Maybe<any>[]>(
   ...maybies: MT
 ): MT[number] => {
   return maybies.reduce((acc, curr) => {
-    return acc.flatGetOrElse(curr)
+    return curr.flatGetOrElse(acc)
   }, maybe<MT[number]>(null))
 }
-
-const a = maybe(4)
-const b = maybe(5)
-const c = maybe(6)
-
-const final = or(a, b, c)
-
-final.map(console.log)
