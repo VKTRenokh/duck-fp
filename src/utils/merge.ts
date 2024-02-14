@@ -16,7 +16,7 @@ export type UnwrapMaybeArray<T extends Array<Maybe<any>>> =
  * @param {...MT[]} maybes - The Maybe monads to merge.
  * @returns {Maybe<MU>} A new Maybe monad containing the merged values as an array, or an empty Maybe if any of the input Maybe monads are empty.
  */
-export const longMerge = <
+export const merge = <
   MT extends Maybe<any>[],
   MU = UnwrapMaybeArray<MT>,
 >(
