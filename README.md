@@ -114,7 +114,30 @@ final.map(console.log) // 105 or if some maybe is nothing, nothing going to happ
 
 # call()
 ```ts
-const mfn = maybe(() => console.log('hey!'))
+const mfn = maybe(() => console.log('hello world'))
 
-mfn.map(call) // hey!
+mfn.map(call) // hello world
+```
+
+# or()
+```ts
+const a = maybe<number>(null)
+const b = maybe(5)
+const c = maybe(6)
+
+const final = or(a, b, c)
+
+final.map(console.log) // 5
+```
+
+
+# orReverse()
+```ts
+const a = maybe<number>(null)
+const b = maybe(5)
+const c = maybe(6)
+
+const final = or(a, b, c)
+
+final.map(console.log) // 6
 ```

@@ -14,11 +14,3 @@ export const or = <MT extends Maybe<any>[]>(
     return acc.flatGetOrElse(curr)
   }, maybe<MT[number]>(null))
 }
-
-const a = maybe(4)
-const b = maybe(5)
-const c = maybe(6)
-
-const final = or(a, b, c)
-
-final.map(console.log)
