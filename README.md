@@ -70,7 +70,7 @@ const value = maybe(53).flatGetOrElse(maybe(42)) // value is 42
 const a = maybe('something')
 const b = maybe('something again')
 
-const merged = a.merge(b).map(console.log) // { left: "something", right: "somethibg again" }
+const merged = a.merge(b).map(console.log) // { left: "something", right: "something again" }
 ```
 if something doesn't have value
 ```ts
