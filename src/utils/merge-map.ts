@@ -1,4 +1,4 @@
-import { Maybe } from "../maybe";
+import { Maybe } from '../maybe'
 
 /**
  * Merges two Maybe monads and applies a callback function to their values.
@@ -14,4 +14,7 @@ export const mergeMap = <L, R, N>(
   left: Maybe<L>,
   right: Maybe<R>,
   cb: (left: L, right: R) => N,
-) => left.merge(right).map((maybes) => cb(maybes.left, maybes.right));
+) =>
+  left
+    .merge(right)
+    .map((maybes) => cb(maybes.left, maybes.right))
