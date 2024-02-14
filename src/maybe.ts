@@ -6,10 +6,10 @@ export interface Maybe<T> {
   /**
    * Maps over the value contained in the Maybe monad.
    * @template R - The type of the result after applying the mapping function.
-   * @param {(_: T) => R} fn - The mapping function.
+   * @param {(v: T) => R} fn - The mapping function.
    * @returns {Maybe<R>} A new Maybe monad containing the mapped value.
    */
-  map: <R>(fn: (_: T) => R) => Maybe<R>
+  map: <R>(fn: (v: T) => R) => Maybe<R>
 
   /**
    * Maps over the value contained in the Maybe monad, allowing nullable results.
@@ -85,7 +85,7 @@ export interface Maybe<T> {
  * @returns {Maybe<T>} A new Maybe monad containing the specified value.
  */
 export const maybe = <T>(value: T | null): Maybe<T> => ({
-  map: <R>(fn: (_: T) => R) =>
+  map: <R>(fn: (v: T) => R) =>
     value ? maybe<R>(fn(value)) : maybe<R>(null),
   mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
     if (value === null) {
