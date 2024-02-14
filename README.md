@@ -137,7 +137,7 @@ const a = maybe<number>(null)
 const b = maybe(5)
 const c = maybe(6)
 
-const final = or(a, b, c)
+const final = orReverse(a, b, c)
 
 final.map(console.log) // 6
 ```

@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.4.1
+
+### Patch Changes
+
+- or-reverse now exports from utils.
+
 ## 1.4.0
 
 ### Minor Changes
