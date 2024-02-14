@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.4.3
+
+### Patch Changes
+
+- fixed documentation typo
+
 ## 1.4.2
 
 ### Patch Changes
