@@ -5,7 +5,9 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build"
+    "build": "tsc --build",
+    "release": "npm run build && changeset publish",
+    "version-packages": "changeset version"
   },
   "keywords": [
     "fp",
