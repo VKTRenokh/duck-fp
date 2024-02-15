@@ -4,6 +4,7 @@ import {
   merge,
   undefinedToMaybe,
   mergeMap,
+  fromThrowable,
 } from '../src/index'
 
 describe('utils.ts', () => {
@@ -61,5 +62,19 @@ describe('utils.ts', () => {
     const b = maybe(2)
 
     expect(mergeMap(a, b, add).value).toBe(null)
+  })
+
+  it('fromThrowable', () => {
+    const throwable = (num: number) => {
+      if (num < 5) {
+        throw new Error('error')
+      }
+      return ':)'
+    }
+
+    const handled = fromThrowable(throwable)
+
+    expect(handled(0).value).toBeNull()
+    expect(handled(6).value).toBe(':)')
   })
 })
