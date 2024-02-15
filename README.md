@@ -16,10 +16,10 @@ maybe(42).tap(console.log).map(num => num * 2).tap(console.log) // Output: 42 th
 
 ## .mapNullable()
 ```ts
-const getOrUndefined = (num) => num > 2 ? null : num
+const getOrNothing = (num) => num > 2 ? null : num
 
-const a = maybe(4).map(getOrUndefined) // type is Maybe<number | null>
-const a = maybe(4).mapNullable(getOrUndefined) // type is Maybe<number>
+const a = maybe(4).map(getOrNothing) // type is Maybe<number | null>
+const a = maybe(4).mapNullable(getOrNothing) // type is Maybe<number>
 ```
 
 ## .asyncMap()
