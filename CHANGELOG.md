@@ -1,5 +1,27 @@
 # @victorenokh/maybe.ts
 
+## 1.5.0
+
+### Minor Changes
+
+- 4d2457b: tap method implemented for easy side-effects during monad chaining
+- 32c0f24: Added none function
+
+### Patch Changes
+
+- 8867b9b: Fixed docs typo
+- 209dde6: fixed typo in readme examples of merge util function
+
+## 1.5.0
+
+### Minor Changes
+
+- 4d2457b: tap method implemented for easy side-effects during monad chaining
+
+### Patch Changes
+
+- 209dde6: fixed typo in readme examples of merge util function
+
 ## 1.4.3
 
 ### Patch Changes
