@@ -1,4 +1,4 @@
-import { maybe, none } from 'src/maybe'
+import { maybe, none } from '../maybe'
 
 /**
  * Wraps a potentially throwing function in a Maybe monad.
