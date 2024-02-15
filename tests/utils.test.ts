@@ -6,7 +6,7 @@ import {
   mergeMap,
 } from '../src/index'
 
-describe('utils', () => {
+describe('utils.ts', () => {
   it('or', () => {
     const final = or(
       maybe<number>(null),
