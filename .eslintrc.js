@@ -19,6 +19,7 @@ module.exports = {
     '.eslintrc.js',
     'dist',
     'commitlint.config.mjs',
+    'tests/*',
   ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
