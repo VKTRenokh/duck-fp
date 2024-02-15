@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.5.1
+
+### Patch Changes
+
+- dabad19: Removed or-reverse function
+
 ## 1.5.0
 
 ### Minor Changes
