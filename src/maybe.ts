@@ -137,6 +137,11 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
   },
 })
 
+/**
+ * Creates a Maybe monad representing absence of value.
+ * @template T - The type of the value contained in the Maybe monad (implicitly `null` in this case).
+ * @returns {Maybe<T>} A new Maybe monad representing absence of value.
+ */
 export const none = <T>() => maybe<T>(null)
 
 export type UnwrapMaybe<T extends Maybe<any>> =
