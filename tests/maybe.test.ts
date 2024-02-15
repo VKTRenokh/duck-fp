@@ -89,4 +89,13 @@ describe('maybe.ts', () => {
         expect(maybeTime.value).toBe(250)
       })
   })
+
+  it('equals', () => {
+    const a = maybe(5)
+    const b = maybe(5)
+    const c = maybe(6)
+
+    expect(a.equals(b)).toBeTruthy()
+    expect(a.equals(c)).not.toBeTruthy()
+  })
 })

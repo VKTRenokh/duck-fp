@@ -30,10 +30,11 @@ export interface Maybe<T> {
 
   /**
    * Checks equality between two Maybe monads.
-   * @param {Maybe<unknown>} m - The Maybe monad to compare against.
+   * @template T - The type of the value contained in the Maybe monad.
+   * @param {Maybe<T>} m - The Maybe monad to compare against.
    * @returns {boolean} `true` if the Maybe monads are equal, otherwise `false`.
    */
-  equals: (m: Maybe<unknown>) => boolean
+  equals: <T>(m: Maybe<T>) => boolean
 
   /**
    * Applies a function that returns another Maybe monad and flattens the result.
