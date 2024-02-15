@@ -8,6 +8,11 @@ maybe monad implementation in typescript with great types and some utils
 ```ts
 maybe(42).map(num => num * 2).map(console.log) // Output: 84
 ```
+## .tap()
+``` ts
+maybe(42).tap(console.log).map(num => num * 2).tap(console.log) // Output: 42 then 84
+
+```
 
 ## .mapNullable()
 ```ts
@@ -70,7 +75,7 @@ const value = maybe(53).flatGetOrElse(maybe(42)) // value is 42
 const a = maybe('something')
 const b = maybe('something again')
 
-const merged = a.merge(b).map(console.log) // { left: "something", right: "somethibg again" }
+const merged = a.merge(b).map(console.log) // { left: "something", right: "something again" }
 ```
 if something doesn't have value
 ```ts
@@ -89,13 +94,13 @@ const number = undefinedToMaybe(getNumberOrUndefined())
 number.map(console.log) // 5 or nothing
 ```
 
-## longMerge()
+## merge()
 ```ts
 const a = maybe(5)
 const b = maybe('hello')
 const c = maybe({someKey: 'someValue'})
 
-const merged = longMerge(a, b, c) // type is Maybe<[number, string, {someKey: 'someValue'}]>
+const merged = merge(a, b, c) // type is Maybe<[number, string, {someKey: 'someValue'}]>
 
 merged.map(console.log) // [5, 'hello', { someKey: 'someValue' }] or if some maybe is nothing, nothing going to happen
 ```
@@ -129,7 +134,6 @@ const final = or(a, b, c)
 
 final.map(console.log) // 5
 ```
-
 
 # orReverse()
 ```ts
