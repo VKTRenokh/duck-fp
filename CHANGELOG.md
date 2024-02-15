@@ -1,5 +1,15 @@
 # @victorenokh/maybe.ts
 
+## 1.6.0
+
+### Minor Changes
+
+- 6fb3e20: Added fromThrowable function
+
+### Patch Changes
+
+- ae7d2ed: fixed equals method
+
 ## 1.5.2
 
 ### Patch Changes
