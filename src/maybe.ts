@@ -22,7 +22,7 @@ export interface Maybe<T> {
   ) => Maybe<R>
 
   /**
-   * executes a function and returns Monad the method is applied on. Useful for performing side-effects.
+   * Executes a function and returns Monad the method is applied on. Useful for performing side-effects.
    * @param {(v: T) => void} fn - the function to apply
    * @returns Monad that "tap" method is applied on
    */
