@@ -1,4 +1,4 @@
-import { Maybe, maybe } from 'src/maybe'
+import { Maybe, maybe } from '../maybe'
 
 /**
  * Combines multiple Maybe monads into one, returning the first non-empty Maybe monad.
