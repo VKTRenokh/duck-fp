@@ -10,15 +10,9 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
-      "maybe.ts": [
-        "./maybe.ts"
-      ]
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
 }
