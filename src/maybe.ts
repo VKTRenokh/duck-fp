@@ -91,27 +91,28 @@ export interface Maybe<T> {
  * @param {T | null} value - The value to contain in the Maybe monad.
  * @returns {Maybe<T>} A new Maybe monad containing the specified value.
  */
+
 export const maybe = <T>(value: T | null): Maybe<T> => ({
   map: <R>(fn: (v: T) => R) =>
-    value ? maybe<R>(fn(value)) : maybe<R>(null),
+    value ? maybe<R>(fn(value)) : none<R>(),
   mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
     if (value === null) {
-      return maybe<R>(null)
+      return none<R>()
     }
     const next = fn(value)
 
     if (next === null || next === undefined) {
-      return maybe<R>(null)
+      return none<R>()
     }
 
     return maybe<R>(next)
   },
   tap: (fn: (v: T) => void) => (
-    value === null ? maybe(null) : fn(value), maybe(value)
+    value === null ? none() : fn(value), maybe(value)
   ),
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
-    value ? f(value) : maybe<R>(null),
+    value ? f(value) : none<R>(),
   getOrElse: (dv) => (value === null ? dv : value),
   flatGetOrElse: <R>(dv: R) =>
     value === null ? dv : maybe<T>(value),
@@ -124,17 +125,24 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
     error?: (err: unknown) => void,
   ): Promise<Maybe<R>> =>
     value === null
-      ? maybe<R>(null)
+      ? none<R>()
       : fn(value)
           .then((mapped) => maybe(mapped))
           .catch((err) => {
             error?.(err)
-            return maybe<R>(null)
+            return none<R>()
           }),
   get value() {
     return value
   },
 })
+
+/**
+ * Creates a Maybe monad representing absence of value.
+ * @template T - The type of the value contained in the Maybe monad (implicitly `null` in this case).
+ * @returns {Maybe<T>} A new Maybe monad representing absence of value.
+ */
+export const none = <T>() => maybe<T>(null)
 
 export type UnwrapMaybe<T extends Maybe<any>> =
   T extends Maybe<infer U> ? U : never
