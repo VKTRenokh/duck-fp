@@ -1,5 +1,12 @@
 # @victorenokh/maybe.ts
 
+## 1.5.2
+
+### Patch Changes
+
+- d6c0173: Fixed module not found or.ts
+- df82cfb: Removed orReverse from examples
+
 ## 1.5.1
 
 ### Patch Changes
