@@ -20,6 +20,9 @@
     "option"
   ],
   "author": "Victor Enokh Kuptsov",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
