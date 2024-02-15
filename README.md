@@ -8,6 +8,11 @@ maybe monad implementation in typescript with great types and some utils
 ```ts
 maybe(42).map(num => num * 2).map(console.log) // Output: 84
 ```
+## .tap()
+``` ts
+maybe(42).tap(console.log).map(num => num * 2).tap(console.log) // Output: 42 then 84
+
+```
 
 ## .mapNullable()
 ```ts
@@ -129,7 +134,6 @@ const final = or(a, b, c)
 
 final.map(console.log) // 5
 ```
-
 
 # orReverse()
 ```ts
