@@ -15,7 +15,11 @@ module.exports = {
     node: true,
     jest: true,
   },
-  ignorePatterns: ['.eslintrc.js', 'dist'],
+  ignorePatterns: [
+    '.eslintrc.js',
+    'dist',
+    'commitlint.config.mjs',
+  ],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type':
