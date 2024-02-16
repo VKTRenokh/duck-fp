@@ -19,6 +19,7 @@ module.exports = {
     '.eslintrc.js',
     'dist',
     'commitlint.config.mjs',
+    'jest.config.ts',
     'tests/*',
   ],
   rules: {
