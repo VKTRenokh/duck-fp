@@ -1,5 +1,13 @@
 # @victorenokh/maybe.ts
 
+## 1.6.1
+
+### Patch Changes
+
+- b444163: Added fromThrowable example
+- bb90a67: package build was with jest tests
+- ff02d90: Tap instead of map in readme examples
+
 ## 1.6.0
 
 ### Minor Changes
