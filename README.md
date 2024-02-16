@@ -134,3 +134,18 @@ const final = or(a, b, c)
 
 final.map(console.log) // 5
 ```
+
+# fromThrowable()
+```ts
+const throwable = (num: number) => {
+  if (num > 0.5) {
+    throw new Error('number is greater than 0.5')
+  }
+
+  return ':)'
+}
+
+const something = fromThrowable(throwable)
+
+something(Math.random()).tap(console.log) // :) or nothing
+```
