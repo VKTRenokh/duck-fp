@@ -147,5 +147,5 @@ const throwable = (num: number) => {
 
 const something = fromThrowable(throwable)
 
-something(Math.random()).map(console.log) // :) or nothing
+something(Math.random()).tap(console.log) // :) or nothing
 ```
