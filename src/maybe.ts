@@ -79,6 +79,8 @@ export interface Maybe<T> {
     error?: (err: unknown) => void,
   ) => Promise<Maybe<R>>
 
+  isNothing: () => boolean
+
   /**
    * The value contained in the Maybe monad.
    * @type {T | null}
@@ -94,6 +96,7 @@ export interface Maybe<T> {
  */
 
 export const maybe = <T>(value: T | null): Maybe<T> => ({
+  isNothing: () => value === null,
   map: <R>(fn: (v: T) => R) =>
     value ? maybe<R>(fn(value)) : none<R>(),
   mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
