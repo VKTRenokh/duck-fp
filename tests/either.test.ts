@@ -1,16 +1,25 @@
-import { Either, left, right } from '../src'
+import { Either, left, right, fromThrowableE } from '../src'
 
-const eitherExampleError = 'cannot work with 0'
+const eitherExampleString = 'cannot work with 0'
+const eitherExampleError = new Error(eitherExampleString)
 
 const eitherExample = (
   a: number,
   b: number,
 ): Either<string, number> => {
   if (a === 0) {
-    return left(eitherExampleError)
+    return left(eitherExampleString)
   }
 
   return right(a / b)
+}
+
+const throwable = (num: number) => {
+  if (num === 0) {
+    throw eitherExampleError
+  }
+
+  return num / 2
 }
 
 describe('either monad', () => {
@@ -20,7 +29,7 @@ describe('either monad', () => {
     const a = eitherExample(...nums)
 
     const onLeft = jest.fn((e: string) =>
-      expect(e).toBe(eitherExampleError),
+      expect(e).toBe(eitherExampleString),
     )
 
     const onRight = jest.fn((v) =>
@@ -31,5 +40,24 @@ describe('either monad', () => {
 
     expect(onLeft).toHaveBeenCalled()
     expect(onRight).not.toHaveBeenCalled()
+  })
+
+  it('fromThrowable', () => {
+    const wrapped = fromThrowableE(throwable)
+
+    const onLeft = jest.fn((e) =>
+      expect(e).toStrictEqual(eitherExampleError),
+    )
+    const onRight = jest.fn((v) => expect(v).toBe(2))
+
+    wrapped(0).fold(onLeft, onRight)
+
+    expect(onLeft).toHaveBeenCalled()
+    expect(onRight).not.toHaveBeenCalled()
+
+    wrapped(4).fold(onLeft, onRight)
+
+    expect(onLeft).toHaveBeenCalledTimes(1)
+    expect(onRight).toHaveBeenCalled()
   })
 })
