@@ -1,7 +1,6 @@
 /**
  * Represents a function that folds over the value of either the left or right side of an `Either`.
- * @template Left The type of the left side of the `Either`.
- * @template Right The type of the right side of the `Either`.
+ * @template Left The type of the left side of the `Either`. @template Right The type of the right side of the `Either`.
  */
 export type FoldFunction<Left, Right> = <R>(
   /**
@@ -33,6 +32,20 @@ export type MapFunction<Left, Right> = <R>(
 ) => Either<Left, R>
 
 /**
+ * Represents a function that applies a function to the value on the right side of an `Either`
+ * and returns a new `Either`.
+ * @template Left The type of the left side of the `Either`.
+ * @template Right The type of the right side of the `Either`.
+ */
+export type FlatMapFunction<Left, Right> = <R>(
+  /**
+   * A function to apply to the value on the right side of the `Either`.
+   * @param {Right} v The value on the right side.
+   * @returns {Either<Left, R>} A new `Either` resulting from applying the function to the right side value.
+   */
+  fn: (v: Right) => Either<Left, R>,
+) => Either<Left, R>
+/**
  * Represents the left side of an `Either`.
  * @template T The type of the value stored on the left side.
  * @template R The type of the value stored on the right side.
@@ -61,6 +74,8 @@ export interface Left<T, R> {
    * @returns {Either<T, Re>} A new `Either` with the same left side and the result of applying the function to the right side.
    */
   map: MapFunction<T, R>
+
+  flatMap: FlatMapFunction<T, R>
 }
 
 /**
@@ -92,6 +107,8 @@ export interface Right<T, R> {
    * @returns {Either<R, Re>} A new `Either` with the same right side and the result of applying the function to the right side.
    */
   map: MapFunction<R, T>
+
+  flatMap: FlatMapFunction<R, T>
 }
 
 /**
@@ -110,22 +127,16 @@ export type Either<L, R> = Left<L, R> | Right<R, L>
  */
 export const left = <L, R = never>(e: L): Either<L, R> => ({
   left: e,
+
   isLeft: () => true,
   isRight: () => false,
-  /**
-   * Folds over the value of this `Either`.
-   * @param {(e: L) => R} lfn A function to apply if this `Either` is on the left side.
-   * @param {(_: never) => never} _ Ignored.
-   * @returns {R} The result of applying the appropriate function to the value stored in this `Either`.
-   */
+
   fold: (lfn, _) => lfn(e),
-  /**
-   * Maps over the value on the right side of this `Either`.
-   * @param {(_: never) => Re} _: Ignored.
-   * @returns {Either<L, Re>} A new `Either` with the same left side and the result of applying the function to the right side.
-   * @template Re The type of the value returned after mapping.
-   */
+
   map: <Re>(_: (v: R) => Re) => left<L, Re>(e),
+
+  flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
+    left<L, Re>(e),
 })
 
 /**
@@ -139,20 +150,13 @@ export const right = <R, L = never>(
   v: R,
 ): Either<L, R> => ({
   right: v,
+
   isLeft: () => false,
   isRight: () => true,
-  /**
-   * Folds over the value of this `Either`.
-   * @param {(_: never) => never} _ Ignored.
-   * @param {(v: R) => R} rfn A function to apply if this `Either` is on the right side.
-   * @returns {R} The result of applying the appropriate function to the value stored in this `Either`.
-   */
+
   fold: (_, rfn) => rfn(v),
-  /**
-   * Maps over the value on the right side of this `Either`.
-   * @param {(v: R) => Re} fn A function to apply to the value on the right side.
-   * @returns {Either<L, Re>} A new `Either` with the same right side and the result of applying the function to the right side.
-   * @template Re The type of the value returned after mapping.
-   */
+
   map: <Re>(fn: (v: R) => Re) => right(fn(v)),
+
+  flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 })
