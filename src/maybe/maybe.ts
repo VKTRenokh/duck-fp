@@ -95,10 +95,10 @@ export interface Maybe<T> {
  * @returns {Maybe<T>} A new Maybe monad containing the specified value.
  */
 
-export const maybe = <T>(value: T | null): Maybe<T> => ({
+export const of = <T>(value: T | null): Maybe<T> => ({
   isNothing: () => value === null,
   map: <R>(fn: (v: T) => R) =>
-    value ? maybe<R>(fn(value)) : none<R>(),
+    value ? of<R>(fn(value)) : none<R>(),
   mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
     if (value === null) {
       return none<R>()
@@ -109,19 +109,19 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
       return none<R>()
     }
 
-    return maybe<R>(next)
+    return of<R>(next)
   },
   tap: (fn: (v: T) => void) => (
-    value === null ? none() : fn(value), maybe(value)
+    value === null ? none() : fn(value), of(value)
   ),
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : none<R>(),
   getOrElse: (dv) => (value === null ? dv : value),
   flatGetOrElse: <R>(dv: R) =>
-    value === null ? dv : maybe<T>(value),
+    value === null ? dv : of<T>(value),
   merge: <R>(om: Maybe<R>): Maybe<{ left: T; right: R }> =>
-    maybe<T>(value).flatMap((v: T) =>
+    of<T>(value).flatMap((v: T) =>
       om.map((ov) => ({ left: v, right: ov })),
     ),
   asyncMap: async <R>(
@@ -131,7 +131,7 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
     value === null
       ? none<R>()
       : fn(value)
-          .then((mapped) => maybe(mapped))
+          .then((mapped) => of(mapped))
           .catch((err) => {
             error?.(err)
             return none<R>()
@@ -146,7 +146,7 @@ export const maybe = <T>(value: T | null): Maybe<T> => ({
  * @template T - The type of the value contained in the Maybe monad (implicitly `null` in this case).
  * @returns {Maybe<T>} A new Maybe monad representing absence of value.
  */
-export const none = <T = never>() => maybe<T>(null)
+export const none = <T = never>() => of<T>(null)
 
 export type UnwrapMaybe<T extends Maybe<any>> =
   T extends Maybe<infer U> ? U : never

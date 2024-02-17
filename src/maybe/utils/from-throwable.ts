@@ -1,4 +1,4 @@
-import { maybe, none } from '../maybe'
+import { of, none } from '../maybe'
 
 /**
  * Wraps a potentially throwing function in a Maybe monad.
@@ -13,7 +13,7 @@ export const fromThrowable =
   ) =>
   (...a: T) => {
     try {
-      return maybe(f(...a))
+      return of(f(...a))
     } catch (e) {
       return none<R>()
     }

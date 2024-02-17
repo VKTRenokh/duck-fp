@@ -7,7 +7,7 @@ import { Either, left, right } from '../either'
  * @template T The types of the parameters of the function `f`.
  * @template R The return type of the function `f`.
  */
-export const fromThrowableE =
+export const fromThrowable =
   <T extends ReadonlyArray<unknown>, R>(
     f: (...a: T) => R,
   ) =>

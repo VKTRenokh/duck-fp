@@ -1,3 +1,2 @@
-export * from './maybe'
-export * from './utils'
-export * from './either'
+export * as M from './maybe'
+export * as E from './either'

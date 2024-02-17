@@ -1,4 +1,4 @@
-import { Maybe, maybe } from '../maybe'
+import { Maybe, of } from '../maybe'
 
 /**
  * Combines multiple Maybe monads into one, returning the first non-empty Maybe monad.
@@ -11,6 +11,6 @@ export const or = <MT extends Maybe<any>[]>(
 ): MT[number] => {
   return maybies.reduce(
     (acc, curr) => acc.flatGetOrElse(curr),
-    maybe<MT[number]>(null),
+    of<MT[number]>(null),
   )
 }

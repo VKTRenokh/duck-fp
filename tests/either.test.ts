@@ -1,4 +1,4 @@
-import { Either, left, right, fromThrowableE } from '../src'
+import { E } from '../src'
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
@@ -6,12 +6,12 @@ const eitherExampleError = new Error(eitherExampleString)
 const eitherExample = (
   a: number,
   b: number,
-): Either<string, number> => {
+): E.Either<string, number> => {
   if (a === 0) {
-    return left(eitherExampleString)
+    return E.left(eitherExampleString)
   }
 
-  return right(a / b)
+  return E.right(a / b)
 }
 
 const throwable = (num: number) => {
@@ -43,7 +43,7 @@ describe('either monad', () => {
   })
 
   it('fromThrowable', () => {
-    const wrapped = fromThrowableE(throwable)
+    const wrapped = E.fromThrowable(throwable)
 
     const onLeft = jest.fn((e) =>
       expect(e).toStrictEqual(eitherExampleError),

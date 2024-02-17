@@ -1,67 +1,56 @@
-import {
-  maybe,
-  or,
-  merge,
-  undefinedToMaybe,
-  mergeMap,
-  fromThrowable,
-} from '../src/index'
+import { M } from '../src/index'
 
 describe('utils.ts', () => {
   it('or', () => {
-    const final = or(
-      maybe<number>(null),
-      maybe(3),
-      maybe(4),
-    )
+    const final = M.or(M.of<number>(null), M.of(3), M.of(4))
 
     expect(final.value).toBe(3)
   })
 
   it('merge without nothing', () => {
-    const merged = merge(
-      maybe(42),
-      maybe(10),
-      maybe('hello'),
+    const merged = M.merge(
+      M.of(42),
+      M.of(10),
+      M.of('hello'),
     )
 
     expect(merged.value).toStrictEqual([42, 10, 'hello'])
   })
 
   it('merge with nothing', () => {
-    const merged = merge(
-      maybe<number>(null),
-      maybe(10),
-      maybe('hello'),
+    const merged = M.merge(
+      M.of<number>(null),
+      M.of(10),
+      M.of('hello'),
     )
 
     expect(merged.value).toBeNull()
   })
 
   it('undefined to maybe', () => {
-    expect(undefinedToMaybe(42).value).toBe(42)
+    expect(M.undefinedToMaybe(42).value).toBe(42)
   })
 
   it('undefined to maybe with undefined', () => {
-    expect(undefinedToMaybe(undefined).value).toBeNull()
+    expect(M.undefinedToMaybe(undefined).value).toBeNull()
   })
 
   it('merge map', () => {
     const add = (a: number, b: number) => a + b
 
-    const a = maybe(1)
-    const b = maybe(2)
+    const a = M.of(1)
+    const b = M.of(2)
 
-    expect(mergeMap(a, b, add).value).toBe(3)
+    expect(M.mergeMap(a, b, add).value).toBe(3)
   })
 
   it('merge map with nothing', () => {
     const add = (a: number, b: number) => a + b
 
-    const a = maybe<number>(null)
-    const b = maybe(2)
+    const a = M.none<number>()
+    const b = M.of(2)
 
-    expect(mergeMap(a, b, add).value).toBe(null)
+    expect(M.mergeMap(a, b, add).value).toBe(null)
   })
 
   it('fromThrowable', () => {
@@ -72,7 +61,7 @@ describe('utils.ts', () => {
       return ':)'
     }
 
-    const handled = fromThrowable(throwable)
+    const handled = M.fromThrowable(throwable)
 
     expect(handled(0).value).toBeNull()
     expect(handled(6).value).toBe(':)')
