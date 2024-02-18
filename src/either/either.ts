@@ -126,6 +126,14 @@ export interface Right<T, R> {
 
 export type Either<L, R> = Left<L, R> | Right<R, L>
 
+/**
+ * Constructs a Left Either monad with the provided value.
+ *
+ * @template L - The type of the value wrapped in Left.
+ * @template R - The type of the value wrapped in Right. Defaults to `never`.
+ * @param {L} e - The value to wrap in Left.
+ * @returns {Either<L, R>} An Either monad representing the Left side with the provided value.
+ */
 export const left = <L, R = never>(e: L): Either<L, R> => ({
   left: e,
 
@@ -143,6 +151,14 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
     left(e),
 })
 
+/**
+ * Constructs a Right Either monad with the provided value.
+ *
+ * @template R - The type of the value wrapped in Right.
+ * @template L - The type of the value wrapped in Left. Defaults to `never`.
+ * @param {R} v - The value to wrap in Right.
+ * @returns {Either<L, R>} An Either monad representing the Right side with the provided value.
+ */
 export const right = <R, L = never>(
   v: R,
 ): Either<L, R> => ({
