@@ -2,6 +2,7 @@ import { E } from '../src'
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
+const eitherExampleFlatMapString = 'cannot work with 1'
 
 const eitherExample = (
   a: number,
@@ -84,5 +85,32 @@ describe('either.ts', () => {
     eitherLeft.fold(left, right)
     expect(left).toHaveBeenCalled()
     expect(right).toHaveBeenCalledTimes(1)
+  })
+
+  it('flatMap', () => {
+    const flatMapFn = jest.fn(
+      (number: number): E.Either<string, number> => {
+        if (number === 1) {
+          return E.left(eitherExampleFlatMapString)
+        }
+
+        return E.right(number + number)
+      },
+    )
+
+    const left = jest.fn((string: string) =>
+      expect(string).toBe(eitherExampleFlatMapString),
+    )
+    const right = jest.fn((number: number) =>
+      expect(number).toBe(4),
+    )
+
+    eitherExample(4, 2).flatMap(flatMapFn).fold(left, right)
+    expect(left).not.toHaveBeenCalled()
+    expect(right).toHaveBeenCalled()
+
+    eitherExample(2, 2).flatMap(flatMapFn).fold(left, right)
+    expect(left).toHaveBeenCalledTimes(1)
+    expect(right).toHaveBeenCalled()
   })
 })
