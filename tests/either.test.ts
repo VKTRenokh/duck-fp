@@ -60,4 +60,17 @@ describe('either monad', () => {
     expect(onLeft).toHaveBeenCalledTimes(1)
     expect(onRight).toHaveBeenCalled()
   })
+
+  it('map', () => {
+    const mapFn = jest.fn((number: number) => number + 1)
+
+    const either = eitherExample(4, 2)
+
+    const left = jest.fn((e: string) =>
+      expect(e).toBe(eitherExampleString),
+    )
+    const right = jest.fn((e: number) => expect(e).toBe(3))
+
+    either.map(mapFn).fold(left, right)
+  })
 })
