@@ -22,7 +22,7 @@ const throwable = (num: number) => {
   return num / 2
 }
 
-describe('either monad', () => {
+describe('either.ts', () => {
   it('fold', () => {
     const nums = [0, 2] as const
 
@@ -72,5 +72,17 @@ describe('either monad', () => {
     const right = jest.fn((e: number) => expect(e).toBe(3))
 
     either.map(mapFn).fold(left, right)
+
+    expect(mapFn).toHaveBeenCalled()
+    expect(left).not.toHaveBeenCalled()
+    expect(right).toHaveBeenCalled()
+
+    const eitherLeft = eitherExample(0, 2).map(mapFn)
+
+    expect(mapFn).toHaveBeenCalledTimes(1)
+
+    eitherLeft.fold(left, right)
+    expect(left).toHaveBeenCalled()
+    expect(right).toHaveBeenCalledTimes(1)
   })
 })
