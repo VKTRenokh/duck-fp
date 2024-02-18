@@ -113,4 +113,35 @@ describe('either.ts', () => {
     expect(left).toHaveBeenCalledTimes(1)
     expect(right).toHaveBeenCalled()
   })
+
+  it('filterOrElse', () => {
+    interface User {
+      has2Fa: boolean
+      name: string
+    }
+
+    const validate = (user: User) => user.has2Fa
+    const validateName = (user: User) =>
+      user.name.length > 3
+
+    E.right<User, string>({ has2Fa: true, name: '1234' })
+      .filterOrElse(
+        validate,
+        () => 'user does not have 2 fa',
+      )
+      .filterOrElse(
+        validateName,
+        () => 'user name is too small',
+      )
+      .fold(
+        () => {
+          throw new Error('shouldnt be called')
+        },
+        (user) =>
+          expect(user).toMatchObject({
+            has2Fa: true,
+            name: '1234',
+          }),
+      )
+  })
 })

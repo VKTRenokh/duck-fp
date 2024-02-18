@@ -52,7 +52,7 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
     left<L, Re>(e),
 
   filterOrElse: (_: (v: R) => boolean, __: () => L) =>
-    left<L, R>(e),
+    left(e),
 })
 
 export const right = <R, L = never>(
@@ -72,5 +72,5 @@ export const right = <R, L = never>(
   filterOrElse: <Re>(
     fn: (v: R) => boolean,
     fr: () => Re,
-  ) => (fn(v) ? right<R, Re>(v) : left<Re, R>(fr())),
+  ) => (fn(v) ? right(v) : left(fr())),
 })
