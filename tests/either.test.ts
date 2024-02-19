@@ -125,11 +125,11 @@ describe('either.ts', () => {
       user.name.length > 3
 
     E.right<User, string>({ has2Fa: true, name: '1234' })
-      .filterOrElse(
+      .ensureOrElse(
         validate,
         () => 'user does not have 2 fa',
       )
-      .filterOrElse(
+      .ensureOrElse(
         validateName,
         () => 'user name is too small',
       )
