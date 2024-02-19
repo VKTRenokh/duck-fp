@@ -1,4 +1,4 @@
-import { Maybe, maybe, UnwrapMaybe } from '../maybe'
+import { Maybe, of, UnwrapMaybe } from '../maybe'
 
 /**
  * Extracts the type contained in an array of Maybe monads.
@@ -25,6 +25,6 @@ export const merge = <
   return maybes.reduce(
     (acc, curr) =>
       acc.flatMap((res) => curr.map((v) => [...res, v])),
-    maybe<MT[]>([]),
+    of<MT[]>([]),
   )
 }

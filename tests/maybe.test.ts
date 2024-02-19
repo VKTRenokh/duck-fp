@@ -1,8 +1,8 @@
-import { maybe, none } from '../src/'
+import { M } from '../src/'
 
 describe('maybe.ts', () => {
   it('map', () => {
-    const number = maybe(42).map((num) => num * 2)
+    const number = M.of(42).map((num) => num * 2)
 
     expect(number.value).toBe(42 * 2)
 
@@ -12,7 +12,7 @@ describe('maybe.ts', () => {
 
     const mockedFunction = jest.fn(fn)
 
-    const num = none<number>()
+    const num = M.none<number>()
 
     num.map(mockedFunction)
 
@@ -20,8 +20,8 @@ describe('maybe.ts', () => {
   })
 
   it('mapNullable', () => {
-    const a = maybe(32).mapNullable(() => undefined)
-    const b = maybe(5).mapNullable(() => 5)
+    const a = M.of(32).mapNullable(() => undefined)
+    const b = M.of(5).mapNullable(() => 5)
 
     expect(a.value).toBeNull()
     expect(b.value).toBe(5)
@@ -32,15 +32,15 @@ describe('maybe.ts', () => {
       value
     })
 
-    const a = maybe(42).tap(tapfn)
+    const a = M.of(42).tap(tapfn)
 
     expect(a.value).toBe(42)
     expect(tapfn).toHaveBeenCalled()
   })
 
   it('flatMap', () => {
-    const a = maybe(5)
-    const b = maybe(52).flatMap((value) =>
+    const a = M.of(5)
+    const b = M.of(52).flatMap((value) =>
       a.map((otherValue) => value + otherValue),
     )
 
@@ -48,18 +48,18 @@ describe('maybe.ts', () => {
   })
 
   it('getOrElse', () => {
-    const get = none<number>().getOrElse(5)
-    const m = maybe(10).getOrElse(6)
+    const get = M.none<number>().getOrElse(5)
+    const m = M.of(10).getOrElse(6)
 
     expect(get).toBe(5)
     expect(m).toBe(10)
   })
 
   it('flatGetOrElse', () => {
-    const maybeFive = maybe(5)
-    const maybeSix = maybe(6)
+    const maybeFive = M.of(5)
+    const maybeSix = M.of(6)
 
-    const get = none<number>().flatGetOrElse(maybeFive)
+    const get = M.none<number>().flatGetOrElse(maybeFive)
     const m = maybeFive.flatGetOrElse(maybeSix)
 
     expect(get.value).toBe(5)
@@ -67,9 +67,9 @@ describe('maybe.ts', () => {
   })
 
   it('merge', () => {
-    const a = maybe(5)
-    const b = maybe('decyat')
-    const nullable = none<string>()
+    const a = M.of(5)
+    const b = M.of('decyat')
+    const nullable = M.none<string>()
 
     expect(a.merge(b).value).toMatchObject({
       left: 5,
@@ -83,7 +83,7 @@ describe('maybe.ts', () => {
     const sleep = (ms: number): Promise<number> =>
       new Promise((res) => setTimeout(() => res(ms), ms))
 
-    maybe(500)
+    M.of(500)
       .asyncMap((ms) => sleep(ms / 2))
       .then((maybeTime) => {
         expect(maybeTime.value).toBe(250)
@@ -91,9 +91,9 @@ describe('maybe.ts', () => {
   })
 
   it('equals', () => {
-    const a = maybe(5)
-    const b = maybe(5)
-    const c = maybe(6)
+    const a = M.of(5)
+    const b = M.of(5)
+    const c = M.of(6)
 
     expect(a.equals(b)).toBeTruthy()
     expect(a.equals(c)).not.toBeTruthy()
