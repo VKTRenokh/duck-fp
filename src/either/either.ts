@@ -11,9 +11,9 @@ export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
 ) => Either<Left, R>
 
-export type FilterOrElseFunction<Left, Right> = (
-  f: (v: Right) => boolean,
-  fr: () => Left,
+export type EnsureOrElseFunction<Left, Right> = (
+  p: (v: Right) => boolean,
+  fr: (v: Right) => Left,
 ) => Either<Left, Right>
 
 /**
@@ -39,14 +39,14 @@ export interface Left<T, R> {
   /**
    * Folds over either side of the Either monad.
    * @template R - The type to fold into.
-   * @param {Function} lfn - The function to map over the left side.
-   * @param {Function} rfn - The function to map over the right side (unused in Left).
+   * @param {(e: Left) => R} lfn - The function to map over the left side.
+   * @param {(v: Right) => R} rfn - The function to map over the right side (unused in Left).
    * @returns {R} - The result of applying `leftFn` to the left value.
    */
   fold: FoldFunction<T, R>
 
   /**
-   * Maps a function over the left value.
+   * Maps a function over the right value.
    * @template U - The type of the result of the mapping function.
    * @param {Function} fn - The function to map over the left value.
    * @returns {Left<U, R>} - A new Left containing the result of applying `fn` to the left value.
@@ -54,7 +54,7 @@ export interface Left<T, R> {
   map: MapFunction<T, R>
 
   /**
-   * Maps a function over the left value and flattens the result.
+   * Maps a function over the right value and flattens the result.
    * @template U - The type of the result of the mapping function.
    * @param {Function} fn - The function to map over the left value.
    * @returns {Left<U, R>} - A new Left containing the flattened result of applying `fn` to the left value.
@@ -62,12 +62,15 @@ export interface Left<T, R> {
   flatMap: FlatMapFunction<T, R>
 
   /**
-   * Filters the right value with the provided predicate.
-   * @param {Function} predicate - The predicate function to test the left value.
-   * @param {any} orElse - The value to return if the predicate does not hold.
-   * @returns {Left<T, R>} - A new Left if the predicate holds, otherwise returns itself.
+   * Ensures that a predicate `fn` holds true for the success value.
+   * If the predicate fails, returns an alternative failure value computed by `fr`.
+   * This method is applicable when the `Either` instance represents a success value.
+   * @template Re The type of the alternative failure value returned if the predicate fails.
+   * @param {function(R): boolean} fn The predicate function to be satisfied by the success value.
+   * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
+   * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
-  filterOrElse: FilterOrElseFunction<T, R>
+  ensureOrElse: EnsureOrElseFunction<T, R>
 }
 
 /**
@@ -90,13 +93,6 @@ export interface Right<T, R> {
    */
   isLeft: () => false
 
-  /**
-   * Folds over either side of the Either monad.
-   * @template U - The type to fold into.
-   * @param {Function} _leftFn - The function to map over the left side (unused in Right).
-   * @param {Function} rightFn - The function to map over the right side.
-   * @returns {U} - The result of applying `rightFn` to the right value.
-   */
   fold: FoldFunction<R, T>
 
   /**
@@ -116,12 +112,15 @@ export interface Right<T, R> {
   flatMap: FlatMapFunction<R, T>
 
   /**
-   * Filters the right value with the provided predicate.
-   * @param {Function} predicate - The predicate function to test the right value.
-   * @param {any} orElse - The value to return if the predicate does not hold.
-   * @returns {Right<T, R>} - A new Right if the predicate holds, otherwise returns itself.
+   * Ensures that a predicate `fn` holds true for the success value.
+   * If the predicate fails, returns an alternative failure value computed by `fr`.
+   * This method is applicable when the `Either` instance represents a success value.
+   * @template Re The type of the alternative failure value returned if the predicate fails.
+   * @param {function(R): boolean} fn The predicate function to be satisfied by the success value.
+   * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
+   * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
-  filterOrElse: FilterOrElseFunction<R, T>
+  ensureOrElse: EnsureOrElseFunction<R, T>
 }
 
 export type Either<L, R> = Left<L, R> | Right<R, L>
@@ -147,7 +146,7 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
     left<L, Re>(e),
 
-  filterOrElse: (_: (v: R) => boolean, __: () => L) =>
+  ensureOrElse: (_: (v: R) => boolean, __: (v: R) => L) =>
     left(e),
 })
 
@@ -173,8 +172,8 @@ export const right = <R, L = never>(
 
   flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 
-  filterOrElse: <Re>(
+  ensureOrElse: <Re>(
     fn: (v: R) => boolean,
-    fr: () => Re,
-  ) => (fn(v) ? right(v) : left(fr())),
+    fr: (v: R) => Re,
+  ) => (fn(v) ? right(v) : left(fr(v))),
 })

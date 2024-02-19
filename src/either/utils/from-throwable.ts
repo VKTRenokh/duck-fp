@@ -1,7 +1,8 @@
 import { Either, left, right } from '../either'
 
 /**
- * Constructs a function that converts a throwable function into an `Either`.
+ * Constructs a function that converts a throwable function into an `Either`
+ * monad.
  * @param {(...a: T) => R} f The function to be wrapped.
  * @returns {(...a: T) => Either<unknown, R>} A function that takes the same parameters as `f` and returns an `Either`.
  * @template T The types of the parameters of the function `f`.

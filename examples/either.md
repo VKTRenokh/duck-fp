@@ -37,7 +37,7 @@ console.log(left('test').isLeft()) // Output: true
 console.log(right('test').isLeft()) // Output: false
 ```
 
-## .filterOrElse()
+## .ensureOrElse()
 ```ts
 const user = {
   has2Fa: true,
@@ -50,8 +50,8 @@ const validateName = (u: typeof user) => u.name.length >= 3
 const a: Either<string, typeof user> = right(user)
 
 const b = a
-  .filterOrElse(validate, () => 'user does not have 2 fa')
-  .filterOrElse(
+  .ensureOrElse(validate, () => 'user does not have 2 fa')
+  .ensureOrElse(
     validateName,
     () => 'user name is too small',
   )
