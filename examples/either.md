@@ -59,5 +59,24 @@ const b = a
 b.fold(
   (e) => console.error(e),
   (b) => console.log(b),
-) // Output: user name is too small
+i) // Output: user name is too small
+```
+
+## toMaybe()
+```ts
+toMaybe(left<string, number>('left')).tap(console.log) // nothing happens
+toMaybe(right<number, string>(50)).tap(console.log) // Output: 50
+```
+
+## fromMaybe()
+```ts
+fromMaybe(of(50), 'maybe is nothing').fold(
+  console.error,
+  console.log,
+) // Output: 50
+
+fromMaybe(none<number>(), 'maybe is nothing').fold(
+  console.error,
+  console.log,
+) // Output: error maybe is nothing
 ```
