@@ -1,5 +1,16 @@
 # @victorenokh/maybe.ts
 
+## 1.7.0
+
+### Minor Changes
+
+- 7e3e3fb: Implemented either monad, changed monads structure
+- 011a57d: Added toMaybe, fromMaybe util functions
+
+### Patch Changes
+
+- ea473e3: Rename filterOrElse method to ensureOrElse
+
 ## 1.6.1
 
 ### Patch Changes
