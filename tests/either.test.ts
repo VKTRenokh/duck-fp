@@ -1,4 +1,4 @@
-import { E } from '../src'
+import { E, M } from '../src'
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
@@ -135,7 +135,7 @@ describe('either.ts', () => {
       )
       .fold(
         () => {
-          throw new Error('shouldnt be called')
+          throw new Error('should not be called')
         },
         (user) =>
           expect(user).toMatchObject({
@@ -143,5 +143,32 @@ describe('either.ts', () => {
             name: '1234',
           }),
       )
+  })
+
+  it('fromMaybe', () => {
+    E.fromMaybe(M.of(42), '!').fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (v) => expect(v).toBe(42),
+    )
+
+    E.fromMaybe(M.none<number>(), 'maybe is none').fold(
+      (e) => expect(e).toBe('maybe is none'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
+  })
+
+  it('toMaybe', () => {
+    const eitherRight: E.Either<string, number> = E.right(5)
+    const eitherLeft: E.Either<string, number> =
+      E.left('string')
+
+    E.toMaybe(eitherRight).map((value) =>
+      expect(value).toBe(5),
+    )
+    expect(E.toMaybe(eitherLeft).value).toBeNull()
   })
 })

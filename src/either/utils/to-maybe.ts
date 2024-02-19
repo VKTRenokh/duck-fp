@@ -1,4 +1,4 @@
-import { Maybe, none, of } from 'src/maybe'
+import { Maybe, none, of } from '../../maybe'
 import { Either } from '../either'
 
 /**
