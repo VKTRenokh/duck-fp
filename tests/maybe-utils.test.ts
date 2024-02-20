@@ -27,12 +27,12 @@ describe('utils.ts', () => {
     expect(merged.value).toBeNull()
   })
 
-  it('undefined to maybe', () => {
-    expect(M.undefinedToMaybe(42).value).toBe(42)
+  it('fromMaybe', () => {
+    expect(M.fromUndefined(42).value).toBe(42)
   })
 
-  it('undefined to maybe with undefined', () => {
-    expect(M.undefinedToMaybe(undefined).value).toBeNull()
+  it('fromMaybe with undefined', () => {
+    expect(M.fromUndefined(undefined).value).toBeNull()
   })
 
   it('merge map', () => {

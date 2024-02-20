@@ -41,7 +41,7 @@ const getNumber = () => Math.random() > 0.5 ? 1 : undefined
 
 maybe(42)
   .flatMap((num) =>
-    undefinedToMaybe(getNumber()).map((secondNum) => secondNum + num),
+    fromUndefined(getNumber()).map((secondNum) => secondNum + num),
   )
   .map(console.log) // 43 or nothing
 ```
@@ -84,11 +84,11 @@ const b = M.of('something again')
 const merged = a.merge(b).map(console.log) // nothing happens
 ```
 
-## undefinedToMaybe()
+## fromUndefined()
 ```ts
 const getNumberOrUndefined = () => Math.random() > 0.5 ? 5 : undefined
 
-const number = M.undefinedToMaybe(getNumberOrUndefined())
+const number = M.fromUndefined(getNumberOrUndefined())
 
 number.map(console.log) // 5 or nothing
 ```
