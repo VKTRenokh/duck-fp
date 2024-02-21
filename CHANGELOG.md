@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.7.1
+
+### Patch Changes
+
+- d8bca82: Renamed undefinedToMaybe util function to fromUndefined
+
 ## 1.7.0
 
 ### Minor Changes
