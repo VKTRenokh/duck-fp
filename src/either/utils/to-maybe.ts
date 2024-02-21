@@ -12,8 +12,4 @@ import { Either } from '../either'
  */
 export const toMaybe = <L, R>(
   either: Either<L, R>,
-): Maybe<R> =>
-  either.fold(
-    () => none(),
-    (v) => of(v),
-  )
+): Maybe<R> => either.fold(() => none(), of)
