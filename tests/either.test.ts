@@ -171,4 +171,19 @@ describe('either.ts', () => {
     )
     expect(E.toMaybe(eitherLeft).value).toBeNull()
   })
+
+  it('merge', () => {
+    const a: E.Either<string, number> = E.right(5)
+    const b: E.Either<string, string> = E.right('Hello')
+
+    a.merge(b).fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (m) => {
+        expect(m.left).toBe(5)
+        expect(m.right).toBe('Hello')
+      },
+    )
+  })
 })

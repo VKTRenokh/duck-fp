@@ -205,3 +205,9 @@ export const right = <R, L = never>(
       or.map((ov) => ({ left: cv, right: ov })),
     ),
 })
+
+export type GetRight<T extends Either<any, any>> =
+  T extends Either<infer _, infer U> ? U : never
+
+export type GetLeft<T extends Either<any, any>> =
+  T extends Either<infer U, infer _> ? U : never
