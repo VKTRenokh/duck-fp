@@ -13,7 +13,7 @@ export type GetLeftFromArray<
 }
 
 /**
- * Represents a function that merges multiple Either monads into one.
+ * Function that merges multiple Either monads into one.
  * @template MT An array of Either monads.
  * @template L The type of the error value in the Either monads.
  * @param {...MT} e The Either monads to merge.

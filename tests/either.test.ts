@@ -186,4 +186,21 @@ describe('either.ts', () => {
       },
     )
   })
+
+  it('merge util', () => {
+    const merged = E.merge<E.Either<string, number>[]>(
+      E.right(4),
+      E.right(5),
+      E.right(6),
+    )
+
+    merged.fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (array) => {
+        expect(array).toStrictEqual([4, 5, 6])
+      },
+    )
+  })
 })
