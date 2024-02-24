@@ -72,6 +72,8 @@ export interface Maybe<T> {
     error?: (err: unknown) => void,
   ) => Promise<Maybe<R>>
 
+  apply: <R>(mfn: Maybe<(v: T) => R>) => Maybe<R>
+
   isNothing: () => boolean
 
   /**
@@ -114,6 +116,10 @@ export const of = <T>(value: T | null): Maybe<T> => ({
     of<T>(value).flatMap((v: T) =>
       om.map((ov) => ({ left: v, right: ov })),
     ),
+  apply: <T, R>(mfn: Maybe<(v: T) => R>) =>
+    value && mfn.value
+      ? of<R>(mfn.value(value as T))
+      : none<R>(),
   asyncMap: async <R>(
     fn: (v: T) => Promise<R>,
     error?: (err: unknown) => void,
