@@ -22,13 +22,6 @@ export interface Maybe<T> {
   ) => Maybe<R>
 
   /**
-   * Executes a function and returns Monad the method is applied on. Useful for performing side-effects.
-   * @param {(v: T) => void} fn - the function to apply
-   * @returns Monad that "tap" method is applied on
-   */
-  tap: (fn: (v: T) => void) => Maybe<T>
-
-  /**
    * Checks equality between two Maybe monads.
    * @template T - The type of the value contained in the Maybe monad.
    * @param {Maybe<T>} m - The Maybe monad to compare against.
@@ -111,9 +104,6 @@ export const of = <T>(value: T | null): Maybe<T> => ({
 
     return of<R>(next)
   },
-  tap: (fn: (v: T) => void) => (
-    value === null ? none() : fn(value), of(value)
-  ),
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : none<R>(),

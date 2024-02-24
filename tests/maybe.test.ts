@@ -27,17 +27,6 @@ describe('maybe.ts', () => {
     expect(b.value).toBe(5)
   })
 
-  it('tap', () => {
-    const tapfn = jest.fn((value) => {
-      value
-    })
-
-    const a = M.of(42).tap(tapfn)
-
-    expect(a.value).toBe(42)
-    expect(tapfn).toHaveBeenCalled()
-  })
-
   it('flatMap', () => {
     const a = M.of(5)
     const b = M.of(52).flatMap((value) =>
