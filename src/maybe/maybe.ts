@@ -72,6 +72,15 @@ export interface Maybe<T> {
     error?: (err: unknown) => void,
   ) => Promise<Maybe<R>>
 
+  /**
+   * Applies a function wrapped in a Maybe monad to the value contained in this Maybe monad.
+   * If this Maybe monad is just (contains a value), it calls the function with the value as its argument,
+   * resulting in a new Maybe monad containing the result of the function.
+   * If this Maybe monad is none (contains no value), it returns a new Maybe monad representing absence of value.
+   * @template R - The type of the resulting value after applying the function.
+   * @param {Maybe<(v: T) => R>} mfn - The Maybe monad containing the function to apply.
+   * @returns {Maybe<R>} A new Maybe monad containing the result of applying the function, or representing absence of value if this Maybe monad is none.
+   */
   apply: <R>(mfn: Maybe<(v: T) => R>) => Maybe<R>
 
   isNothing: () => boolean
