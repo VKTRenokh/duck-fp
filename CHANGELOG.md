@@ -1,5 +1,12 @@
 # @victorenokh/maybe.ts
 
+## 1.7.2
+
+### Patch Changes
+
+- c54d53f: Implemented apply method to maybe monad
+- ae90c11: Added merge method, merge function for either monad
+
 ## 1.7.1
 
 ### Patch Changes
