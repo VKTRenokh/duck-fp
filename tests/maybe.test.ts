@@ -90,6 +90,6 @@ describe('maybe.ts', () => {
 
   it('apply', () => {
     const double = M.of((num: number) => num * 2)
-    expect(M.of(42).apply(double)).toBe(84)
+    expect(M.of(42).apply(double).value).toBe(84)
   })
 })
