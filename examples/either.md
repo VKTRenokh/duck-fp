@@ -80,3 +80,29 @@ fromMaybe(none<number>(), 'maybe is nothing').fold(
   console.log,
 ) // Output: error maybe is nothing
 ```
+
+## .merge()
+```ts
+const a: Either<string, number> = right(5)
+const b: Either<string, number> = right(1)
+
+const add = (m: Merged<number, number>) => m.left + m.right
+
+a.merge(b).map(add).fold(console.error, console.log) // Output: 6
+```
+
+## merge()
+Just like .merge method of either but takes unlimited either monads and returns right containing array of values
+```ts
+const final = merge<Either<string, number>[]>(
+  right(4),
+  right(5),
+  right(6),
+  right(8),
+  right(9),
+)
+
+const getBiggest = (nums: number[]) => Math.max(...nums)
+
+final.map(getBiggest).fold(console.error, console.log) // Output: 9
+```

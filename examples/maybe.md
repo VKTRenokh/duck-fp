@@ -4,13 +4,7 @@
 ```ts
 const double = (num: number) => num * 2
 
-M.of(42).map(double).tap(console.log) // Output: 84
-```
-## .tap()
-``` ts
-const double = (num: number) => num * 2
-
-M.of(42).tap(console.log).map(double).tap(console.log) // Output: 42 then 84
+M.of(42).map(double).map(console.log) // Output: 84
 ```
 
 ## .mapNullable()
@@ -35,7 +29,7 @@ M.of(1000)
 
 ## .flatMap()
 ```ts
-M.of(42).flatMap((num) => maybe(num + 5)).tap(console.log) // 47
+M.of(42).flatMap((num) => maybe(num + 5)).map(console.log) // 47
 
 const getNumber = () => Math.random() > 0.5 ? 1 : undefined
 
@@ -74,7 +68,7 @@ const value = M.of(53).flatGetOrElse(maybe(42)) // value is 42
 const a = M.of('something')
 const b = M.of('something again')
 
-const merged = a.merge(b).tap(console.log) // { left: "something", right: "something again" }
+const merged = a.merge(b).map(console.log) // { left: "something", right: "something again" }
 ```
 if something doesn't have value
 ```ts
@@ -101,7 +95,7 @@ const c = M.of({someKey: 'someValue'})
 
 const merged = M.merge(a, b, c) // type is Maybe<[number, string, {someKey: 'someValue'}]>
 
-merged.tap(console.log) // [5, 'hello', { someKey: 'someValue' }] or if some maybe is nothing, nothing going to happen
+merged.map(console.log) // [5, 'hello', { someKey: 'someValue' }] or if some maybe is nothing, nothing going to happen
 ```
 
 # mergeMap()
@@ -113,7 +107,7 @@ const b = M.of(100)
 
 const final = M.mergeMap(a, b, add)
 
-final.tap(console.log) // 105 or if some maybe is nothing, nothing going to happen
+final.map(console.log) // 105 or if some maybe is nothing, nothing going to happen
 ```
 
 # call()
@@ -131,7 +125,7 @@ const c = M.of(6)
 
 const final = M.or(a, b, c)
 
-final.tap(console.log) // 5
+final.map(console.log) // 5
 ```
 
 # fromThrowable()
@@ -146,5 +140,5 @@ const throwable = (num: number) => {
 
 const something = M.fromThrowable(throwable)
 
-something(Math.random()).tap(console.log) // :) or nothing
+something(Math.random()).map(console.log) // :) or nothing
 ```

@@ -22,13 +22,6 @@ export interface Maybe<T> {
   ) => Maybe<R>
 
   /**
-   * Executes a function and returns Monad the method is applied on. Useful for performing side-effects.
-   * @param {(v: T) => void} fn - the function to apply
-   * @returns Monad that "tap" method is applied on
-   */
-  tap: (fn: (v: T) => void) => Maybe<T>
-
-  /**
    * Checks equality between two Maybe monads.
    * @template T - The type of the value contained in the Maybe monad.
    * @param {Maybe<T>} m - The Maybe monad to compare against.
@@ -79,6 +72,17 @@ export interface Maybe<T> {
     error?: (err: unknown) => void,
   ) => Promise<Maybe<R>>
 
+  /**
+   * Applies a function wrapped in a Maybe monad to the value contained in this Maybe monad.
+   * If this Maybe monad is just (contains a value), it calls the function with the value as its argument,
+   * resulting in a new Maybe monad containing the result of the function.
+   * If this Maybe monad is none (contains no value), it returns a new Maybe monad representing absence of value.
+   * @template R - The type of the resulting value after applying the function.
+   * @param {Maybe<(v: T) => R>} mfn - The Maybe monad containing the function to apply.
+   * @returns {Maybe<R>} A new Maybe monad containing the result of applying the function, or representing absence of value if this Maybe monad is none.
+   */
+  apply: <R>(mfn: Maybe<(v: T) => R>) => Maybe<R>
+
   isNothing: () => boolean
 
   /**
@@ -111,9 +115,6 @@ export const of = <T>(value: T | null): Maybe<T> => ({
 
     return of<R>(next)
   },
-  tap: (fn: (v: T) => void) => (
-    value === null ? none() : fn(value), of(value)
-  ),
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : none<R>(),
@@ -124,6 +125,10 @@ export const of = <T>(value: T | null): Maybe<T> => ({
     of<T>(value).flatMap((v: T) =>
       om.map((ov) => ({ left: v, right: ov })),
     ),
+  apply: <T, R>(mfn: Maybe<(v: T) => R>) =>
+    value && mfn.value
+      ? of<R>(mfn.value(value as T))
+      : none<R>(),
   asyncMap: async <R>(
     fn: (v: T) => Promise<R>,
     error?: (err: unknown) => void,

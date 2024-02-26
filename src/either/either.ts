@@ -1,3 +1,5 @@
+import { Merged } from 'src/types/merged'
+
 export type FoldFunction<Left, Right> = <R>(
   lfn: (e: Left) => R,
   rfn: (v: Right) => R,
@@ -15,6 +17,10 @@ export type EnsureOrElseFunction<Left, Right> = (
   p: (v: Right) => boolean,
   fr: (v: Right) => Left,
 ) => Either<Left, Right>
+
+export type MergeFunction<Left, Right> = <Nr>(
+  or: Either<Left, Nr>,
+) => Either<Left, Merged<Right, Nr>>
 
 /**
  * Represents the left side of the Either monad.
@@ -71,6 +77,11 @@ export interface Left<T, R> {
    * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
   ensureOrElse: EnsureOrElseFunction<T, R>
+
+  /**
+   * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
+   */
+  merge: MergeFunction<T, R>
 }
 
 /**
@@ -121,6 +132,14 @@ export interface Right<T, R> {
    * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
   ensureOrElse: EnsureOrElseFunction<R, T>
+
+  /**
+   * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
+   * @template Nr The type of the value in the second Either monad.
+   * @param {Either<L, R>} or The Either monad to merge.
+   * @returns {Either<L, Merged<R, Nr>>} An Either monad representing the merged result.
+   */
+  merge: MergeFunction<R, T>
 }
 
 export type Either<L, R> = Left<L, R> | Right<R, L>
@@ -148,6 +167,8 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
 
   ensureOrElse: (_: (v: R) => boolean, __: (v: R) => L) =>
     left(e),
+
+  merge: <Nl, Nr, R>(_: Either<Nl, Nr>) => left<L, R>(e),
 })
 
 /**
@@ -176,4 +197,17 @@ export const right = <R, L = never>(
     fn: (v: R) => boolean,
     fr: (v: R) => Re,
   ) => (fn(v) ? right(v) : left(fr(v))),
+
+  merge: <Nr>(
+    or: Either<L, Nr>,
+  ): Either<L, Merged<R, Nr>> =>
+    right<R, L>(v).flatMap((cv) =>
+      or.map((ov) => ({ left: cv, right: ov })),
+    ),
 })
+
+export type GetRight<T extends Either<any, any>> =
+  T extends Either<infer _, infer U> ? U : never
+
+export type GetLeft<T extends Either<any, any>> =
+  T extends Either<infer U, infer _> ? U : never
