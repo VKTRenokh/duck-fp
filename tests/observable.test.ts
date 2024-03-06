@@ -42,4 +42,20 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalledTimes(2)
   })
+
+  it('dependingNext', () => {
+    const initialState = 2
+    const observable = O.of(initialState)
+    const double = (num: number): number => num * 2
+    const observer = jest.fn((num: number) =>
+      expect(
+        num === 2 || num === double(initialState),
+      ).toBeTruthy(),
+    )
+
+    observable.observe(observer)
+    observable.dependingNext(double)
+
+    expect(observer).toHaveBeenCalled()
+  })
 })
