@@ -10,6 +10,7 @@ export interface Observable<T> {
   flatMap: <R>(f: (v: T) => Observable<R>) => Observable<R>
   observe: (o: Observer<T>) => Observation<T>
   next: (v: T) => Observable<T>
+  dependingNext: (fn: (v: T) => T) => Observable<T>
 }
 
 export const of = <T>(v: T): Observable<T> => {
@@ -32,5 +33,9 @@ export const of = <T>(v: T): Observable<T> => {
       }
     },
     next: (v: T) => ((value = v), notify(), of(v)),
+    dependingNext: (fn: (v: T) => T) => {
+      const nv = fn(v)
+      return (value = nv), notify(), of(nv)
+    },
   }
 }
