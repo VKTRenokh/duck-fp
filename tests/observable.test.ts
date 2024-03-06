@@ -30,4 +30,16 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalled()
   })
+
+  it('next', () => {
+    const observable = O.of(42)
+    const observer = jest.fn((num: number) =>
+      expect(num).toBeTruthy(),
+    )
+
+    observable.observe(observer)
+    observable.next(5)
+
+    expect(observer).toHaveBeenCalledTimes(2)
+  })
 })
