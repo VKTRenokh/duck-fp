@@ -1,1 +1,1 @@
-export * from './obsevable.ts'
+export * from './observable'
