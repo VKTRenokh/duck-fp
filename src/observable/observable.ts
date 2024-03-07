@@ -14,7 +14,7 @@ export interface Observable<T> {
   ) => Observation<T>
   next: (v: T) => Observable<T>
   dependingNext: (fn: (v: T) => T) => Observable<T>
-  equals: (oo: Observable<unknown>) => boolean
+  equals: (oo: Observable<any>) => boolean
   value: T
 }
 
