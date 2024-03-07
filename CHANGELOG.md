@@ -1,5 +1,12 @@
 # @victorenokh/maybe.ts
 
+## 1.8.1
+
+### Patch Changes
+
+- 0e4b4e4: Fixed Readme links
+- a1e0bd6: Fixed readme links
+
 ## 1.8.0
 
 ### Minor Changes
