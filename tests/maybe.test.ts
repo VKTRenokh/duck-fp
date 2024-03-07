@@ -92,4 +92,9 @@ describe('maybe.ts', () => {
     const double = M.of((num: number) => num * 2)
     expect(M.of(42).apply(double).value).toBe(84)
   })
+
+  it('isNothing', () => {
+    expect(M.none().isNothing()).toBeTruthy()
+    expect(M.of(2).isNothing()).toBeFalsy()
+  })
 })

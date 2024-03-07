@@ -8,6 +8,7 @@
     "build": "tsc --build",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
+    "test-coverage": "jest --coverage",
     "test": "jest",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prepare": "husky install",
