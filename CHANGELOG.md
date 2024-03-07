@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.8.3
+
+### Patch Changes
+
+- 57dc3b7: Removed observe#unobserve console.logs
+
 ## 1.8.2
 
 ### Patch Changes
