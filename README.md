@@ -7,7 +7,7 @@
 </div>
 
 # Installation
-To install the stable version:
+To install the latest version:
 `npm i @victorenokh/maybe.ts`
 
 # Examples

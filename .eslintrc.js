@@ -31,6 +31,7 @@ module.exports = {
       'off',
     '@typescript-eslint/no-explicit-any': ['off'],
     '@typescript-eslint/semi': ['error', 'never'],
+    'no-console': 'error',
     '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {

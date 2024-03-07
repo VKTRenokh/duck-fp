@@ -4,6 +4,22 @@ const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
 const eitherExampleFlatMapString = 'cannot work with 1'
 
+interface User {
+  has2Fa: boolean
+  name: string
+}
+
+const validate = (user: User) => user.has2Fa
+const validateName = (user: User) => user.name.length > 3
+
+const validateUser = (user: User): E.Either<string, User> =>
+  E.right<User, string>(user)
+    .ensureOrElse(validate, () => 'user does not have 2 fa')
+    .ensureOrElse(
+      validateName,
+      () => 'user name is too small',
+    )
+
 const eitherExample = (
   a: number,
   b: number,
@@ -119,34 +135,35 @@ describe('either.ts', () => {
     expect(flatMapFn).toHaveBeenCalledTimes(2)
   })
 
-  it('filterOrElse', () => {
-    interface User {
-      has2Fa: boolean
-      name: string
-    }
+  it('ensureOrelse', () => {
+    validateUser({ has2Fa: true, name: '1234' }).fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (user) =>
+        expect(user).toMatchObject({
+          has2Fa: true,
+          name: '1234',
+        }),
+    )
 
-    const validate = (user: User) => user.has2Fa
-    const validateName = (user: User) =>
-      user.name.length > 3
+    validateUser({ has2Fa: false, name: '3423' }).fold(
+      (e) => expect(e).toBe('user does not have 2 fa'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
 
-    E.right<User, string>({ has2Fa: true, name: '1234' })
+    E.left<string, string>('some error')
       .ensureOrElse(
-        validate,
-        () => 'user does not have 2 fa',
-      )
-      .ensureOrElse(
-        validateName,
-        () => 'user name is too small',
+        (string) => string.length > 2,
+        () => 'some string error',
       )
       .fold(
+        (e) => expect(e).toBe('some error'),
         () => {
-          throw new Error('should not be called')
+          throw new Error('shouldnt be called')
         },
-        (user) =>
-          expect(user).toMatchObject({
-            has2Fa: true,
-            name: '1234',
-          }),
       )
   })
 
@@ -196,6 +213,13 @@ describe('either.ts', () => {
       (e) => expect(e).toBe('Some error'),
       () => {
         throw new Error("should'nt be called")
+      },
+    )
+
+    c.merge(b).fold(
+      (e) => expect(e).toBe('Some error'),
+      () => {
+        throw new Error('should not be called')
       },
     )
   })

@@ -10,6 +10,12 @@
     "outDir": "./dist",
     "baseUrl": "./"
   },
-  "include": ["**/*.ts"],
-  "exclude": ["node_modules", "tests", "jest.config.ts"]
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "tests",
+    "jest.config.ts"
+  ]
 }
