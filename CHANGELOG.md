@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.8.2
+
+### Patch Changes
+
+- a56c88c: Fix observer#unobserve
+
 ## 1.8.1
 
 ### Patch Changes
