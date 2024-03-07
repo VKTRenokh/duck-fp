@@ -35,3 +35,22 @@ observable.observe((number) => console.log('got number', number))
 observable.dependingNext(double) // Output from observer: got number 2
 observable.dependingNext(double) // Output from observer: got number 4
 ```
+
+# Utils
+
+## merge()
+```ts
+const a = of(2)
+const b = of(9)
+const c = of(3)
+
+const merged = merge(a, b, c)
+
+merged.observe((numbers) => console.log('numbers', numbers))
+
+const double = (num: number): number => num * 2
+
+a.dependingNext(double) // Output from observer: numbers [4, 9, 3]
+b.dependingNext(double) // Output from observer: numbers [4, 18, 3]
+a.dependingNext(double) // Output from observer: numbers [8, 18, 3]
+```

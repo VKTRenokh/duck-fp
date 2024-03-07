@@ -39,7 +39,7 @@ export const of = <T>(v: T): Observable<T> => {
     },
     next: (v: T) => ((value = v), notify(), of(v)),
     dependingNext: (fn: (v: T) => T) => {
-      const nv = fn(v)
+      const nv = fn(value)
       return (value = nv), notify(), of(nv)
     },
     equals: (oo) => oo.value === value,
