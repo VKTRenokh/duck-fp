@@ -1,4 +1,10 @@
-# @victorenokh/maybe.ts
+<div align="center">
+    <p align="center">
+    <h1>@victorenokh/maybe.ts</h1>
+    <a href="https://www.npmjs.com/package/@victorenokh/maybe.ts">
+        <img alt="npm latest version" src="https://img.shields.io/npm/v/@victorenokh/maybe.ts/latest.svg">
+    </a>
+</div>
 
 # Installation
 To install the stable version:
