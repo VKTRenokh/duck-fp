@@ -112,4 +112,11 @@ describe('maybe.ts', () => {
     expect(M.none().isNothing()).toBeTruthy()
     expect(M.of(2).isNothing()).toBeFalsy()
   })
+
+  it('call', () => {
+    const fn = jest.fn(() => 0)
+
+    expect(M.call(fn)).toBe(0)
+    expect(fn).toHaveBeenCalled()
+  })
 })
