@@ -34,7 +34,11 @@ export const of = <T>(v: T): Observable<T> => {
 
       return {
         value,
-        unobserve: () => observers.splice(index, 1),
+        unobserve: () => (
+          console.log(observers),
+          observers.splice(index - 1, 1),
+          console.log(observers)
+        ),
       }
     },
     next: (v: T) => ((value = v), notify(), of(v)),

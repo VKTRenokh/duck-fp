@@ -20,11 +20,18 @@ describe('maybe.ts', () => {
   })
 
   it('mapNullable', () => {
+    const shouldntBeCalled = jest.fn(() => {
+      throw new Error('shouldnt be called')
+    })
+
     const a = M.of(32).mapNullable(() => undefined)
     const b = M.of(5).mapNullable(() => 5)
+    const c = M.none<number>().mapNullable(shouldntBeCalled)
 
     expect(a.value).toBeNull()
     expect(b.value).toBe(5)
+    expect(c.value).toBe(null)
+    expect(shouldntBeCalled).not.toHaveBeenCalled()
   })
 
   it('flatMap', () => {
@@ -90,6 +97,13 @@ describe('maybe.ts', () => {
       catchError,
     )
 
+    const withNothing = await M.none<number>().asyncMap(
+      () => {
+        throw new Error('shouldntBeCalled')
+      },
+    )
+
+    expect(withNothing.value).toBeNull()
     expect(catchError).toHaveBeenCalled()
     expect(withError.value).toBeNull()
   })
@@ -105,7 +119,14 @@ describe('maybe.ts', () => {
 
   it('apply', () => {
     const double = M.of((num: number) => num * 2)
+    const doubleNoCall = M.of((num: number) => {
+      throw new Error('shouldntBeCalled')
+    })
+
     expect(M.of(42).apply(double).value).toBe(84)
+    expect(
+      M.none<number>().apply(doubleNoCall).value,
+    ).toBeNull()
   })
 
   it('isNothing', () => {
