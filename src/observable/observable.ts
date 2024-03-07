@@ -8,7 +8,10 @@ export interface Observation<T> {
 export interface Observable<T> {
   map: <R>(f: (v: T) => R) => Observable<R>
   flatMap: <R>(f: (v: T) => Observable<R>) => Observable<R>
-  observe: (o: Observer<T>) => Observation<T>
+  observe: (
+    o: Observer<T>,
+    call?: boolean,
+  ) => Observation<T>
   next: (v: T) => Observable<T>
   dependingNext: (fn: (v: T) => T) => Observable<T>
 }
@@ -23,9 +26,9 @@ export const of = <T>(v: T): Observable<T> => {
   return {
     map: <R>(fn: (v: T) => R) => of(fn(value)),
     flatMap: <R>(fn: (v: T) => Observable<R>) => fn(value),
-    observe: (o: Observer<T>) => {
+    observe: (o: Observer<T>, call?: boolean) => {
       const index = observers.push(o)
-      o(value)
+      call && o(value)
 
       return {
         value,
@@ -39,3 +42,6 @@ export const of = <T>(v: T): Observable<T> => {
     },
   }
 }
+
+export type UnwrapObservable<T extends Observable<any>> =
+  T extends Observable<infer R> ? R : never
