@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.8.0
+
+### Minor Changes
+
+- 69c68d7: Added observable, state
+
 ## 1.7.2
 
 ### Patch Changes
