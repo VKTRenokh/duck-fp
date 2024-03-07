@@ -68,15 +68,30 @@ describe('maybe.ts', () => {
     expect(a.merge(nullable).value).toBeNull()
   })
 
-  it('asyncMap', () => {
+  it('asyncMap', async () => {
     const sleep = (ms: number): Promise<number> =>
       new Promise((res) => setTimeout(() => res(ms), ms))
+
+    const sleepWithError = (ms: number): Promise<number> =>
+      new Promise((_, rej) => setTimeout(() => rej(ms), ms))
 
     M.of(500)
       .asyncMap((ms) => sleep(ms / 2))
       .then((maybeTime) => {
         expect(maybeTime.value).toBe(250)
       })
+
+    const catchError = jest.fn((err) =>
+      expect(err).toBe(250),
+    )
+
+    const withError = await M.of(500).asyncMap(
+      (ms) => sleepWithError(ms / 2),
+      catchError,
+    )
+
+    expect(catchError).toHaveBeenCalled()
+    expect(withError.value).toBeNull()
   })
 
   it('equals', () => {
