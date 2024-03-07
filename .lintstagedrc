@@ -1,4 +1,4 @@
 {
-  "*.{json,js,ts,html}": ["npm run prettier"],
-  "*.{js,ts}": ["npm run lint-fix"]
+  "src/**/*.{json,js,ts,html}": ["npm run prettier"],
+  "src/**/*.{js,ts}": ["npm run lint-fix"]
 }
