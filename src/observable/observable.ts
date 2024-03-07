@@ -14,6 +14,8 @@ export interface Observable<T> {
   ) => Observation<T>
   next: (v: T) => Observable<T>
   dependingNext: (fn: (v: T) => T) => Observable<T>
+  equals: (oo: Observable<unknown>) => boolean
+  value: T
 }
 
 export const of = <T>(v: T): Observable<T> => {
@@ -39,6 +41,10 @@ export const of = <T>(v: T): Observable<T> => {
     dependingNext: (fn: (v: T) => T) => {
       const nv = fn(v)
       return (value = nv), notify(), of(nv)
+    },
+    equals: (oo) => oo.value === value,
+    get value() {
+      return value
     },
   }
 }
