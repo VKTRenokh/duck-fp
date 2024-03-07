@@ -81,4 +81,16 @@ describe('observable.ts', () => {
     a.dependingNext(double)
     expect(merged.value).toStrictEqual([8, 18, 3])
   })
+
+  it('observe.unobserve', () => {
+    const a = O.of(4)
+    const observer = jest.fn((_: number) => {
+      throw new Error('should not be called')
+    })
+
+    a.observe(observer, true).unobserve()
+
+    a.next(10)
+    expect(a.value).toBe(10)
+  })
 })
