@@ -40,11 +40,11 @@ observable.dependingNext(double) // Output from observer: got number 4
 
 ## merge()
 ```ts
-const a = of(2)
-const b = of(9)
-const c = of(3)
+const a = O.of(2)
+const b = O.of(9)
+const c = O.of(3)
 
-const merged = merge(a, b, c)
+const merged = O.merge(a, b, c)
 
 merged.observe((numbers) => console.log('numbers', numbers))
 

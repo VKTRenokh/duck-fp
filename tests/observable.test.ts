@@ -58,4 +58,27 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalled()
   })
+
+  it('merge', () => {
+    const a = O.of(2)
+    const b = O.of(9)
+    const c = O.of(3)
+
+    const merged = O.merge(a, b, c)
+
+    merged.observe((numbers) =>
+      expect(Array.isArray(numbers)).toBeTruthy(),
+    )
+
+    const double = (num: number): number => num * 2
+
+    a.dependingNext(double)
+    expect(merged.value).toStrictEqual([4, 9, 3])
+
+    b.dependingNext(double)
+    expect(merged.value).toStrictEqual([4, 18, 3])
+
+    a.dependingNext(double)
+    expect(merged.value).toStrictEqual([8, 18, 3])
+  })
 })

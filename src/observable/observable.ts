@@ -10,7 +10,7 @@ export interface Observable<T> {
   flatMap: <R>(f: (v: T) => Observable<R>) => Observable<R>
   observe: (
     o: Observer<T>,
-    call?: boolean,
+    dontCall?: boolean,
   ) => Observation<T>
   next: (v: T) => Observable<T>
   dependingNext: (fn: (v: T) => T) => Observable<T>
@@ -28,9 +28,9 @@ export const of = <T>(v: T): Observable<T> => {
   return {
     map: <R>(fn: (v: T) => R) => of(fn(value)),
     flatMap: <R>(fn: (v: T) => Observable<R>) => fn(value),
-    observe: (o: Observer<T>, call?: boolean) => {
+    observe: (o: Observer<T>, dontCall?: boolean) => {
       const index = observers.push(o)
-      call && o(value)
+      !dontCall && o(value)
 
       return {
         value,

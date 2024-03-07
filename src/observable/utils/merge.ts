@@ -23,7 +23,7 @@ export const merge = <
           const array = [...vs]
           return (array[index] = v), observable.next(array)
         })
-      }, false)
+      }, true)
       return acc.flatMap((v) =>
         curr.map((ov) => [...v, ov]),
       )
