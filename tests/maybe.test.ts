@@ -20,11 +20,18 @@ describe('maybe.ts', () => {
   })
 
   it('mapNullable', () => {
+    const shouldntBeCalled = jest.fn(() => {
+      throw new Error('shouldnt be called')
+    })
+
     const a = M.of(32).mapNullable(() => undefined)
     const b = M.of(5).mapNullable(() => 5)
+    const c = M.none<number>().mapNullable(shouldntBeCalled)
 
     expect(a.value).toBeNull()
     expect(b.value).toBe(5)
+    expect(c.value).toBe(null)
+    expect(shouldntBeCalled).not.toHaveBeenCalled()
   })
 
   it('flatMap', () => {
@@ -68,15 +75,37 @@ describe('maybe.ts', () => {
     expect(a.merge(nullable).value).toBeNull()
   })
 
-  it('asyncMap', () => {
+  it('asyncMap', async () => {
     const sleep = (ms: number): Promise<number> =>
       new Promise((res) => setTimeout(() => res(ms), ms))
+
+    const sleepWithError = (ms: number): Promise<number> =>
+      new Promise((_, rej) => setTimeout(() => rej(ms), ms))
 
     M.of(500)
       .asyncMap((ms) => sleep(ms / 2))
       .then((maybeTime) => {
         expect(maybeTime.value).toBe(250)
       })
+
+    const catchError = jest.fn((err) =>
+      expect(err).toBe(250),
+    )
+
+    const withError = await M.of(500).asyncMap(
+      (ms) => sleepWithError(ms / 2),
+      catchError,
+    )
+
+    const withNothing = await M.none<number>().asyncMap(
+      () => {
+        throw new Error('shouldntBeCalled')
+      },
+    )
+
+    expect(withNothing.value).toBeNull()
+    expect(catchError).toHaveBeenCalled()
+    expect(withError.value).toBeNull()
   })
 
   it('equals', () => {
@@ -90,6 +119,25 @@ describe('maybe.ts', () => {
 
   it('apply', () => {
     const double = M.of((num: number) => num * 2)
+    const doubleNoCall = M.of((num: number) => {
+      throw new Error('shouldntBeCalled')
+    })
+
     expect(M.of(42).apply(double).value).toBe(84)
+    expect(
+      M.none<number>().apply(doubleNoCall).value,
+    ).toBeNull()
+  })
+
+  it('isNothing', () => {
+    expect(M.none().isNothing()).toBeTruthy()
+    expect(M.of(2).isNothing()).toBeFalsy()
+  })
+
+  it('call', () => {
+    const fn = jest.fn(() => 0)
+
+    expect(M.call(fn)).toBe(0)
+    expect(fn).toHaveBeenCalled()
   })
 })

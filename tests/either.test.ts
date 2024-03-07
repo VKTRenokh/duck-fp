@@ -106,12 +106,17 @@ describe('either.ts', () => {
     )
 
     eitherExample(4, 2).flatMap(flatMapFn).fold(left, right)
+    expect(flatMapFn).toHaveBeenCalled()
     expect(left).not.toHaveBeenCalled()
     expect(right).toHaveBeenCalled()
 
     eitherExample(2, 2).flatMap(flatMapFn).fold(left, right)
+    expect(flatMapFn).toHaveBeenCalledTimes(2)
     expect(left).toHaveBeenCalledTimes(1)
     expect(right).toHaveBeenCalled()
+
+    eitherExample(0, 2).flatMap(flatMapFn)
+    expect(flatMapFn).toHaveBeenCalledTimes(2)
   })
 
   it('filterOrElse', () => {
@@ -175,6 +180,7 @@ describe('either.ts', () => {
   it('merge', () => {
     const a: E.Either<string, number> = E.right(5)
     const b: E.Either<string, string> = E.right('Hello')
+    const c: E.Either<string, number> = E.left('Some error')
 
     a.merge(b).fold(
       () => {
@@ -183,6 +189,13 @@ describe('either.ts', () => {
       (m) => {
         expect(m.left).toBe(5)
         expect(m.right).toBe('Hello')
+      },
+    )
+
+    b.merge(c).fold(
+      (e) => expect(e).toBe('Some error'),
+      () => {
+        throw new Error("should'nt be called")
       },
     )
   })
@@ -202,5 +215,21 @@ describe('either.ts', () => {
         expect(array).toStrictEqual([4, 5, 6])
       },
     )
+  })
+
+  it('isLeft', () => {
+    const right: E.Either<string, string> = E.right('hello')
+    const left: E.Either<string, string> = E.left('bye')
+
+    expect(right.isLeft()).not.toBeTruthy()
+    expect(left.isLeft()).toBeTruthy()
+  })
+
+  it('isRight', () => {
+    const right: E.Either<string, string> = E.right('hello')
+    const left: E.Either<string, string> = E.left('bye')
+
+    expect(right.isRight()).toBeTruthy()
+    expect(left.isRight()).not.toBeTruthy()
   })
 })
