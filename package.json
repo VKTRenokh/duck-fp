@@ -1,7 +1,7 @@
 {
   "name": "@victorenokh/maybe.ts",
   "version": "1.8.0",
-  "description": "Maybe monad",
+  "description": "Maybe, either, state monad",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
@@ -14,12 +14,20 @@
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vktrenokh/maybe.ts"
+  },
   "keywords": [
     "fp",
     "ts",
     "monad",
     "maybe",
-    "option"
+    "option",
+    "either",
+    "result",
+    "observable",
+    "monads"
   ],
   "author": "Victor Enokh Kuptsov",
   "publishConfig": {
