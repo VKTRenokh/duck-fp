@@ -203,4 +203,12 @@ describe('either.ts', () => {
       },
     )
   })
+
+  it('isLeft', () => {
+    const right: E.Either<string, string> = E.right('hello')
+    const left: E.Either<string, string> = E.left('bye')
+
+    expect(right.isLeft()).not.toBeTruthy()
+    expect(left.isLeft()).toBeTruthy()
+  })
 })
