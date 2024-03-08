@@ -23,6 +23,9 @@ module.exports = {
     'tests/*',
   ],
   rules: {
+    indent: ['error', 2],
+    'linebreak-style': ['error', 'unix'],
+    'arrow-body-style': ['error', 'as-needed'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/explicit-function-return-type':
