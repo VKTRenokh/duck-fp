@@ -42,6 +42,8 @@ export interface Left<T, R> {
    */
   isLeft: () => true
 
+  orElse: <B>(fn: (e: T) => Either<B, R>) => Either<B, R>
+
   /**
    * Folds over either side of the Either monad.
    * @template R - The type to fold into.
@@ -104,6 +106,8 @@ export interface Right<T, R> {
    */
   isLeft: () => false
 
+  orElse: <B>(fn: (e: R) => Either<B, T>) => Either<B, T>
+
   fold: FoldFunction<R, T>
 
   /**
@@ -158,6 +162,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   isLeft: () => true,
   isRight: () => false,
 
+  orElse: <B>(fn: (e: L) => Either<B, R>): Either<B, R> =>
+    fn(e),
+
   fold: (lfn, _) => lfn(e),
 
   map: <Re>(_: (v: R) => Re) => left<L, Re>(e),
@@ -187,6 +194,9 @@ export const right = <R, L = never>(
   isLeft: () => false,
   isRight: () => true,
 
+  orElse: <B>(_: (e: L) => Either<B, R>): Either<B, R> =>
+    right(v),
+
   fold: (_, rfn) => rfn(v),
 
   map: <Re>(fn: (v: R) => Re) => right(fn(v)),
@@ -211,3 +221,5 @@ export type GetRight<T extends Either<any, any>> =
 
 export type GetLeft<T extends Either<any, any>> =
   T extends Either<infer U, infer _> ? U : never
+
+const a: Either<string, number> = left('300 iq')
