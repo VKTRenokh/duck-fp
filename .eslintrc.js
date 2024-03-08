@@ -23,7 +23,6 @@ module.exports = {
     'tests/*',
   ],
   rules: {
-    indent: ['error', 2],
     'linebreak-style': ['error', 'unix'],
     'arrow-body-style': ['error', 'as-needed'],
     '@typescript-eslint/interface-name-prefix': 'off',
@@ -69,4 +68,12 @@ module.exports = {
     ],
     'block-spacing': ['warn', 'always'],
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      rules: {
+        '@typescript-eslint/indent': ['error', 2],
+      },
+    },
+  ],
 }
