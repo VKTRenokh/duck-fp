@@ -1,4 +1,5 @@
 import { E, M } from '../src'
+import { Either } from '../src/either'
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
@@ -255,5 +256,31 @@ describe('either.ts', () => {
 
     expect(right.isRight()).toBeTruthy()
     expect(left.isRight()).not.toBeTruthy()
+  })
+
+  it('orElse', () => {
+    const a: E.Either<string, string> = E.right('k').orElse(
+      () => E.left('test'),
+    )
+
+    a.fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (v) => {
+        expect(v).toBe('k')
+      },
+    )
+
+    const b = E.left<string, string>('err').orElse(() =>
+      E.left('a'),
+    )
+
+    b.fold(
+      (e) => expect(e).toBe('a'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
   })
 })
