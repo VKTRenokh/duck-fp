@@ -221,5 +221,3 @@ export type GetRight<T extends Either<any, any>> =
 
 export type GetLeft<T extends Either<any, any>> =
   T extends Either<infer U, infer _> ? U : never
-
-const a: Either<string, number> = left('300 iq')
