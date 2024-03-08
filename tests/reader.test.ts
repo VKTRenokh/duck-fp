@@ -40,4 +40,13 @@ describe('reader.ts', () => {
 
     expect(merged.run({ s: 10 })).toStrictEqual([100, 20])
   })
+
+  it('ap', () => {
+    const a = R.of<Env, number>((env) => env.s / 2)
+    const b = R.of<Env, (number: number) => string>(
+      (env) => (number) => `${number}.${env.s}`,
+    )
+
+    expect(a.ap(b).run({ s: 58 })).toBe('29.58')
+  })
 })
