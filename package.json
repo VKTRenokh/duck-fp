@@ -11,7 +11,7 @@
     "test-coverage": "jest --coverage",
     "test": "jest",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
