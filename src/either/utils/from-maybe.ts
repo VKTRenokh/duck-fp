@@ -1,4 +1,4 @@
-import { Maybe } from 'src/maybe'
+import { Maybe } from '../../maybe/'
 import { Either, left, right } from '../either'
 
 /**
@@ -15,4 +15,6 @@ export const fromMaybe = <L, R>(
   maybe: Maybe<R>,
   onNone: L,
 ): Either<L, R> =>
-  maybe.value ? right(maybe.value) : left(onNone)
+  maybe.value
+    ? right<R, L>(maybe.value)
+    : left<L, R>(onNone)
