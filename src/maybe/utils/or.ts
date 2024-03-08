@@ -8,9 +8,8 @@ import { Maybe, of } from '../maybe'
  */
 export const or = <MT extends Maybe<any>[]>(
   ...maybies: MT
-): MT[number] => {
-  return maybies.reduce(
+): MT[number] =>
+  maybies.reduce(
     (acc, curr) => acc.flatGetOrElse(curr),
     of<MT[number]>(null),
   )
-}

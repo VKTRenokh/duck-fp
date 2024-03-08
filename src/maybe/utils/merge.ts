@@ -21,10 +21,9 @@ export const merge = <
   MU = UnwrapMaybeArray<MT>,
 >(
   ...maybes: MT
-): Maybe<MU> => {
-  return maybes.reduce(
+): Maybe<MU> =>
+  maybes.reduce(
     (acc, curr) =>
       acc.flatMap((res) => curr.map((v) => [...res, v])),
     of<MT[]>([]),
   )
-}
