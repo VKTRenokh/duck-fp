@@ -283,4 +283,36 @@ describe('either.ts', () => {
       },
     )
   })
+
+  it('asyncMap', async () => {
+    const sleep = (ms: number): Promise<number> =>
+      new Promise((res) => setTimeout(() => res(ms), ms))
+
+    const mappingFn = jest.fn((number: number) => {
+      expect(number).toBe(50)
+      return sleep(number)
+    })
+
+    const right =
+      await E.right<number>(50).asyncMap(mappingFn)
+    expect(mappingFn).toHaveBeenCalled()
+
+    const left =
+      await E.left<string>('a').asyncMap(mappingFn)
+    expect(mappingFn).toHaveBeenCalledTimes(1)
+
+    left.fold(
+      (e) => expect(e).toBe('a'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
+
+    right.fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (n) => expect(n).toBe(50),
+    )
+  })
 })
