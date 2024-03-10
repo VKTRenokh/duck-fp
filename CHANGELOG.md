@@ -1,5 +1,17 @@
 # @victorenokh/maybe.ts
 
+## 1.9.0
+
+### Minor Changes
+
+- 9122d8b: Added reader monad, Either#orElse method
+
+### Patch Changes
+
+- 63aaf62: Added E.of function
+- 0d2f95e: Added Either#asyncMap method
+- 9122d8b: Added Reader#ap method
+
 ## 1.8.3
 
 ### Patch Changes
