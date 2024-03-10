@@ -237,6 +237,3 @@ export type GetRight<T extends Either<any, any>> =
 
 export type GetLeft<T extends Either<any, any>> =
   T extends Either<infer U, infer _> ? U : never
-
-const sleep = (ms: number): Promise<number> =>
-  new Promise((res) => setTimeout(() => res(ms), ms))

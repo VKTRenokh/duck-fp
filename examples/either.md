@@ -106,3 +106,19 @@ const getBiggest = (nums: number[]) => Math.max(...nums)
 
 final.map(getBiggest).fold(console.error, console.log) // Output: 9
 ```
+
+## .orElse()
+```ts
+const orElseFn = (e: string): Either<string, string> =>
+  e === 'some error' ? right('3') : left('0')
+
+const a = right<string, string>('some string').orElse(
+  orElseFn,
+)
+const b = left<string, string>('some error').orElse(
+  orElseFn,
+)
+
+a.fold(console.error, console.log) // Output: "some string"
+b.fold(console.error, console.log) // Output: "3"
+```
