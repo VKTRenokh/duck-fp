@@ -14,6 +14,7 @@ To install the latest version:
 - [Maybe](https://maybets.duckdns.org/examples/maybe.html)
 - [Either](https://maybets.duckdns.org/examples/either.html)
 - [Observable](https://maybets.duckdns.org/examples/observable.html)
+- [Reader](https://maybets.duckdns.org/examples/reader.html)
 
 # License
 The MIT License (MIT)

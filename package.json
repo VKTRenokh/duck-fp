@@ -11,7 +11,7 @@
     "test-coverage": "jest --coverage",
     "test": "jest",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix"
   },
@@ -37,8 +37,8 @@
   "license": "MIT",
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
-    "@commitlint/cli": "^18.6.0",
-    "@commitlint/config-conventional": "^18.6.0",
+    "@commitlint/cli": "^19.0.3",
+    "@commitlint/config-conventional": "^19.0.3",
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",

@@ -22,6 +22,10 @@ export type MergeFunction<Left, Right> = <Nr>(
   or: Either<Left, Nr>,
 ) => Either<Left, Merged<Right, Nr>>
 
+export type AsyncMapFunction<Left, Right> = <R>(
+  fn: (v: Right) => Promise<R>,
+) => Promise<Either<Left, R>>
+
 /**
  * Represents the left side of the Either monad.
  * @template T - The type of the left value.
@@ -41,6 +45,10 @@ export interface Left<T, R> {
    * @returns {boolean} - Returns true if this side is left.
    */
   isLeft: () => true
+
+  orElse: <B>(fn: (e: T) => Either<B, R>) => Either<B, R>
+
+  asyncMap: AsyncMapFunction<T, R>
 
   /**
    * Folds over either side of the Either monad.
@@ -104,6 +112,10 @@ export interface Right<T, R> {
    */
   isLeft: () => false
 
+  asyncMap: AsyncMapFunction<R, T>
+
+  orElse: <B>(fn: (e: R) => Either<B, T>) => Either<B, T>
+
   fold: FoldFunction<R, T>
 
   /**
@@ -158,9 +170,15 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   isLeft: () => true,
   isRight: () => false,
 
+  orElse: <B>(fn: (e: L) => Either<B, R>): Either<B, R> =>
+    fn(e),
+
   fold: (lfn, _) => lfn(e),
 
   map: <Re>(_: (v: R) => Re) => left<L, Re>(e),
+
+  asyncMap: <Re>(_: (v: R) => Promise<Re>) =>
+    Promise.resolve<Either<L, Re>>(left(e)),
 
   flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
     left<L, Re>(e),
@@ -187,9 +205,17 @@ export const right = <R, L = never>(
   isLeft: () => false,
   isRight: () => true,
 
+  orElse: <B>(_: (e: L) => Either<B, R>): Either<B, R> =>
+    right(v),
+
   fold: (_, rfn) => rfn(v),
 
   map: <Re>(fn: (v: R) => Re) => right(fn(v)),
+
+  asyncMap: <Re>(
+    fn: (v: R) => Promise<Re>,
+  ): Promise<Either<L, Re>> =>
+    fn(v).then((mapped) => right<Re, L>(mapped)),
 
   flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 
@@ -205,6 +231,17 @@ export const right = <R, L = never>(
       or.map((ov) => ({ left: cv, right: ov })),
     ),
 })
+
+/**
+ * Alias for E.right.
+ * @see {@link right}
+ * @example
+ * const right = E.of(42)
+ *
+ * right.fold(console.error, console.log) // Output: 42
+ */
+export const of = <Right, Left>(value: Right) =>
+  right<Right, Left>(value)
 
 export type GetRight<T extends Either<any, any>> =
   T extends Either<infer _, infer U> ? U : never

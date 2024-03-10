@@ -1,4 +1,5 @@
 import { E, M } from '../src'
+import { Either } from '../src/either'
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
@@ -255,5 +256,72 @@ describe('either.ts', () => {
 
     expect(right.isRight()).toBeTruthy()
     expect(left.isRight()).not.toBeTruthy()
+  })
+
+  it('orElse', () => {
+    const a: E.Either<string, string> = E.right('k').orElse(
+      () => E.left('test'),
+    )
+
+    a.fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (v) => {
+        expect(v).toBe('k')
+      },
+    )
+
+    const b = E.left<string, string>('err').orElse(() =>
+      E.left('a'),
+    )
+
+    b.fold(
+      (e) => expect(e).toBe('a'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
+  })
+
+  it('asyncMap', async () => {
+    const sleep = (ms: number): Promise<number> =>
+      new Promise((res) => setTimeout(() => res(ms), ms))
+
+    const mappingFn = jest.fn((number: number) => {
+      expect(number).toBe(50)
+      return sleep(number)
+    })
+
+    const right =
+      await E.right<number>(50).asyncMap(mappingFn)
+    expect(mappingFn).toHaveBeenCalled()
+
+    const left =
+      await E.left<string>('a').asyncMap(mappingFn)
+    expect(mappingFn).toHaveBeenCalledTimes(1)
+
+    left.fold(
+      (e) => expect(e).toBe('a'),
+      () => {
+        throw new Error('should not be called')
+      },
+    )
+
+    right.fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (n) => expect(n).toBe(50),
+    )
+  })
+
+  it('of', () => {
+    E.of(42).fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (n) => expect(n).toBe(42),
+    )
   })
 })

@@ -136,11 +136,11 @@ export const of = <T>(value: T | null): Maybe<T> => ({
     value === null
       ? none<R>()
       : fn(value)
-          .then((mapped) => of(mapped))
-          .catch((err) => {
-            error?.(err)
-            return none<R>()
-          }),
+        .then((mapped) => of(mapped))
+        .catch((err) => {
+          error?.(err)
+          return none<R>()
+        }),
   get value() {
     return value
   },
