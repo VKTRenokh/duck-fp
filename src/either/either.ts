@@ -232,6 +232,17 @@ export const right = <R, L = never>(
     ),
 })
 
+/**
+ * Alias for E.right.
+ * @see {@link right}
+ * @example
+ * const right = E.of(42)
+ *
+ * right.fold(console.error, console.log) // Output: 42
+ */
+export const of = <Right, Left>(value: Right) =>
+  right<Right, Left>(value)
+
 export type GetRight<T extends Either<any, any>> =
   T extends Either<infer _, infer U> ? U : never
 

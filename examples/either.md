@@ -122,3 +122,9 @@ const b = left<string, string>('some error').orElse(
 a.fold(console.error, console.log) // Output: "some string"
 b.fold(console.error, console.log) // Output: "3"
 ```
+
+## of()
+Alias for E.right()
+```ts
+E.of(42).fold(console.error, console.log) // Output: 42
+```

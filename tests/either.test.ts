@@ -315,4 +315,13 @@ describe('either.ts', () => {
       (n) => expect(n).toBe(50),
     )
   })
+
+  it('of', () => {
+    E.of(42).fold(
+      () => {
+        throw new Error('should not be called')
+      },
+      (n) => expect(n).toBe(42),
+    )
+  })
 })
