@@ -1,9 +1,10 @@
-import { E, M, S } from '../'
+import { E, M, S, I } from '../'
 
 export type Acceptable<T> =
   | M.Maybe<T>
   | E.Either<unknown, T>
   | S.State<unknown, T>
+  | I.Identity<T>
 
 export type Unwrap<T extends Acceptable<unknown>> =
   T extends E.Either<unknown, infer R>
@@ -12,7 +13,9 @@ export type Unwrap<T extends Acceptable<unknown>> =
       ? R
       : T extends S.State<unknown, infer R>
         ? R
-        : never
+        : T extends I.Identity<infer R>
+          ? R
+          : never
 
 export interface ReaderT<E, M extends Acceptable<any>> {
   run: (e: E) => M
