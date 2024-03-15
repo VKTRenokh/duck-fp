@@ -28,7 +28,10 @@
     "either",
     "result",
     "observable",
-    "monads"
+    "monads",
+    "readerT",
+    "reader",
+    "transformer"
   ],
   "author": "Victor Enokh Kuptsov",
   "publishConfig": {
