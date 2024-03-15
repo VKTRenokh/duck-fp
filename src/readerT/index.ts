@@ -34,15 +34,6 @@ export const of = <E, M extends Acceptable<any>>(
   flatMap: <N extends Acceptable<any>>(
     f: (v: Unwrap<M>) => ReaderT<E, N>,
   ): ReaderT<E, N> =>
-    of(
-      (e) =>
-        run(e)
-          .map(f)
-          .map((reader) => reader.run(e)) as N,
-    ),
+    // @ts-expect-error Why? just why?
+    of((e) => run(e).flatMap((i) => f(i).run(e))),
 })
-
-const someValue: ReaderT<
-{ somevalue: number | null },
-M.Maybe<number>
-> = of((e) => M.of(e.somevalue))
