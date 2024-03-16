@@ -25,4 +25,14 @@ describe('identity.ts', () => {
     expect(flatMapFn).toHaveBeenCalled()
     expect(merged.value).toStrictEqual([10, 50])
   })
+
+  it('merge', () => {
+    const a = I.of(50)
+    const b = I.of(500)
+
+    expect(a.merge(b).value).toStrictEqual({
+      left: 50,
+      right: 500,
+    })
+  })
 })
