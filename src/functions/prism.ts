@@ -1,4 +1,4 @@
-import { Maybe } from 'dist/maybe'
+import { Maybe } from 'src/maybe'
 import { of } from 'src/maybe'
 
 export interface Prism<T, R> {
