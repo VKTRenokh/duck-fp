@@ -1,12 +1,23 @@
 export interface Lens<T, R> {
-  get: (v: T) => R
-  set: (v: T) => T
+  view: (v: T) => R
+  set: (v: R, s: T) => T
 }
 
 export const lens = <T, R>(
-  get: Lens<T, R>['get'],
+  view: Lens<T, R>['view'],
   set: Lens<T, R>['set'],
 ): Lens<T, R> => ({
-  get,
+  view,
   set,
 })
+
+export const lensKey = <
+  K extends symbol | string | number,
+  T extends Record<K, unknown>,
+>(
+  key: K,
+): Lens<T, T[K]> =>
+  lens<T, T[K]>(
+    (v) => v[key],
+    (v, s) => ({ ...s, [key]: v }),
+  )
