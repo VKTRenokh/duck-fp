@@ -21,3 +21,11 @@ export const lensKey = <
     (v) => v[key],
     (v, s) => ({ ...s, [key]: v }),
   )
+
+export const composeLens = <A, B, C>(
+  ab: Lens<A, B>,
+  bc: Lens<B, C>,
+): Lens<A, C> => ({
+  view: (a) => bc.view(ab.view(a)),
+  set: (c, a) => ab.set(bc.set(c, ab.view(a)), a),
+})
