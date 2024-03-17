@@ -5,19 +5,60 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
+    "build": "rm -rf dist && tsc --build",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
     "test-coverage": "jest --coverage",
     "test": "jest",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prepare": "husky",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./maybe": {
+      "import": "./dist/maybe/index.js",
+      "types": "./dist/maybe/index.d.ts"
+    },
+    "./either": {
+      "import": "./dist/either/index.js",
+      "types": "./dist/either/index.d.ts"
+    },
+    "./functions": {
+      "import": "./dist/functions/index.js",
+      "types": "./dist/functions/index.d.ts"
+    },
+    "./identity": {
+      "import": "./dist/identity/index.js",
+      "types": "./dist/identity/index.d.ts"
+    },
+    "./observable": {
+      "import": "./dist/observable/index.js",
+      "types": "./dist/observable/index.d.ts"
+    },
+    "./reader": {
+      "import": "./dist/reader/index.js",
+      "types": "./dist/reader/index.d.ts"
+    },
+    "./readerT": {
+      "import": "./dist/readerT/index.js",
+      "types": "./dist/readerT/index.d.ts"
+    },
+    "./state": {
+      "import": "./dist/state/index.js",
+      "types": "./dist/state/index.d.ts"
+    }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/vktrenokh/maybe.ts"
+  },
+  "bugs": {
+    "url": "https://github.com/vktrenokh/maybe.ts/issues"
   },
   "keywords": [
     "fp",
@@ -33,7 +74,7 @@
     "reader",
     "transformer"
   ],
-  "author": "Victor Enokh Kuptsov",
+  "author": "Victor Enokh Kuptsov <victorenokh@gmail.com>",
   "publishConfig": {
     "access": "public"
   },
