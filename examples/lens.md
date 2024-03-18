@@ -18,3 +18,14 @@ const lens: Lens<typeof object, string> = from(
 
 console.log(lens.view(object)) // Ouptut: "string"
 ```
+
+## fromProp()
+```ts
+const object = {
+  value: 50,
+}
+
+const lens: Lens<typeof object, number> = fromProp('value')
+
+console.log(lens.view(object)) // Output: 50
+```
