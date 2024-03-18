@@ -37,6 +37,6 @@ export const of = <E, M extends Acceptable<any>>(
   flatMap: <N extends Acceptable<any>>(
     f: (v: Unwrap<M>) => ReaderT<E, N>,
   ): ReaderT<E, N> =>
-    // @ts-expect-error Why? just why?
+    // @ts-expect-error it is assignable
     of((e) => run(e).flatMap((i) => f(i).run(e))),
 })
