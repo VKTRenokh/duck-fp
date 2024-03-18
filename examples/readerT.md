@@ -18,5 +18,21 @@ newReader.run({ value: 50 }).map(console.log) // Output: 25
 
 # .flatMap()
 ```ts
+interface SomeEnv {
+  value: number | null
+}
 
+const a: ReaderT<SomeEnv, M.Maybe<number>> = of((env) =>
+  M.of(env.value),
+)
+
+const b: ReaderT<SomeEnv, M.Maybe<number>> = of((env) =>
+  M.of(env.value).map((number) => number * 10),
+)
+
+a.flatMap(() => b)
+  .run({
+    value: 10,
+  })
+  .map(console.log) // Output: 100
 ```

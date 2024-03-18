@@ -3,11 +3,12 @@
   "version": "1.9.0",
   "description": "Maybe, either, state monad",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "scripts": {
     "esm": "esbuild --out-extension:.js=.mjs --outdir=dist --platform=node --format=esm {src/*.ts,src/**/*.ts}",
     "cjs": "esbuild --outdir=dist --platform=node --format=cjs {src/*.ts,src/**/*.ts}",
-    "build": "rm -rf dist && npm run esm && npm run cjs  && tsc --emitDeclarationOnly",
+    "build": "rm -rf dist && npm run esm && npm run cjs && tsc --emitDeclarationOnly",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
     "test-coverage": "jest --coverage",
