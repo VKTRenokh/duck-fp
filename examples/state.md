@@ -1,6 +1,17 @@
 # State Examples
 
-# .map()
+## .run()
+Calls the function that was passed in State.of
+```ts
+const state = of(() => {
+  console.log('a')
+  return [null, null]
+})
+
+state.run(null) // Output: 'a'
+```
+
+## .map()
 ```ts
 const state = of((num: number) => [num * 2, num])
 
