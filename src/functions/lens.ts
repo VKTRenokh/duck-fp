@@ -17,10 +17,7 @@ export const from = <T, R>(
     ),
 })
 
-export const fromProp = <
-  K extends symbol | string | number,
-  T extends Record<K, unknown>,
->(
+export const fromProp = <T, K extends keyof T>(
   key: K,
 ): Lens<T, T[K]> =>
   from<T, T[K]>(
