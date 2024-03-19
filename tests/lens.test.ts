@@ -1,4 +1,4 @@
-import { from } from '../src/lens'
+import { Lens, from, fromProp } from '../src/lens'
 
 describe('lens.ts', () => {
   it('set()', () => {
@@ -41,5 +41,51 @@ describe('lens.ts', () => {
 
     expect(lens.view(obj)).toBe('string')
     expect(view).toHaveBeenCalled()
+  })
+
+  it('compose()', () => {
+    interface Nested2 {
+      a: string
+      b: string
+    }
+
+    interface Nested1 {
+      a: number
+      b: number
+      nested: Nested2
+    }
+
+    interface Obj {
+      nested1: Nested1
+    }
+
+    const obj: Obj = {
+      nested1: {
+        a: 10,
+        b: 15,
+        nested: {
+          a: 'something something',
+          b: 'something',
+        },
+      },
+    }
+
+    const nested1: Lens<Obj, Nested1> = fromProp('nested1')
+
+    const nested2: Lens<Nested1, Nested2> =
+      fromProp('nested')
+
+    const composed = nested1.compose(nested2)
+
+    expect(composed.view(obj)).toBe(obj.nested1.nested)
+
+    const newObj = {
+      a: 'new something',
+      b: 'new new something',
+    }
+
+    expect(composed.set(newObj, obj).nested1.nested).toBe(
+      newObj,
+    )
   })
 })
