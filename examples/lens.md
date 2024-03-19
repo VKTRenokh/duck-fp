@@ -43,3 +43,16 @@ const lens: Lens<typeof object, number> = from(
 
 console.log(lens.set(50, object)) // Output: { valueToBeSetWithLens: 50 }
 ```
+
+# .view()
+Calls `getter` that was passed in params.
+```ts
+const object = { valueToBeGetted: 70 }
+
+const lens: Lens<typeof object, number> = from(
+  (object) => object.valueToBeGetted,
+  (n, object) => ({ ...object, valueToBeGetted: n }),
+)
+
+console.log(lens.view(object)) // Output: 70
+```
