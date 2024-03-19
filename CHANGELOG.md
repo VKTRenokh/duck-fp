@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.10.2
+
+### Patch Changes
+
+- 9695c4c: tryCatch now exports from either utils
+
 ## 1.10.0
 
 ### Minor Changes

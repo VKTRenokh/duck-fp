@@ -1,6 +1,6 @@
 {
   "name": "@victorenokh/maybe.ts",
-  "version": "1.10.1",
+  "version": "1.10.2",
   "description": "Maybe, either, state, reader, readerT and identity in typescript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
