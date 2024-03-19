@@ -1,23 +1,76 @@
 {
   "name": "@victorenokh/maybe.ts",
   "version": "1.9.0",
-  "description": "Maybe, either, state monad",
+  "description": "Maybe, either, state, reader, readerT and identity in typescript",
   "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build",
+    "esm": "esbuild --out-extension:.js=.mjs --outdir=dist --platform=node --format=esm {src/*.ts,src/**/*.ts}",
+    "cjs": "esbuild --outdir=dist --platform=node --format=cjs {src/*.ts,src/**/*.ts}",
+    "build": "rm -rf dist && npm run esm && npm run cjs && tsc --emitDeclarationOnly",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
     "test-coverage": "jest --coverage",
     "test": "jest",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prepare": "husky",
-    "lint": "eslint .",
-    "lint-fix": "eslint . --fix"
+    "lint": "eslint src",
+    "lint-fix": "eslint src --fix"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./maybe": {
+      "import": "./dist/maybe/index.mjs",
+      "require": "./dist/maybe/index.js",
+      "types": "./dist/maybe/index.d.ts"
+    },
+    "./either": {
+      "import": "./dist/either/index.mjs",
+      "require": "./dist/either/index.js",
+      "types": "./dist/either/index.d.ts"
+    },
+    "./lens": {
+      "import": "./dist/lens/index.mjs",
+      "require": "./dist/lens/index.js",
+      "types": "./dist/lens/index.d.ts"
+    },
+    "./identity": {
+      "import": "./dist/identity/index.mjs",
+      "require": "./dist/identity/index.js",
+      "types": "./dist/identity/index.d.ts"
+    },
+    "./observable": {
+      "import": "./dist/observable/index.mjs",
+      "require": "./dist/observable/index.js",
+      "types": "./dist/observable/index.d.ts"
+    },
+    "./reader": {
+      "import": "./dist/reader/index.mjs",
+      "require": "./dist/reader/index.js",
+      "types": "./dist/reader/index.d.ts"
+    },
+    "./readerT": {
+      "import": "./dist/readerT/index.mjs",
+      "require": "./dist/readerT/index.js",
+      "types": "./dist/readerT/index.d.ts"
+    },
+    "./state": {
+      "import": "./dist/state/index.mjs",
+      "require": "./dist/state/index.js",
+      "types": "./dist/state/index.d.ts"
+    }
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/vktrenokh/maybe.ts"
+  },
+  "bugs": {
+    "url": "https://github.com/vktrenokh/maybe.ts/issues"
   },
   "keywords": [
     "fp",
@@ -28,9 +81,14 @@
     "either",
     "result",
     "observable",
-    "monads"
+    "monads",
+    "readerT",
+    "reader",
+    "transformer",
+    "lens",
+    "prisms"
   ],
-  "author": "Victor Enokh Kuptsov",
+  "author": "Victor Enokh Kuptsov <victorenokh@gmail.com>",
   "publishConfig": {
     "access": "public"
   },
@@ -42,6 +100,7 @@
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
+    "esbuild": "^0.20.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

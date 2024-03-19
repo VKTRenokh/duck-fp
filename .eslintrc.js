@@ -19,6 +19,7 @@ module.exports = {
     '.eslintrc.js',
     'dist',
     'commitlint.config.mjs',
+    'rollup.config.js',
     'jest.config.ts',
     'tests/*',
   ],
