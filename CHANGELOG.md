@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.10.0
+
+### Minor Changes
+
+- 770286c: Added ReaderT monad, Identity Monad, Lens, Prisms, and cjs and mjs support
+
 ## 1.9.0
 
 ### Minor Changes
