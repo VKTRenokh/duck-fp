@@ -12,6 +12,7 @@ To install the latest version:
 
 # Examples
 - [Maybe](https://maybets.duckdns.org/examples/maybe.html)
+- [State](https://maybets.duckdns.org/examples/state.html)
 - [Either](https://maybets.duckdns.org/examples/either.html)
 - [Observable](https://maybets.duckdns.org/examples/observable.html)
 - [Reader](https://maybets.duckdns.org/examples/reader.html)
