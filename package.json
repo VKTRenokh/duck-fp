@@ -1,7 +1,7 @@
 {
   "name": "@victorenokh/maybe.ts",
   "version": "1.9.0",
-  "description": "Maybe, either, state monad",
+  "description": "Maybe, either, state, reader, readerT and identity in typescript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
@@ -34,10 +34,10 @@
       "require": "./dist/either/index.js",
       "types": "./dist/either/index.d.ts"
     },
-    "./functions": {
-      "import": "./dist/functions/index.mjs",
-      "require": "./dist/functions/index.js",
-      "types": "./dist/functions/index.d.ts"
+    "./lens": {
+      "import": "./dist/lens/index.mjs",
+      "require": "./dist/lens/index.js",
+      "types": "./dist/lens/index.d.ts"
     },
     "./identity": {
       "import": "./dist/identity/index.mjs",
@@ -84,7 +84,9 @@
     "monads",
     "readerT",
     "reader",
-    "transformer"
+    "transformer",
+    "lens",
+    "prisms"
   ],
   "author": "Victor Enokh Kuptsov <victorenokh@gmail.com>",
   "publishConfig": {
