@@ -1,5 +1,9 @@
 import { E, M } from '../src'
-import { Either } from '../src/either'
+import { Either, tryCatch } from '../src/either'
+
+const dontCallMePls = () => {
+  throw new Error('should not be called')
+}
 
 const eitherExampleString = 'cannot work with 0'
 const eitherExampleError = new Error(eitherExampleString)
@@ -323,5 +327,43 @@ describe('either.ts', () => {
       },
       (n) => expect(n).toBe(42),
     )
+  })
+
+  it('tryCatch', () => {
+    const tryFn = jest.fn(() => {
+      return 20
+    })
+
+    const throwableTryFn = jest.fn(() => {
+      throw new Error('Error')
+    })
+
+    const finalyFn = jest.fn()
+
+    tryCatch(
+      tryFn,
+      () => {
+        dontCallMePls()
+      },
+      finalyFn,
+    ).fold(
+      () => dontCallMePls(),
+      (num) => {
+        expect(num).toBe(20)
+      },
+    )
+
+    expect(tryFn).toHaveBeenCalled()
+    expect(finalyFn).toHaveBeenCalled()
+
+    tryCatch(
+      throwableTryFn,
+      (reason) => String(reason),
+      finalyFn,
+    ).fold(
+      (e) => expect(e).toBe('Error: Error'),
+      dontCallMePls,
+    )
+    expect(finalyFn).toHaveBeenCalledTimes(2)
   })
 })
