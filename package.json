@@ -63,6 +63,11 @@
       "import": "./dist/state/index.mjs",
       "require": "./dist/state/index.js",
       "types": "./dist/state/index.d.ts"
+    },
+    "./task": {
+      "import": "./dist/task/index.mjs",
+      "require": "./dist/task/index.js",
+      "types": "./dist/task/index.d.ts"
     }
   },
   "repository": {
