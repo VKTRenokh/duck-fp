@@ -6,8 +6,8 @@
   "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "esm": "esbuild --out-extension:.js=.mjs --outdir=dist --platform=node --format=esm {src/*.ts,src/**/*.ts}",
-    "cjs": "esbuild --outdir=dist --platform=node --format=cjs {src/*.ts,src/**/*.ts}",
+    "esm": "esbuild --out-extension:.js=.mjs --outdir=dist --platform=node --format=esm src/*.ts src/**/*.ts",
+    "cjs": "esbuild --outdir=dist --platform=node --format=cjs src/*.ts src/**/*.ts",
     "build": "rm -rf dist && npm run esm && npm run cjs && tsc --emitDeclarationOnly",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
@@ -91,7 +91,8 @@
     "reader",
     "transformer",
     "lens",
-    "prisms"
+    "prisms",
+    "tasks"
   ],
   "author": "Victor Enokh Kuptsov <victorenokh@gmail.com>",
   "publishConfig": {
