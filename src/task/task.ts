@@ -1,14 +1,12 @@
 export interface Task<T> {
   map: <R>(f: (v: T) => R) => Task<R>
   flatMap: <R>(f: (v: T) => Task<R>) => Task<R>
-
   delay: (ms: number) => Task<T>
-
   run: () => Promise<T>
 }
 
 /**
- * task monad represents an asynchronous computation that yields value of type `T` and **never fails**.
+ * `Task<T>` represents an asynchronous computation that yields value of type `T` and **never fails**.
  * for computations that might fail use `TaskEither`.
  * @see {@link ../maybe/index.ts}
  * @template T - type that Task monad is going to produce
