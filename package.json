@@ -68,6 +68,11 @@
       "import": "./dist/task/index.mjs",
       "require": "./dist/task/index.js",
       "types": "./dist/task/index.d.ts"
+    },
+    "./task-either": {
+      "import": "./dist/task-either/index.mjs",
+      "require": "./dist/task-either/index.js",
+      "types": "./dist/task-either/index.d.ts"
     }
   },
   "repository": {

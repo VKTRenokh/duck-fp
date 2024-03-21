@@ -8,7 +8,7 @@ export interface Task<T> {
 /**
  * `Task<T>` represents an asynchronous computation that yields value of type `T` and **never fails**.
  * for computations that might fail use `TaskEither`.
- * @see {@link ../maybe/index.ts}
+ * @see {@link https://maybets.duckdns.org/task-either.md Task either}
  * @template T - type that Task monad is going to produce
  * @param {() => Promise<T>} run - function to wrap in task
  * @returns {Task<T>} new task monad

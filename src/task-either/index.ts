@@ -1,6 +1,6 @@
 import { Either, isRight, left } from 'src/either'
 
-type TaskEither<Left, Right> = {
+export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>
   flatMap: <R>(
     f: (v: Right) => TaskEither<Left, R>,
@@ -8,6 +8,13 @@ type TaskEither<Left, Right> = {
   run: () => Promise<Either<Left, Right>>
 }
 
+/**
+ * `TaskEither<Left, Right>` represents asynchrounous computation that might
+ * fail.
+ * for asynchrounous computations that never fails use `Task`
+ * @see {@link https://maybets.duckdns.org/task Task}
+ * @returns {TaskEither<Left, Right>} - new TaskEither
+ */
 export const of = <Left = never, Right = never>(
   task: () => Promise<Either<Left, Right>>,
 ): TaskEither<Left, Right> => ({
