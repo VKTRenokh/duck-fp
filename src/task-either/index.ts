@@ -5,6 +5,10 @@ export interface TaskEither<Left, Right> {
   flatMap: <R>(
     f: (v: Right) => TaskEither<Left, R>,
   ) => TaskEither<Left, R>
+  ensureOrElse: (
+    p: (v: Right) => boolean,
+    fr: (v: Right) => Left,
+  ) => TaskEither<Left, Right>
   run: () => Promise<Either<Left, Right>>
 }
 
@@ -29,6 +33,13 @@ export const of = <Left = never, Right = never>(
           ? f(either.right).run()
           : left(either.left),
       ),
+    ),
+  ensureOrElse: (
+    p: (v: Right) => boolean,
+    fr: (v: Right) => Left,
+  ) =>
+    of(() =>
+      task().then((either) => either.ensureOrElse(p, fr)),
     ),
   run: task,
 })

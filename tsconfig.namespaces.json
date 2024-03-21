@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "@unsplash/ts-namespace-import-plugin",
+        "namespaces": {
+          "E": {
+            "importPath": "@victorenokh/maybe.ts/either"
+          },
+          "M": {
+            "importPath": "@victorenokh/maybe.ts/maybe"
+          },
+          "L": {
+            "importPath": "@victorenokh/maybe.ts/lens"
+          },
+          "I": {
+            "importPath": "@victorenokh/maybe.ts/identity"
+          },
+          "O": {
+            "importPath": "@victorenokh/maybe.ts/observable"
+          },
+          "R": {
+            "importPath": "@victorenokh/maybe.ts/reader"
+          },
+          "RT": {
+            "importPath": "@victorenokh/maybe.ts/readerT"
+          },
+          "S": {
+            "importPath": "@victorenokh/maybe.ts/state"
+          },
+          "T": {
+            "importPath": "@victorenokh/maybe.ts/task"
+          },
+          "TE": {
+            "importPath": "@victorenokh/maybe.ts/task-either"
+          }
+        }
+      }
+    ]
+  }
+}
