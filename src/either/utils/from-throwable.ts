@@ -1,4 +1,4 @@
-import { Either, left, right } from '../either'
+import { Either, left, right } from '->/either'
 
 /**
  * Constructs a function that converts a throwable function into an `Either`

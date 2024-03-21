@@ -1,4 +1,4 @@
-import { of, Maybe } from '../maybe'
+import { of, Maybe } from '->/maybe'
 
 /**
  * Converts a value that may be undefined to a Maybe monad.

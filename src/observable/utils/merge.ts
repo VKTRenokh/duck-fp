@@ -2,7 +2,7 @@ import {
   Observable,
   UnwrapObservable,
   of,
-} from '../observable'
+} from '->/observable'
 
 export type UnwrapObservableArray<
   T extends Array<Observable<any>>,

@@ -1,4 +1,4 @@
-import { Maybe, of, UnwrapMaybe } from '../maybe'
+import { Maybe, of, UnwrapMaybe } from '->/maybe'
 
 /**
  * Extracts the type contained in an array of Maybe monads.

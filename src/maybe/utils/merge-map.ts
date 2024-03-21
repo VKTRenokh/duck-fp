@@ -1,4 +1,4 @@
-import { Maybe } from '../maybe'
+import { Maybe } from '->/maybe'
 
 /**
  * Merges two Maybe monads and applies a callback function to their values.

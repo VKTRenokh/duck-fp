@@ -1,4 +1,4 @@
-import { Either, GetLeft, GetRight, right } from '../either'
+import { Either, GetLeft, GetRight, right } from '->/either'
 
 export type GetRightFromArray<
   T extends Array<Either<any, any>>,

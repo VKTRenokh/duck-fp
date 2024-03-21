@@ -1,4 +1,4 @@
-import { Either, Left, Right } from '../either'
+import { Either, Left, Right } from '->/either'
 
 export const isLeft = <L, R>(
   v: Either<L, R>,
