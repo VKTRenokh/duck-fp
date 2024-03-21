@@ -1,5 +1,5 @@
-import { Maybe } from '../maybe'
-import { of } from '../maybe'
+import { Maybe } from '->/maybe'
+import { of } from '->/maybe'
 
 export interface Prism<T, R> {
   view: (v: T) => Maybe<R>
