@@ -1,4 +1,5 @@
 import { Either, left, right } from '->/either'
+
 /**
  * Executes a function in a try-catch block, returning either the result of the try function
  * or an error produced by the catch function.

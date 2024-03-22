@@ -1,4 +1,4 @@
-import { of, none } from '->/maybe'
+import { none, of } from '->/maybe'
 
 /**
  * Wraps a potentially throwing function in a Maybe monad.

@@ -1,6 +1,6 @@
-import { Maybe } from '->/maybe'
-import { Lazy } from '->t/lazy'
 import { M } from '-->'
+import { Lazy } from '->t/lazy'
+import { Maybe } from '->/maybe'
 
 interface TaskMaybe<T> {
   run: () => Promise<Maybe<T>>

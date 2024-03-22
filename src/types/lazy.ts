@@ -1,6 +1,6 @@
 /**
- * lazy argument
- * usage in `Task`, `State`
+ * Lazy argument
+ * @template T - Type of lazy argument
  */
 export interface Lazy<T> {
   (): T

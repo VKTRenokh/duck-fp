@@ -1,3 +1,4 @@
+import { Lazy } from '->t/lazy'
 import { Either, isRight, left } from '->/either'
 
 export interface TaskEither<Left, Right> {
@@ -23,7 +24,7 @@ export interface TaskEither<Left, Right> {
  * @returns {TaskEither<Left, Right>} - new TaskEither
  */
 export const of = <Left = never, Right = never>(
-  task: () => Promise<Either<Left, Right>>,
+  task: Lazy<Promise<Either<Left, Right>>>,
 ): TaskEither<Left, Right> => ({
   map: <R>(f: (v: Right) => R): TaskEither<Left, R> =>
     of(() => task().then((either) => either.map(f))),

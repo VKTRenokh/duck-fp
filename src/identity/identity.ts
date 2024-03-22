@@ -1,4 +1,4 @@
-import { Merged } from 'src/types/merged'
+import { Merged } from '->t/merged'
 
 export interface Identity<T> {
   map: <R>(f: (v: T) => R) => Identity<R>

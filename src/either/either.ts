@@ -1,4 +1,4 @@
-import { Merged } from 'src/types/merged'
+import { Merged } from '->t/merged'
 
 export type FoldFunction<Left, Right> = <R>(
   lfn: (e: Left) => R,

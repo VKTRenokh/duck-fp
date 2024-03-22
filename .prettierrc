@@ -4,5 +4,15 @@
   "tabWidth": 2,
   "singleQuote": true,
   "printWidth": 60,
-  "bracketSpacing": true
+  "bracketSpacing": true,
+  "importOrder": [
+    "^-->$",
+    "^->t/(.*)$",
+    "^->/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true,
+  "plugins": [
+    "@trivago/prettier-plugin-sort-imports"
+  ]
 }
