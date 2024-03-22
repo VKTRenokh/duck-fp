@@ -10,6 +10,20 @@
 To install the latest version:
 `npm i @victorenokh/maybe.ts`
 
+## Namespaces auto import
+Install ts-namespace-import-plugin:
+`npm i -D @unsplash/ts-namespace-import-plugin`
+
+Extend from namespaces tsconfig:
+```json
+// tsconfig.json
+{
+  "extends": "./node_modules/@victorenokh/maybe.ts/tsconfig.namespaces.json"
+}
+```
+
+Use project typescript version in vscode press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>p</kbd> then running **TypeScript: Select TypeScript Version** command, and selectin **Use Workspace Version** refering to [this](https://github.com/unsplash/ts-namespace-import-plugin/issues/12#issuecomment-1836965622)
+
 # Examples
 - [Maybe](https://maybets.duckdns.org/examples/maybe.html)
 - [State](https://maybets.duckdns.org/examples/state.html)
