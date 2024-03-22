@@ -1,4 +1,4 @@
-import { Either, isRight, left } from 'src/either'
+import { Either, isRight, left } from '->/either'
 
 export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>
@@ -9,6 +9,9 @@ export interface TaskEither<Left, Right> {
     p: (v: Right) => boolean,
     fr: (v: Right) => Left,
   ) => TaskEither<Left, Right>
+  orElse: <R>(
+    f: (e: Left) => TaskEither<R, Right>,
+  ) => TaskEither<R, Right>
   run: () => Promise<Either<Left, Right>>
 }
 
@@ -40,6 +43,19 @@ export const of = <Left = never, Right = never>(
   ) =>
     of(() =>
       task().then((either) => either.ensureOrElse(p, fr)),
+    ),
+  orElse: <R>(
+    f: (e: Left) => TaskEither<R, Right>,
+  ): TaskEither<R, Right> =>
+    of(() =>
+      task().then(
+        (either) =>
+          (isRight(either)
+            ? Promise.resolve(either)
+            : f(either.left).run()) as Promise<
+          Either<R, Right>
+          >,
+      ),
     ),
   run: task,
 })
