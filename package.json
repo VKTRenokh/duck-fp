@@ -72,9 +72,10 @@
       "require": "./dist/task-either/index.js",
       "types": "./dist/task-either/index.d.ts"
     },
-    "./namespaces": {
-      "import": "./tsconfig.namespaces.json",
-      "require": "./tsconfig.namespaces.json"
+    "./task-maybe": {
+      "import": "./dist/task-maybe/index.mjs",
+      "require": "./dist/task-maybe/index.js",
+      "types": "./dist/task-maybe/index.d.ts"
     }
   },
   "repository": {
