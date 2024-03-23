@@ -9,6 +9,10 @@ export type MapFunction<Left, Right> = <R>(
   fn: (v: Right) => R,
 ) => Either<Left, R>
 
+export type MapLeft<Left, Right> = <R>(
+  f: (v: Left) => R,
+) => Either<R, Right>
+
 export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
 ) => Either<Left, R>
@@ -62,10 +66,18 @@ export interface Left<T, R> {
   /**
    * Maps a function over the right value.
    * @template U - The type of the result of the mapping function.
+   * @param {Function} fn - The function to map over the right value.
+   * @returns {Left<U, R>} - A new Left containing the result of applying `fn` to the right value.
+   */
+  map: MapFunction<T, R>
+
+  /**
+   * Maps a function over the left value.
+   * @template U - The type of the result of the mapping function.
    * @param {Function} fn - The function to map over the left value.
    * @returns {Left<U, R>} - A new Left containing the result of applying `fn` to the left value.
    */
-  map: MapFunction<T, R>
+  mapLeft: MapLeft<T, R>
 
   /**
    * Maps a function over the right value and flattens the result.
@@ -118,39 +130,14 @@ export interface Right<T, R> {
 
   fold: FoldFunction<R, T>
 
-  /**
-   * Maps a function over the right value.
-   * @template U - The type of the result of the mapping function.
-   * @param {Function} fn - The function to map over the right value.
-   * @returns {Right<T, U>} - A new Right containing the result of applying `fn` to the right value.
-   */
   map: MapFunction<R, T>
 
-  /**
-   * Maps a function over the right value and flattens the result.
-   * @template U - The type of the result of the mapping function.
-   * @param {Function} fn - The function to map over the right value.
-   * @returns {Right<T, U>} - A new Right containing the flattened result of applying `fn` to the right value.
-   */
+  mapLeft: MapLeft<R, T>
+
   flatMap: FlatMapFunction<R, T>
 
-  /**
-   * Ensures that a predicate `fn` holds true for the success value.
-   * If the predicate fails, returns an alternative failure value computed by `fr`.
-   * This method is applicable when the `Either` instance represents a success value.
-   * @template Re The type of the alternative failure value returned if the predicate fails.
-   * @param {function(R): boolean} fn The predicate function to be satisfied by the success value.
-   * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
-   * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
-   */
   ensureOrElse: EnsureOrElseFunction<R, T>
 
-  /**
-   * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
-   * @template Nr The type of the value in the second Either monad.
-   * @param {Either<L, R>} or The Either monad to merge.
-   * @returns {Either<L, Merged<R, Nr>>} An Either monad representing the merged result.
-   */
   merge: MergeFunction<R, T>
 }
 
@@ -176,6 +163,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   fold: (lfn, _) => lfn(e),
 
   map: <Re>(_: (v: R) => Re) => left<L, Re>(e),
+
+  mapLeft: <Re>(f: (v: L) => Re): Either<Re, R> =>
+    left(f(e)),
 
   asyncMap: <Re>(_: (v: R) => Promise<Re>) =>
     Promise.resolve<Either<L, Re>>(left(e)),
@@ -211,6 +201,8 @@ export const right = <R, L = never>(
   fold: (_, rfn) => rfn(v),
 
   map: <Re>(fn: (v: R) => Re) => right(fn(v)),
+
+  mapLeft: <Re>(_: (v: L) => Re): Either<Re, R> => right(v),
 
   asyncMap: <Re>(
     fn: (v: R) => Promise<Re>,
