@@ -14,6 +14,7 @@ export interface TaskEither<Left, Right> {
     f: (e: Left) => TaskEither<R, Right>,
   ) => TaskEither<R, Right>
   run: () => Promise<Either<Left, Right>>
+  mapLeft: <R>(f: (v: Left) => R) => TaskEither<R, Right>
 }
 
 /**
@@ -58,5 +59,7 @@ export const of = <Left = never, Right = never>(
           >,
       ),
     ),
+  mapLeft: <R>(f: (v: Left) => R): TaskEither<R, Right> =>
+    of(() => task().then((either) => either.mapLeft(f))),
   run: task,
 })
