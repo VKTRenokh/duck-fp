@@ -1,5 +1,5 @@
 import { Lazy } from '->t/lazy'
-import { Either, isRight, left } from '->/either'
+import { Either, isRight, left, right } from '->/either'
 
 export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>
@@ -15,6 +15,10 @@ export interface TaskEither<Left, Right> {
   ) => TaskEither<R, Right>
   run: () => Promise<Either<Left, Right>>
   mapLeft: <R>(f: (v: Left) => R) => TaskEither<R, Right>
+  fold: <R>(
+    onLeft: (e: Left) => Promise<R> | R,
+    onRight: (v: Right) => Promise<R> | R,
+  ) => Promise<R>
 }
 
 /**
@@ -61,5 +65,10 @@ export const of = <Left = never, Right = never>(
     ),
   mapLeft: <R>(f: (v: Left) => R): TaskEither<R, Right> =>
     of(() => task().then((either) => either.mapLeft(f))),
+  fold: <R>(
+    onLeft: (v: Left) => Promise<R> | R,
+    onRight: (v: Right) => Promise<R> | R,
+  ): Promise<R> =>
+    task().then((either) => either.fold(onLeft, onRight)),
   run: task,
 })

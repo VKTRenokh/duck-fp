@@ -7,7 +7,7 @@ export const tryCatch = <T, E>(
 ): TaskEither<E, T> =>
   of(async () => {
     try {
-      return right<T, E>(await tryFn())
+      return tryFn().then(right<T, E>)
     } catch (e) {
       return left(catchFn(e))
     }
