@@ -1,5 +1,5 @@
 import { Lazy } from '->t/lazy'
-import { Either, isRight, left, right } from '->/either'
+import { Either, isRight, left } from '->/either'
 
 export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>

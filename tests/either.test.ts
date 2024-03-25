@@ -1,5 +1,5 @@
 import { E, M } from '../src'
-import { Either, tryCatch } from '../src/either'
+import { tryCatch } from '../src/either'
 
 const dontCallMePls = () => {
   throw new Error('should not be called')
@@ -338,15 +338,9 @@ describe('either.ts', () => {
       throw new Error('Error')
     })
 
-    const finalyFn = jest.fn()
-
-    tryCatch(
-      tryFn,
-      () => {
-        dontCallMePls()
-      },
-      finalyFn,
-    ).fold(
+    tryCatch(tryFn, () => {
+      dontCallMePls()
+    }).fold(
       () => dontCallMePls(),
       (num) => {
         expect(num).toBe(20)
@@ -354,16 +348,12 @@ describe('either.ts', () => {
     )
 
     expect(tryFn).toHaveBeenCalled()
-    expect(finalyFn).toHaveBeenCalled()
 
-    tryCatch(
-      throwableTryFn,
-      (reason) => String(reason),
-      finalyFn,
+    tryCatch(throwableTryFn, (reason) =>
+      String(reason),
     ).fold(
       (e) => expect(e).toBe('Error: Error'),
       dontCallMePls,
     )
-    expect(finalyFn).toHaveBeenCalledTimes(2)
   })
 })
