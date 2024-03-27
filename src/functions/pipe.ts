@@ -32,4 +32,3 @@ export function pipe<F extends AnyFunction[]>(
     fns[0]?.(arg),
   )
 }
-const add = (num: number) => (toAdd: number) => num + toAdd

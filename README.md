@@ -33,6 +33,7 @@ Use project typescript version in vscode press <kbd>Ctrl</kbd> + <kbd>Shift</kbd
 - [ReaderT](https://maybets.duckdns.org/examples/readerT.html)
 - [Lens](https://maybets.duckdns.org/examples/lens.html)
 - [Prism](https://maybets.duckdns.org/examples/prisms.html)
+- [Task Either](https://maybets.duckdns.org/examples/task-either.html)
 
 # License
 The MIT License (MIT)
