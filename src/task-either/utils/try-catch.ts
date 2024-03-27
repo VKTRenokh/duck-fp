@@ -1,4 +1,4 @@
-import { left, right } from 'src/either'
+import { left, right } from '->/either'
 import { TaskEither, of } from '..'
 
 export const tryCatch = <T, E>(
