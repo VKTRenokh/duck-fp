@@ -22,9 +22,9 @@ describe('task.ts', () => {
     expect(runned).toBe(60)
   })
 
-  it('delay', () => {
+  it('delay', async () => {
     const a = of(() => Promise.resolve(40)).delay(10)
 
-    expect(a).toBe(40)
+    expect(await a.run()).toBe(40)
   })
 })
