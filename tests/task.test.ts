@@ -11,7 +11,20 @@ describe('task.ts', () => {
     expect(result).toBe(80)
   })
 
-  it('flatMap', () => {})
+  it('flatMap', async () => {
+    const task = of(() => Promise.resolve(50))
+    const otherTask = of(() => Promise.resolve(60))
 
-  it('delay', () => {})
+    const taskInTask = task.flatMap(() => otherTask)
+
+    const runned = await taskInTask.run()
+
+    expect(runned).toBe(60)
+  })
+
+  it('delay', () => {
+    const a = of(() => Promise.resolve(40)).delay(10)
+
+    expect(a).toBe(40)
+  })
 })
