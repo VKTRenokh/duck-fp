@@ -2,9 +2,9 @@ import { of } from '../src/task'
 
 describe('task.ts', () => {
   it('map', async () => {
-    const task = of(() => Promise.resolve(40))
-
-    task.map((num) => num * 2)
+    const task = of(() => Promise.resolve(40)).map(
+      (num) => num * 2,
+    )
 
     const result = await task.run()
 
