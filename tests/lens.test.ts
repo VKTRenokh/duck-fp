@@ -1,6 +1,7 @@
 import { Lens, from, fromProp } from '../src/lens'
 
 describe('lens.ts', () => {
+  // {{{ set
   it('set()', () => {
     const obj = { a: 'string' }
 
@@ -21,7 +22,8 @@ describe('lens.ts', () => {
     expect(setted.a).toBe('str')
     expect(setted).not.toBe(obj)
   })
-
+  // }}}
+  // {{{ get
   it('get()', () => {
     const obj = { a: 'string' }
 
@@ -42,7 +44,8 @@ describe('lens.ts', () => {
     expect(lens.view(obj)).toBe('string')
     expect(view).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ compose
   it('compose()', () => {
     interface Nested2 {
       a: string
@@ -88,4 +91,5 @@ describe('lens.ts', () => {
       newObj,
     )
   })
+  // }}}
 })
