@@ -1,5 +1,6 @@
 import { Merged } from '->t/merged'
 
+// {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
   lfn: (e: Left) => R,
   rfn: (v: Right) => R,
@@ -33,7 +34,9 @@ export type MergeFunction<Left, Right> = <Nr>(
 export type AsyncMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Promise<R>,
 ) => Promise<Either<Left, R>>
+// }}}
 
+// {{{ interface for left
 /**
  * Represents the left side of the Either monad.
  * @template T - The type of the left value.
@@ -109,7 +112,9 @@ export interface Left<T, R> {
    */
   merge: MergeFunction<T, R>
 }
+// }}}
 
+// {{{ interface for right
 /**
  * Represents the right side of the Either monad.
  * @template T - The type of the right value.
@@ -148,9 +153,11 @@ export interface Right<T, R> {
 
   merge: MergeFunction<R, T>
 }
+// }}}
 
 export type Either<L, R> = Left<L, R> | Right<R, L>
 
+// {{{ function for left
 /**
  * Constructs a Left Either monad with the provided value.
  *
@@ -189,7 +196,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   ap: <Re>(_f: Either<L, (v: R) => Re>): Either<L, Re> =>
     left(e),
 })
+// }}}
 
+// {{{ function for right
 /**
  * Constructs a Right Either monad with the provided value.
  *
@@ -246,6 +255,8 @@ export const right = <R, L = never>(
  *
  * right.fold(console.error, console.log) // Output: 42
  */
+// }}}
+
 export const of = <Right, Left>(value: Right) =>
   right<Right, Left>(value)
 
