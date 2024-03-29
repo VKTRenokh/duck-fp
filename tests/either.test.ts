@@ -377,7 +377,7 @@ describe('either.ts', () => {
   // {{{ mapLeft
   it('mapLeft', () => {
     const mapFn = jest.fn((string: string) =>
-      string.repeat(1),
+      string.repeat(2),
     )
 
     const right = E.right<number, string>(40).mapLeft(mapFn)
