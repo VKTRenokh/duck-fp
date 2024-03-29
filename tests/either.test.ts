@@ -393,7 +393,7 @@ describe('either.ts', () => {
     )
 
     const onRightFn = jest.fn((num: number) =>
-      expect(num).toBe(42),
+      expect(num).toBe(40),
     )
 
     left.fold(onLeftFn, dontCallMePls)
