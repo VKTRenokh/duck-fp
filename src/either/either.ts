@@ -9,6 +9,10 @@ export type MapFunction<Left, Right> = <R>(
   fn: (v: Right) => R,
 ) => Either<Left, R>
 
+export type ApFunction<Left, Right> = <R>(
+  fn: Either<Left, (v: Right) => R>,
+) => Either<Left, R>
+
 export type MapLeft<Left, Right> = <R>(
   f: (v: Left) => R,
 ) => Either<R, Right>
@@ -51,6 +55,8 @@ export interface Left<T, R> {
   isLeft: () => true
 
   orElse: <B>(fn: (e: T) => Either<B, R>) => Either<B, R>
+
+  ap: ApFunction<T, R>
 
   asyncMap: AsyncMapFunction<T, R>
 
@@ -124,6 +130,8 @@ export interface Right<T, R> {
    */
   isLeft: () => false
 
+  ap: ApFunction<R, T>
+
   asyncMap: AsyncMapFunction<R, T>
 
   orElse: <B>(fn: (e: R) => Either<B, T>) => Either<B, T>
@@ -177,6 +185,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
     left(e),
 
   merge: <Nl, Nr, R>(_: Either<Nl, Nr>) => left<L, R>(e),
+
+  ap: <Re>(_f: Either<L, (v: R) => Re>): Either<L, Re> =>
+    left(e),
 })
 
 /**
@@ -222,6 +233,9 @@ export const right = <R, L = never>(
     right<R, L>(v).flatMap((cv) =>
       or.map((ov) => ({ left: cv, right: ov })),
     ),
+
+  ap: <Re>(fn: Either<L, (v: R) => Re>): Either<L, Re> =>
+    fn.map((fn) => fn(v)),
 })
 
 /**
