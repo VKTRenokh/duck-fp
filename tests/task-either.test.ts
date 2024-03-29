@@ -6,6 +6,7 @@ const shouldNotBeCalled = () => {
 }
 
 describe('task-either.ts', () => {
+  // {{{ map test
   it('map', async () => {
     const mapFn = jest.fn((num: number) => num * 2)
 
@@ -37,4 +38,8 @@ describe('task-either.ts', () => {
         expect(mapFn).toHaveBeenCalledTimes(1)
       })
   })
+  // }}}
+  // {{{ flatMap test
+  it('flatMap', () => {})
+  // }}}
 })

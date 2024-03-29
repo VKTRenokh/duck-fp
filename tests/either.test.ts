@@ -1,6 +1,7 @@
 import { E, M } from '../src'
 import { tryCatch } from '../src/either'
 
+// {{{ Functions that helps with tests
 const dontCallMePls = () => {
   throw new Error('should not be called')
 }
@@ -43,8 +44,10 @@ const throwable = (num: number) => {
 
   return num / 2
 }
+// }}}
 
 describe('either.ts', () => {
+  // {{{ fold
   it('fold', () => {
     const nums = [0, 2] as const
 
@@ -63,7 +66,8 @@ describe('either.ts', () => {
     expect(onLeft).toHaveBeenCalled()
     expect(onRight).not.toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ fromThrowable
   it('fromThrowable', () => {
     const wrapped = E.fromThrowable(throwable)
 
@@ -82,7 +86,8 @@ describe('either.ts', () => {
     expect(onLeft).toHaveBeenCalledTimes(1)
     expect(onRight).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ map
   it('map', () => {
     const mapFn = jest.fn((number: number) => number + 1)
 
@@ -107,7 +112,8 @@ describe('either.ts', () => {
     expect(left).toHaveBeenCalled()
     expect(right).toHaveBeenCalledTimes(1)
   })
-
+  // }}}
+  // {{{ flatMap
   it('flatMap', () => {
     const flatMapFn = jest.fn(
       (number: number): E.Either<string, number> => {
@@ -139,8 +145,9 @@ describe('either.ts', () => {
     eitherExample(0, 2).flatMap(flatMapFn)
     expect(flatMapFn).toHaveBeenCalledTimes(2)
   })
-
-  it('ensureOrelse', () => {
+  // }}}
+  // {{{ ensureOrElse
+  it('ensureOrElse', () => {
     validateUser({ has2Fa: true, name: '1234' }).fold(
       () => {
         throw new Error('should not be called')
@@ -171,7 +178,8 @@ describe('either.ts', () => {
         },
       )
   })
-
+  // }}}
+  // {{{ fromMaybe
   it('fromMaybe', () => {
     E.fromMaybe(M.of(42), '!').fold(
       () => {
@@ -187,7 +195,8 @@ describe('either.ts', () => {
       },
     )
   })
-
+  // }}}
+  // {{{ toMaybe
   it('toMaybe', () => {
     const eitherRight: E.Either<string, number> = E.right(5)
     const eitherLeft: E.Either<string, number> =
@@ -198,7 +207,8 @@ describe('either.ts', () => {
     )
     expect(E.toMaybe(eitherLeft).value).toBeNull()
   })
-
+  // }}}
+  // {{{ merge
   it('merge', () => {
     const a: E.Either<string, number> = E.right(5)
     const b: E.Either<string, string> = E.right('Hello')
@@ -228,7 +238,8 @@ describe('either.ts', () => {
       },
     )
   })
-
+  // }}}
+  // {{{ merge util
   it('merge util', () => {
     const merged = E.merge<E.Either<string, number>[]>(
       E.right(4),
@@ -245,7 +256,8 @@ describe('either.ts', () => {
       },
     )
   })
-
+  // }}}
+  // {{{ isLeft
   it('isLeft', () => {
     const right: E.Either<string, string> = E.right('hello')
     const left: E.Either<string, string> = E.left('bye')
@@ -253,7 +265,8 @@ describe('either.ts', () => {
     expect(right.isLeft()).not.toBeTruthy()
     expect(left.isLeft()).toBeTruthy()
   })
-
+  // }}}
+  // {{{ isRight
   it('isRight', () => {
     const right: E.Either<string, string> = E.right('hello')
     const left: E.Either<string, string> = E.left('bye')
@@ -261,7 +274,8 @@ describe('either.ts', () => {
     expect(right.isRight()).toBeTruthy()
     expect(left.isRight()).not.toBeTruthy()
   })
-
+  // }}}
+  // {{{ orElse
   it('orElse', () => {
     const a: E.Either<string, string> = E.right('k').orElse(
       () => E.left('test'),
@@ -287,7 +301,8 @@ describe('either.ts', () => {
       },
     )
   })
-
+  // }}}
+  // {{{ asyncMap
   it('asyncMap', async () => {
     const sleep = (ms: number): Promise<number> =>
       new Promise((res) => setTimeout(() => res(ms), ms))
@@ -319,7 +334,8 @@ describe('either.ts', () => {
       (n) => expect(n).toBe(50),
     )
   })
-
+  // }}}
+  // {{{ of
   it('of', () => {
     E.of(42).fold(
       () => {
@@ -328,7 +344,8 @@ describe('either.ts', () => {
       (n) => expect(n).toBe(42),
     )
   })
-
+  // }}}
+  // {{{ tryCatch
   it('tryCatch', () => {
     const tryFn = jest.fn(() => {
       return 20
@@ -356,4 +373,34 @@ describe('either.ts', () => {
       dontCallMePls,
     )
   })
+  // }}}
+  // {{{ mapLeft
+  it('mapLeft', () => {
+    const mapFn = jest.fn((string: string) =>
+      string.repeat(1),
+    )
+
+    const right = E.right<number, string>(40).mapLeft(mapFn)
+
+    expect(mapFn).not.toHaveBeenCalled()
+
+    const left = E.left('some string').mapLeft(mapFn)
+
+    expect(mapFn).toHaveBeenCalled()
+
+    const onLeftFn = jest.fn((str: string) =>
+      expect(str).toBe('some stringsome string'),
+    )
+
+    const onRightFn = jest.fn((num: number) =>
+      expect(num).toBe(42),
+    )
+
+    left.fold(onLeftFn, dontCallMePls)
+    right.fold(dontCallMePls, onRightFn)
+
+    expect(onLeftFn).toHaveBeenCalled()
+    expect(onRightFn).toHaveBeenCalled()
+  })
+  // }}}
 })
