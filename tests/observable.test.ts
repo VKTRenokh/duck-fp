@@ -1,10 +1,13 @@
 import { O } from '../src'
 
+// {{{ function to help with tests
 const double = (num: number): number => num * 2
 const flatDouble = (num: number): O.Observable<number> =>
   O.of(num * 2)
+// }}}
 
 describe('observable.ts', () => {
+  // {{{ map
   it('map', () => {
     const observable = O.of(52)
     const newObservable = observable.map(double)
@@ -17,7 +20,8 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ flatMap
   it('flatMap', () => {
     const observable = O.of(2)
     const newObservable = observable.flatMap(flatDouble)
@@ -30,7 +34,8 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ next
   it('next', () => {
     const observable = O.of(42)
     const observer = jest.fn((num: number) =>
@@ -42,7 +47,8 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalledTimes(2)
   })
-
+  // }}}
+  // {{{ dependingNext
   it('dependingNext', () => {
     const initialState = 2
     const observable = O.of(initialState)
@@ -58,7 +64,8 @@ describe('observable.ts', () => {
 
     expect(observer).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ merge
   it('merge', () => {
     const a = O.of(2)
     const b = O.of(9)
@@ -81,7 +88,8 @@ describe('observable.ts', () => {
     a.dependingNext(double)
     expect(merged.value).toStrictEqual([8, 18, 3])
   })
-
+  // }}}
+  // {{{ unobserve
   it('observe.unobserve', () => {
     const a = O.of(4)
     const observer = jest.fn((_: number) => {
@@ -93,7 +101,8 @@ describe('observable.ts', () => {
     a.next(10)
     expect(a.value).toBe(10)
   })
-
+  // }}}
+  // {{{ equals
   it('equals', () => {
     const x = 5
     const f = (v: number) => O.of(v * 2)
@@ -111,4 +120,5 @@ describe('observable.ts', () => {
     const law3_rhs = O.of(x).flatMap((x) => f(x).flatMap(g))
     expect(law3_lhs.equals(law3_rhs)).toBeTruthy()
   })
+  // }}}
 })
