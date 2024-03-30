@@ -26,6 +26,8 @@ export interface State<T, A> {
    * @returns {State<T, R>} A new State monad resulting from flat mapping.
    */
   flatMap: <R>(f: (v: A) => State<T, R>) => State<T, R>
+
+  ap: <R>(f: State<T, (v: A) => R>) => State<T, R>
 }
 
 /**
@@ -51,4 +53,6 @@ export const of = <T, A>(
 
       return fn(a).run(b)
     }),
+  ap: <R>(f: State<T, (v: A) => R>) =>
+    of(rs).flatMap((v) => f.map((f) => f(v))),
 })
