@@ -1,6 +1,7 @@
 import { Lazy } from '->t/lazy'
 import { Either, isRight, left } from '->/either'
 
+// {{{ TaskEither interface
 export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>
   flatMap: <R>(
@@ -20,6 +21,7 @@ export interface TaskEither<Left, Right> {
     onRight: (v: Right) => Promise<R> | R,
   ) => Promise<R>
 }
+// }}}
 
 /**
  * `TaskEither<Left, Right>` represents asynchrounous computation that might
