@@ -1,15 +1,14 @@
-import { M } from '-->'
-import { Lazy } from '->t/lazy'
-import { none } from '->/maybe'
+import { Maybe, none } from '->/maybe'
+import { LazyPromise } from '->/types/lazy-promise'
 
 interface TaskMaybe<T> {
-  run: () => Promise<M.Maybe<T>>
+  run: LazyPromise<Maybe<T>>
   map: <R>(f: (v: T) => R) => TaskMaybe<R>
   flatMap: <R>(f: (v: T) => TaskMaybe<R>) => TaskMaybe<R>
 }
 
 export const of = <T>(
-  run: Lazy<Promise<M.Maybe<T>>>,
+  run: LazyPromise<Maybe<T>>,
 ): TaskMaybe<T> => ({
   run: run,
   map: <R>(f: (v: T) => R): TaskMaybe<R> =>

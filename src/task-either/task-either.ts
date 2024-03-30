@@ -1,4 +1,3 @@
-import { Lazy } from '->t/lazy'
 import { Either, isRight, left } from '->/either'
 import { LazyPromise } from '->/types/lazy-promise'
 
