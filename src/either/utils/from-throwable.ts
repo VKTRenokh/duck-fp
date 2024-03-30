@@ -9,13 +9,14 @@ import { Either, left, right } from '->/either'
  * @template R The return type of the function `f`.
  */
 export const fromThrowable =
-  <T extends ReadonlyArray<unknown>, R>(
+  <T extends ReadonlyArray<unknown>, R, E>(
     f: (...a: T) => R,
+    c: (e: unknown) => E,
   ) =>
-  (...a: T): Either<unknown, R> => {
+  (...a: T): Either<E, R> => {
     try {
       return right(f(...a))
     } catch (e) {
-      return left(e)
+      return left(c(e))
     }
   }
