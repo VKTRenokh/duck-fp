@@ -1,10 +1,10 @@
-import { Lazy } from '->/types/lazy'
+import { LazyPromise } from '->/types/lazy-promise'
 
 export interface Task<T> {
   map: <R>(f: (v: T) => R) => Task<R>
   flatMap: <R>(f: (v: T) => Task<R>) => Task<R>
   delay: (ms: number) => Task<T>
-  run: Lazy<Promise<T>>
+  run: LazyPromise<T>
 }
 
 /**
@@ -15,7 +15,7 @@ export interface Task<T> {
  * @param {() => Promise<T>} run - function to wrap in task
  * @returns {Task<T>} new task monad
  */
-export const of = <T>(run: Lazy<Promise<T>>): Task<T> => ({
+export const of = <T>(run: LazyPromise<T>): Task<T> => ({
   map: <R>(f: (v: T) => R) =>
     of<R>(() => Promise.resolve().then(run).then(f)),
   flatMap: <R>(f: (v: T) => Task<R>): Task<R> =>
