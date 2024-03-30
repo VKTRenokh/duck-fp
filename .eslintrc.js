@@ -69,12 +69,4 @@ module.exports = {
     ],
     'block-spacing': ['warn', 'always'],
   },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      rules: {
-        '@typescript-eslint/indent': ['error', 2],
-      },
-    },
-  ],
 }
