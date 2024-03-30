@@ -61,7 +61,7 @@ export const of = <Left = never, Right = never>(
           (isRight(either)
             ? Promise.resolve(either)
             : f(either.left).run()) as Promise<
-          Either<R, Right>
+            Either<R, Right>
           >,
       ),
     ),
