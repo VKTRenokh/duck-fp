@@ -444,4 +444,16 @@ describe('either.ts', () => {
     expect(error instanceof Error).toBe(true)
   })
   // }}}
+  // {{{ isRight (is)
+  it('isRight', () => {
+    expect(E.isRight(E.right(null))).toBeTruthy()
+    expect(E.isRight(E.left(null))).toBeFalsy()
+  })
+  // }}}
+  // {{{ isLeft (is)
+  it('isLeft', () => {
+    expect(E.isLeft(E.right(null))).toBeFalsy()
+    expect(E.isLeft(E.left(null))).toBeTruthy()
+  })
+  // }}}
 })
