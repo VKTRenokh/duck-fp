@@ -69,7 +69,13 @@ describe('either.ts', () => {
   // }}}
   // {{{ fromThrowable
   it('fromThrowable', () => {
-    const wrapped = E.fromThrowable(throwable)
+    const correctionFn = jest.fn((e: unknown) => {
+      expect(e).toStrictEqual(eitherExampleError)
+
+      return E.toError(e)
+    })
+
+    const wrapped = E.fromThrowable(throwable, correctionFn)
 
     const onLeft = jest.fn((e) =>
       expect(e).toStrictEqual(eitherExampleError),
@@ -80,6 +86,7 @@ describe('either.ts', () => {
 
     expect(onLeft).toHaveBeenCalled()
     expect(onRight).not.toHaveBeenCalled()
+    expect(correctionFn).toHaveBeenCalled()
 
     wrapped(4).fold(onLeft, onRight)
 
@@ -401,6 +408,31 @@ describe('either.ts', () => {
 
     expect(onLeftFn).toHaveBeenCalled()
     expect(onRightFn).toHaveBeenCalled()
+  })
+  // }}}
+  // {{{ ap
+  it('ap', () => {
+    const apFn = jest.fn((num: number) => num * 2)
+
+    const leftAp = E.left<string, (num: number) => number>(
+      'no fn',
+    )
+    const rightAp = E.right<
+      (num: number) => number,
+      string
+    >(apFn)
+
+    const left = E.left<string, number>('error')
+
+    left.ap(leftAp)
+
+    expect(apFn).not.toHaveBeenCalled()
+
+    const right = E.right<number, string>(50)
+
+    right.ap(rightAp)
+
+    expect(apFn).toHaveBeenCalled()
   })
   // }}}
 })

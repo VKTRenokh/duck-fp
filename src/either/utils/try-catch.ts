@@ -7,7 +7,6 @@ import { Either, left, right } from '->/either'
  * @template E The type of the error produced by the catch function.
  * @param {() => T} tryFn The function to be executed in the try block.
  * @param {(reason: unknown) => E} catchFn The function to handle errors caught in the catch block.
- * @param {() => void} [finallyFn] Optional function to be executed in the finally block.
  * @returns {Either<E, T>} An Either monad containing either the result of the try function
  * or an error produced by the catch function.
  */
