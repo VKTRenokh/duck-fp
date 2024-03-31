@@ -435,4 +435,13 @@ describe('either.ts', () => {
     expect(apFn).toHaveBeenCalled()
   })
   // }}}
+  // {{{ toError
+  it('toError', () => {
+    const something = 'hey'
+
+    const error = E.toError(something)
+
+    expect(error instanceof Error).toBe(true)
+  })
+  // }}}
 })
