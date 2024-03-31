@@ -39,4 +39,16 @@ describe('state.ts', () => {
     expect(result).toStrictEqual(['20', 20])
   })
   // }}}
+  // {{{ ap
+  it('ap', () => {
+    const ap = S.of((n: number) => [
+      (toAdd: number) => n + toAdd,
+      n,
+    ])
+
+    const num = S.of((n: number) => [n, n])
+
+    expect(num.ap(ap).run(50)).toStrictEqual([100, 50])
+  })
+  // }}}
 })

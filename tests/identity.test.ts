@@ -28,6 +28,16 @@ describe('identity.ts', () => {
     expect(merged.value).toStrictEqual([10, 50])
   })
   // }}}
+  // {{{
+  it('ap', () => {
+    const apFn = jest.fn((v: number) => v * 2)
+    const identityFn = I.of(apFn)
+    const toApply = I.of(30)
+
+    expect(toApply.ap(identityFn).value).toBe(60)
+    expect(apFn).toHaveBeenCalled()
+  })
+  // }}}
   // {{{ merge
   it('merge', () => {
     const a = I.of(50)
