@@ -87,6 +87,9 @@
       "import": "./dist/functions/index.mjs",
       "require": "./dist/functions/index.js",
       "types": "./dist/functions/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
     }
   },
   "repository": {
