@@ -46,4 +46,38 @@ describe('prism', () => {
     expect(viewed2.value).toBe('hello')
   })
   // }}}
+  // {{{ set
+  it('set', () => {
+    const prism: P.Prism<Obj, string | null> = P.fromProp(
+      'nonExistingExisting',
+    )
+
+    const setted = prism.set('helloworld', obj)
+
+    expect(setted.nonExistingExisting).toBe('helloworld')
+  })
+  // }}}
+  // {{{ compose
+  it('compose', () => {
+    const a: P.Prism<Obj, Nested> = P.fromProp('nested')
+    const b: P.Prism<Nested, Nested2> =
+      P.fromProp('something')
+
+    const composed = a.compose(b)
+
+    const viewed = composed.view(obj)
+
+    expect(M.is(viewed)).toBeTruthy()
+    expect(viewed.value).toStrictEqual(obj.nested.something)
+
+    const nested2: Nested2 = {
+      a: 50,
+      b: 'qwerty',
+    }
+
+    const setted = composed.set(nested2, obj)
+
+    expect(setted.nested.something).toBe(nested2)
+  })
+  // }}}
 })
