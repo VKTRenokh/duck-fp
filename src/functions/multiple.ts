@@ -2,12 +2,13 @@ export type ReturnTypes<
   A extends readonly unknown[],
   T extends ((...a: A) => unknown)[],
 > = {
-  [K in keyof T]: T[K] extends (...a: infer _A) => infer U
+  [K in keyof T]: T[K] extends (...a: A) => infer U
     ? U
     : never
 }
 
 /**
+ * requires at least one function to execute
  * @example
  *
  * const add = (num: number) => (toAdd: number) => num + toAdd
@@ -24,13 +25,17 @@ export type ReturnTypes<
  */
 export const multiple =
   <
-    A extends readonly any[],
-    F extends (...a: A) => any,
-    T extends ((...a: A) => any)[],
+    F extends (...a: any) => any,
+    T extends ((...a: Parameters<F>) => any)[],
   >(
-    ...fns: T extends Array<(...a: A) => any>
+    ...fns: T extends Array<(...a: Parameters<F>) => any>
       ? [F, ...T]
       : T
   ) =>
-  (...a: A): ReturnTypes<A, [F, ...T]> =>
-    fns.map((fn) => fn(...a)) as ReturnTypes<A, [F, ...T]>
+  (
+    ...a: Parameters<F>
+  ): ReturnTypes<Parameters<F>, [F, ...T]> =>
+    fns.map((fn) => fn(...a)) as ReturnTypes<
+      Parameters<F>,
+      [F, ...T]
+    >
