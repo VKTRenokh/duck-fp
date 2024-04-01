@@ -33,6 +33,15 @@
           },
           "TE": {
             "importPath": "@victorenokh/maybe.ts/task-either"
+          },
+          "F": {
+            "importPath": "@victorenokh/maybe.ts/functions"
+          },
+          "TY": {
+            "importPath": "@victorenokh/maybe.ts/types"
+          },
+          "P": {
+            "importPath": "@victorenokh/maybe.ts/prism"
           }
         }
       }
