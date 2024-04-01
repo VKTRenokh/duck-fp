@@ -1,3 +1,4 @@
+// {{{ state interface
 /**
  * Represents a State monad, which encapsulates a computation that modifies a state of type `T` and produces a value of type `A`.
  * @template T The type of the state.
@@ -26,7 +27,10 @@ export interface State<T, A> {
    * @returns {State<T, R>} A new State monad resulting from flat mapping.
    */
   flatMap: <R>(f: (v: A) => State<T, R>) => State<T, R>
+
+  ap: <R>(f: State<T, (v: A) => R>) => State<T, R>
 }
+// }}}
 
 /**
  * Constructs a State monad with the provided computation.
@@ -51,4 +55,6 @@ export const of = <T, A>(
 
       return fn(a).run(b)
     }),
+  ap: <R>(f: State<T, (v: A) => R>) =>
+    of(rs).flatMap((v) => f.map((f) => f(v))),
 })

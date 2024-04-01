@@ -8,7 +8,18 @@
     "forceConsistentCasingInFileNames": true,
     "declaration": true,
     "outDir": "./dist",
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      "->/*": [
+        "./src/*"
+      ],
+      "-->": [
+        "./src/index.ts"
+      ],
+      "->t/*": [
+        "./src/types/*"
+      ]
+    }
   },
   "include": [
     "src/**/*.ts"

@@ -3,13 +3,13 @@
 ## .map()
 ```ts
 const observable = O.of(42)
-observable.map((num) => num.toString()).observe(console.log()) // Output: "42"
+observable.map((num) => num.toString()).observe(console.log) // Output: "42"
 ```
 
 ## .flatMap()
 ```ts
 const observable = O.of(42)
-observable.flatMap(num => O.of(num + 1)).observe(console.log()) // Output: 43
+observable.flatMap(num => O.of(num + 1)).observe(console.log) // Output: 43
 ```
 
 

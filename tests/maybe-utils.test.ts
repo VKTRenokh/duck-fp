@@ -1,12 +1,14 @@
 import { M } from '../src/index'
 
 describe('utils.ts', () => {
+  // {{{ or
   it('or', () => {
     const final = M.or(M.of<number>(null), M.of(3), M.of(4))
 
     expect(final.value).toBe(3)
   })
-
+  // }}}
+  // {{{ merge
   it('merge without nothing', () => {
     const merged = M.merge(
       M.of(42),
@@ -16,7 +18,8 @@ describe('utils.ts', () => {
 
     expect(merged.value).toStrictEqual([42, 10, 'hello'])
   })
-
+  // }}}
+  // {{{ merge
   it('merge with nothing', () => {
     const merged = M.merge(
       M.of<number>(null),
@@ -26,15 +29,18 @@ describe('utils.ts', () => {
 
     expect(merged.value).toBeNull()
   })
-
-  it('fromMaybe', () => {
+  // }}}
+  // {{{ fromUndefined
+  it('fromUndefined', () => {
     expect(M.fromUndefined(42).value).toBe(42)
   })
-
-  it('fromMaybe with undefined', () => {
+  // }}}
+  // {{{ fromUndefined
+  it('fromUndefined with undefined', () => {
     expect(M.fromUndefined(undefined).value).toBeNull()
   })
-
+  // }}}
+  // {{{ mergeMap
   it('merge map', () => {
     const add = (a: number, b: number) => a + b
 
@@ -43,7 +49,8 @@ describe('utils.ts', () => {
 
     expect(M.mergeMap(a, b, add).value).toBe(3)
   })
-
+  // }}}
+  // {{{ mergeMap
   it('merge map with nothing', () => {
     const add = (a: number, b: number) => a + b
 
@@ -52,7 +59,8 @@ describe('utils.ts', () => {
 
     expect(M.mergeMap(a, b, add).value).toBe(null)
   })
-
+  // }}}
+  // {{{ fromThrowable
   it('fromThrowable', () => {
     const throwable = (num: number) => {
       if (num < 5) {
@@ -66,4 +74,5 @@ describe('utils.ts', () => {
     expect(handled(0).value).toBeNull()
     expect(handled(6).value).toBe(':)')
   })
+  // }}}
 })

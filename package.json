@@ -6,9 +6,7 @@
   "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "esm": "esbuild --out-extension:.js=.mjs --outdir=dist --platform=node --format=esm {src/*.ts,src/**/*.ts}",
-    "cjs": "esbuild --outdir=dist --platform=node --format=cjs {src/*.ts,src/**/*.ts}",
-    "build": "rm -rf dist && npm run esm && npm run cjs && tsc --emitDeclarationOnly",
+    "build": "rm -rf dist && node esbuild.js && tsc --emitDeclarationOnly",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
     "test-coverage": "jest --coverage",
@@ -18,6 +16,7 @@
     "lint": "eslint src",
     "lint-fix": "eslint src --fix"
   },
+  "sideEffects": false,
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -38,6 +37,11 @@
       "import": "./dist/lens/index.mjs",
       "require": "./dist/lens/index.js",
       "types": "./dist/lens/index.d.ts"
+    },
+    "./prism": {
+      "import": "./dist/prism/index.mjs",
+      "require": "./dist/prism/index.js",
+      "types": "./dist/prism/index.d.ts"
     },
     "./identity": {
       "import": "./dist/identity/index.mjs",
@@ -63,6 +67,29 @@
       "import": "./dist/state/index.mjs",
       "require": "./dist/state/index.js",
       "types": "./dist/state/index.d.ts"
+    },
+    "./task": {
+      "import": "./dist/task/index.mjs",
+      "require": "./dist/task/index.js",
+      "types": "./dist/task/index.d.ts"
+    },
+    "./task-either": {
+      "import": "./dist/task-either/index.mjs",
+      "require": "./dist/task-either/index.js",
+      "types": "./dist/task-either/index.d.ts"
+    },
+    "./task-maybe": {
+      "import": "./dist/task-maybe/index.mjs",
+      "require": "./dist/task-maybe/index.js",
+      "types": "./dist/task-maybe/index.d.ts"
+    },
+    "./functions": {
+      "import": "./dist/functions/index.mjs",
+      "require": "./dist/functions/index.js",
+      "types": "./dist/functions/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts"
     }
   },
   "repository": {
@@ -86,9 +113,10 @@
     "reader",
     "transformer",
     "lens",
-    "prisms"
+    "prisms",
+    "tasks"
   ],
-  "author": "Victor Enokh Kuptsov <victorenokh@gmail.com>",
+  "author": "Victor Enokh Kuptsov <viktorenokh@gmail.com>",
   "publishConfig": {
     "access": "public"
   },
@@ -97,19 +125,25 @@
     "@changesets/cli": "^2.27.1",
     "@commitlint/cli": "^19.0.3",
     "@commitlint/config-conventional": "^19.0.3",
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.0.1",
     "@typescript-eslint/parser": "^7.0.1",
+    "@unsplash/ts-namespace-import-plugin": "^1.0.0",
     "esbuild": "^0.20.2",
+    "esbuild-ts-paths": "^1.1.3",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.10",
+    "i": "^0.3.7",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.2",
+    "npm": "^10.5.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.8",
     "typescript": "^5.3.3"
   }
 }

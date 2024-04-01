@@ -1,5 +1,5 @@
-import { Maybe, none, of } from '../../maybe'
-import { Either } from '../either'
+import { Either } from '->/either'
+import { Maybe, none, of } from '->/maybe'
 
 /**
  * Converts a value from the Either monad to a Maybe monad.

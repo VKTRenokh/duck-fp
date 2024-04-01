@@ -1,10 +1,12 @@
 import { R } from '../src'
 
+// {{{ interface for enviroments
 interface Env {
   s: number
 }
-
+// }}}
 describe('reader.ts', () => {
+  // {{{ run
   it('run', () => {
     const run = jest.fn(
       (env: Record<string, string>) => env.someKey,
@@ -18,7 +20,8 @@ describe('reader.ts', () => {
     )
     expect(run).toHaveBeenCalledTimes(2)
   })
-
+  // }}}
+  // {{{ map
   it('map', () => {
     const run = jest.fn((env: Env) => env.s * 2)
 
@@ -27,7 +30,8 @@ describe('reader.ts', () => {
     expect(reader.run({ s: 100 })).toBe(1000)
     expect(run).toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ flatMap
   it('flatMap', () => {
     const a = R.of<Env, number>((env) => env.s * 10)
     const b = R.of<Env, number>((env) => env.s * 2)
@@ -40,7 +44,8 @@ describe('reader.ts', () => {
 
     expect(merged.run({ s: 10 })).toStrictEqual([100, 20])
   })
-
+  // }}}
+  // {{{ ap
   it('ap', () => {
     const a = R.of<Env, number>((env) => env.s / 2)
     const b = R.of<Env, (number: number) => string>(
@@ -49,4 +54,5 @@ describe('reader.ts', () => {
 
     expect(a.ap(b).run({ s: 58 })).toBe('29.58')
   })
+  // }}}
 })

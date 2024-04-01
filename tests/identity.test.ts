@@ -1,6 +1,7 @@
 import { I } from '../src/'
 
 describe('identity.ts', () => {
+  // {{{ map
   it('map', () => {
     const map = jest.fn((num: number) => {
       expect(num).toBe(10)
@@ -12,7 +13,8 @@ describe('identity.ts', () => {
     expect(map).toHaveBeenCalled()
     expect(identity.value).toBe(20)
   })
-
+  // }}}
+  // {{{ flatMap
   it('flatMap', () => {
     const toMerge = I.of(50)
 
@@ -25,7 +27,18 @@ describe('identity.ts', () => {
     expect(flatMapFn).toHaveBeenCalled()
     expect(merged.value).toStrictEqual([10, 50])
   })
+  // }}}
+  // {{{
+  it('ap', () => {
+    const apFn = jest.fn((v: number) => v * 2)
+    const identityFn = I.of(apFn)
+    const toApply = I.of(30)
 
+    expect(toApply.ap(identityFn).value).toBe(60)
+    expect(apFn).toHaveBeenCalled()
+  })
+  // }}}
+  // {{{ merge
   it('merge', () => {
     const a = I.of(50)
     const b = I.of(500)
@@ -35,4 +48,5 @@ describe('identity.ts', () => {
       right: 500,
     })
   })
+  // }}}
 })

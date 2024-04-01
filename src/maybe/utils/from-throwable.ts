@@ -1,4 +1,4 @@
-import { of, none } from '../maybe'
+import { none, of } from '->/maybe'
 
 /**
  * Wraps a potentially throwing function in a Maybe monad.
@@ -11,10 +11,10 @@ export const fromThrowable =
   <T extends ReadonlyArray<unknown>, R>(
     f: (...a: T) => R,
   ) =>
-    (...a: T) => {
-      try {
-        return of(f(...a))
-      } catch (e) {
-        return none<R>()
-      }
+  (...a: T) => {
+    try {
+      return of(f(...a))
+    } catch (e) {
+      return none<R>()
     }
+  }

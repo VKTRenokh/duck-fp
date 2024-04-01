@@ -1,5 +1,6 @@
-import { Merged } from 'src/types/merged'
+import { Merged } from '->t/merged'
 
+// {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
   lfn: (e: Left) => R,
   rfn: (v: Right) => R,
@@ -8,6 +9,14 @@ export type FoldFunction<Left, Right> = <R>(
 export type MapFunction<Left, Right> = <R>(
   fn: (v: Right) => R,
 ) => Either<Left, R>
+
+export type ApFunction<Left, Right> = <R>(
+  fn: Either<Left, (v: Right) => R>,
+) => Either<Left, R>
+
+export type MapLeft<Left, Right> = <R>(
+  f: (v: Left) => R,
+) => Either<R, Right>
 
 export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
@@ -25,7 +34,9 @@ export type MergeFunction<Left, Right> = <Nr>(
 export type AsyncMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Promise<R>,
 ) => Promise<Either<Left, R>>
+// }}}
 
+// {{{ interface for left
 /**
  * Represents the left side of the Either monad.
  * @template T - The type of the left value.
@@ -48,6 +59,8 @@ export interface Left<T, R> {
 
   orElse: <B>(fn: (e: T) => Either<B, R>) => Either<B, R>
 
+  ap: ApFunction<T, R>
+
   asyncMap: AsyncMapFunction<T, R>
 
   /**
@@ -62,10 +75,18 @@ export interface Left<T, R> {
   /**
    * Maps a function over the right value.
    * @template U - The type of the result of the mapping function.
+   * @param {Function} fn - The function to map over the right value.
+   * @returns {Left<U, R>} - A new Left containing the result of applying `fn` to the right value.
+   */
+  map: MapFunction<T, R>
+
+  /**
+   * Maps a function over the left value.
+   * @template U - The type of the result of the mapping function.
    * @param {Function} fn - The function to map over the left value.
    * @returns {Left<U, R>} - A new Left containing the result of applying `fn` to the left value.
    */
-  map: MapFunction<T, R>
+  mapLeft: MapLeft<T, R>
 
   /**
    * Maps a function over the right value and flattens the result.
@@ -91,7 +112,9 @@ export interface Left<T, R> {
    */
   merge: MergeFunction<T, R>
 }
+// }}}
 
+// {{{ interface for right
 /**
  * Represents the right side of the Either monad.
  * @template T - The type of the right value.
@@ -112,50 +135,29 @@ export interface Right<T, R> {
    */
   isLeft: () => false
 
+  ap: ApFunction<R, T>
+
   asyncMap: AsyncMapFunction<R, T>
 
   orElse: <B>(fn: (e: R) => Either<B, T>) => Either<B, T>
 
   fold: FoldFunction<R, T>
 
-  /**
-   * Maps a function over the right value.
-   * @template U - The type of the result of the mapping function.
-   * @param {Function} fn - The function to map over the right value.
-   * @returns {Right<T, U>} - A new Right containing the result of applying `fn` to the right value.
-   */
   map: MapFunction<R, T>
 
-  /**
-   * Maps a function over the right value and flattens the result.
-   * @template U - The type of the result of the mapping function.
-   * @param {Function} fn - The function to map over the right value.
-   * @returns {Right<T, U>} - A new Right containing the flattened result of applying `fn` to the right value.
-   */
+  mapLeft: MapLeft<R, T>
+
   flatMap: FlatMapFunction<R, T>
 
-  /**
-   * Ensures that a predicate `fn` holds true for the success value.
-   * If the predicate fails, returns an alternative failure value computed by `fr`.
-   * This method is applicable when the `Either` instance represents a success value.
-   * @template Re The type of the alternative failure value returned if the predicate fails.
-   * @param {function(R): boolean} fn The predicate function to be satisfied by the success value.
-   * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
-   * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
-   */
   ensureOrElse: EnsureOrElseFunction<R, T>
 
-  /**
-   * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
-   * @template Nr The type of the value in the second Either monad.
-   * @param {Either<L, R>} or The Either monad to merge.
-   * @returns {Either<L, Merged<R, Nr>>} An Either monad representing the merged result.
-   */
   merge: MergeFunction<R, T>
 }
+// }}}
 
 export type Either<L, R> = Left<L, R> | Right<R, L>
 
+// {{{ function for left
 /**
  * Constructs a Left Either monad with the provided value.
  *
@@ -177,6 +179,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
 
   map: <Re>(_: (v: R) => Re) => left<L, Re>(e),
 
+  mapLeft: <Re>(f: (v: L) => Re): Either<Re, R> =>
+    left(f(e)),
+
   asyncMap: <Re>(_: (v: R) => Promise<Re>) =>
     Promise.resolve<Either<L, Re>>(left(e)),
 
@@ -187,8 +192,13 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
     left(e),
 
   merge: <Nl, Nr, R>(_: Either<Nl, Nr>) => left<L, R>(e),
-})
 
+  ap: <Re>(_f: Either<L, (v: R) => Re>): Either<L, Re> =>
+    left(e),
+})
+// }}}
+
+// {{{ function for right
 /**
  * Constructs a Right Either monad with the provided value.
  *
@@ -212,6 +222,8 @@ export const right = <R, L = never>(
 
   map: <Re>(fn: (v: R) => Re) => right(fn(v)),
 
+  mapLeft: <Re>(_: (v: L) => Re): Either<Re, R> => right(v),
+
   asyncMap: <Re>(
     fn: (v: R) => Promise<Re>,
   ): Promise<Either<L, Re>> =>
@@ -230,6 +242,9 @@ export const right = <R, L = never>(
     right<R, L>(v).flatMap((cv) =>
       or.map((ov) => ({ left: cv, right: ov })),
     ),
+
+  ap: <Re>(fn: Either<L, (v: R) => Re>): Either<L, Re> =>
+    fn.map((fn) => fn(v)),
 })
 
 /**
@@ -240,6 +255,8 @@ export const right = <R, L = never>(
  *
  * right.fold(console.error, console.log) // Output: 42
  */
+// }}}
+
 export const of = <Right, Left>(value: Right) =>
   right<Right, Left>(value)
 

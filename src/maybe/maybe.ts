@@ -1,3 +1,4 @@
+// {{{ maybe interface
 /**
  * Represents a Maybe monad, which can contain either a value of type `T` or `null`.
  * @template T - The type of the value contained in the Maybe monad.
@@ -91,7 +92,7 @@ export interface Maybe<T> {
    */
   value: T | null
 }
-
+// }}}
 /**
  * Creates a Maybe monad containing the specified value.
  * @template T - The type of the value contained in the Maybe monad.
@@ -136,11 +137,11 @@ export const of = <T>(value: T | null): Maybe<T> => ({
     value === null
       ? none<R>()
       : fn(value)
-        .then((mapped) => of(mapped))
-        .catch((err) => {
-          error?.(err)
-          return none<R>()
-        }),
+          .then((mapped) => of(mapped))
+          .catch((err) => {
+            error?.(err)
+            return none<R>()
+          }),
   get value() {
     return value
   },
@@ -149,7 +150,7 @@ export const of = <T>(value: T | null): Maybe<T> => ({
 /**
  * Creates a Maybe monad representing absence of value.
  * @template T - The type of the value contained in the Maybe monad (implicitly `null` in this case).
- * @returns {Maybe<T>} A new Maybe monad representing absence of value.
+ * @returns  A new Maybe monad representing absence of value.
  */
 export const none = <T = never>() => of<T>(null)
 

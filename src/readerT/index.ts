@@ -1,4 +1,4 @@
-import { E, M, S, I } from '../'
+import { E, I, M, S } from '-->'
 
 export type Acceptable<T> =
   | M.Maybe<T>
