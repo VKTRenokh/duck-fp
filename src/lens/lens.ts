@@ -1,3 +1,4 @@
+// {{{ Lens Interface
 /**
  * Represents a lens that can focus on a specific part (property) of an object.
  * @template T The type of the whole object.
@@ -27,6 +28,7 @@ export interface Lens<T, R> {
    */
   compose: <C>(bc: Lens<R, C>) => Lens<T, C>
 }
+// }}}
 
 /**
  * Creates a lens for focusing on a specific part (property) of an object.
