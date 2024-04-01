@@ -1,6 +1,7 @@
 import { M } from '../src/'
 
 describe('maybe.ts', () => {
+  // {{{ map
   it('map', () => {
     const number = M.of(42).map((num) => num * 2)
 
@@ -18,7 +19,8 @@ describe('maybe.ts', () => {
 
     expect(mockedFunction).not.toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ mapNullable
   it('mapNullable', () => {
     const shouldntBeCalled = jest.fn(() => {
       throw new Error('shouldnt be called')
@@ -33,7 +35,8 @@ describe('maybe.ts', () => {
     expect(c.value).toBe(null)
     expect(shouldntBeCalled).not.toHaveBeenCalled()
   })
-
+  // }}}
+  // {{{ flatMap
   it('flatMap', () => {
     const a = M.of(5)
     const b = M.of(52).flatMap((value) =>
@@ -42,7 +45,8 @@ describe('maybe.ts', () => {
 
     expect(b.value).toBe(57)
   })
-
+  // }}}
+  // {{{ getOrElse
   it('getOrElse', () => {
     const get = M.none<number>().getOrElse(5)
     const m = M.of(10).getOrElse(6)
@@ -50,7 +54,8 @@ describe('maybe.ts', () => {
     expect(get).toBe(5)
     expect(m).toBe(10)
   })
-
+  // }}}
+  // {{{ flatGetOrElse
   it('flatGetOrElse', () => {
     const maybeFive = M.of(5)
     const maybeSix = M.of(6)
@@ -61,7 +66,8 @@ describe('maybe.ts', () => {
     expect(get.value).toBe(5)
     expect(m.value).toBe(5)
   })
-
+  // }}}
+  // {{{ merge
   it('merge', () => {
     const a = M.of(5)
     const b = M.of('decyat')
@@ -74,7 +80,8 @@ describe('maybe.ts', () => {
 
     expect(a.merge(nullable).value).toBeNull()
   })
-
+  // }}}
+  // {{{ asyncMap
   it('asyncMap', async () => {
     const sleep = (ms: number): Promise<number> =>
       new Promise((res) => setTimeout(() => res(ms), ms))
@@ -107,7 +114,8 @@ describe('maybe.ts', () => {
     expect(catchError).toHaveBeenCalled()
     expect(withError.value).toBeNull()
   })
-
+  // }}}
+  // {{{ equals
   it('equals', () => {
     const a = M.of(5)
     const b = M.of(5)
@@ -116,7 +124,8 @@ describe('maybe.ts', () => {
     expect(a.equals(b)).toBeTruthy()
     expect(a.equals(c)).not.toBeTruthy()
   })
-
+  // }}}
+  // {{{ apoly
   it('apply', () => {
     const double = M.of((num: number) => num * 2)
     const doubleNoCall = M.of((num: number) => {
@@ -128,16 +137,26 @@ describe('maybe.ts', () => {
       M.none<number>().apply(doubleNoCall).value,
     ).toBeNull()
   })
-
+  // }}}
+  // {{{ isNothing
   it('isNothing', () => {
     expect(M.none().isNothing()).toBeTruthy()
     expect(M.of(2).isNothing()).toBeFalsy()
   })
-
+  // }}}
+  // {{{ call
   it('call', () => {
     const fn = jest.fn(() => 0)
 
     expect(M.call(fn)).toBe(0)
     expect(fn).toHaveBeenCalled()
+  }) // }}}
+  // {{{ is
+  it('is', () => {
+    const maybe = M.of(30)
+
+    expect(M.is(maybe)).toBeTruthy()
+    expect(M.is(40)).toBeFalsy()
   })
+  // }}}
 })

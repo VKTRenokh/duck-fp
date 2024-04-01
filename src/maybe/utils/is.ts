@@ -1,8 +1,6 @@
 import { Maybe } from '../maybe'
 
-export const isMaybe = <T>(
-  value: unknown,
-): value is Maybe<T> =>
+export const is = <T>(value: unknown): value is Maybe<T> =>
   !!value &&
   typeof value === 'object' &&
   'map' in value &&
