@@ -38,6 +38,11 @@
       "require": "./dist/lens/index.js",
       "types": "./dist/lens/index.d.ts"
     },
+    "./prism": {
+      "import": "./dist/prism/index.mjs",
+      "require": "./dist/prism/index.js",
+      "types": "./dist/prism/index.d.ts"
+    },
     "./identity": {
       "import": "./dist/identity/index.mjs",
       "require": "./dist/identity/index.js",
@@ -77,6 +82,11 @@
       "import": "./dist/task-maybe/index.mjs",
       "require": "./dist/task-maybe/index.js",
       "types": "./dist/task-maybe/index.d.ts"
+    },
+    "./functions": {
+      "import": "./dist/functions/index.mjs",
+      "require": "./dist/functions/index.js",
+      "types": "./dist/functions/index.d.ts"
     }
   },
   "repository": {
