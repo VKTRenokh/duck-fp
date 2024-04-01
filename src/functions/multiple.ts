@@ -16,11 +16,9 @@ export type ReturnTypes<
  * const quadriple = (num: number) => double(double(num))
  * const toString = (num: number) => num.toString()
  *
- * const a = multiple(
- *  add(10),
- * )
+ * const a = multiple(add(10), double, quadriple, toString)
  *
- * a() // Output: [ 60, 100, 200, 140, "50" ]
+ * console.log(a(50)) // Output: [ 60, 100, 200, "50" ]
  * @returns result of all computations passed in
  */
 export const multiple =
