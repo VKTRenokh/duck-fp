@@ -1,5 +1,11 @@
 # @victorenokh/maybe.ts
 
+## 1.11.0
+
+### Minor Changes
+
+- cf28fda: Implemented Task, Task Either, Task Maybe monads, implemented prisms, multiple function, namespace autoimport
+
 ## 1.10.2
 
 ### Patch Changes
