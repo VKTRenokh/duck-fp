@@ -1,3 +1,5 @@
+import { type AbstractFn } from '->/types/abstract-fn'
+
 export type ReturnTypes<
   A extends readonly unknown[],
   T extends ((...a: A) => unknown)[],
@@ -23,7 +25,7 @@ export type ReturnTypes<
  */
 export const multiple =
   <
-    F extends (...a: any) => any,
+    F extends AbstractFn,
     T extends ((...a: Parameters<F>) => any)[],
   >(
     ...fns: T extends Array<(...a: Parameters<F>) => any>
