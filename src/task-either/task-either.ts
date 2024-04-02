@@ -30,7 +30,7 @@ export interface TaskEither<Left, Right> {
  * @see {@link https://maybets.duckdns.org/task Task}
  * @returns {TaskEither<Left, Right>} - new TaskEither
  */
-export const of = <Left = never, Right = never>(
+export const of = <Left, Right>(
   task: LazyPromise<Either<Left, Right>>,
 ): TaskEither<Left, Right> => ({
   map: <R>(f: (v: Right) => R): TaskEither<Left, R> =>
