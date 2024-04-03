@@ -1,4 +1,4 @@
-import { left, right } from '../src/either'
+import { Left, left, right } from '../src/either'
 import {
   TaskEither,
   of,
@@ -48,7 +48,7 @@ describe('task-either.ts', () => {
   })
   // }}}
   // {{{ flatMap test
-  it('flatMap', () => {
+  it('flatMap', async () => {
     const flatMapFn = jest.fn(
       (cond: boolean): TaskEither<string, string> =>
         taskLeft(cond ? '!' : '?'),
@@ -58,6 +58,11 @@ describe('task-either.ts', () => {
       taskRight(true)
 
     const mapped = taskEitherTrue.flatMap(flatMapFn)
+
+    const runned = await mapped.run()
+
+    expect(runned.isLeft()).toBeTruthy()
+    expect((runned as Left<string, string>).left).toBe('!')
   })
   // }}}
   // {{{ ensureOrElse

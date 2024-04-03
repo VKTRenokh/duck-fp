@@ -77,6 +77,7 @@ export const of = <Left, Right>(
     onRight: (v: Right) => Promise<R> | R,
   ): Promise<R> =>
     task().then((either) => either.fold(onLeft, onRight)),
+
   run: task,
 })
 
