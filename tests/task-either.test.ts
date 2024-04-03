@@ -1,9 +1,17 @@
-import { left, right } from '../src/either'
-import { of } from '../src/task-either'
+import { Left, left, right } from '../src/either'
+import {
+  TaskEither,
+  of,
+  left as taskLeft,
+  right as taskRight,
+  tryCatch,
+} from '../src/task-either'
 
+// {{{ tests helpers
 const shouldNotBeCalled = () => {
   throw new Error('should not be called')
 }
+// }}}
 
 describe('task-either.ts', () => {
   // {{{ map test
@@ -40,6 +48,95 @@ describe('task-either.ts', () => {
   })
   // }}}
   // {{{ flatMap test
-  it('flatMap', () => {})
+  it('flatMap', async () => {
+    const flatMapFn = jest.fn(
+      (cond: boolean): TaskEither<string, string> =>
+        taskLeft(cond ? '!' : '?'),
+    )
+
+    const taskEitherTrue: TaskEither<string, boolean> =
+      taskRight(true)
+
+    const mapped = taskEitherTrue.flatMap(flatMapFn)
+
+    const runned = await mapped.run()
+
+    expect(runned.isLeft()).toBeTruthy()
+    expect((runned as Left<string, string>).left).toBe('!')
+  })
+  // }}}
+  // {{{ ensureOrElse
+  it('ensureOrElse', async () => {
+    interface User {
+      name: string
+      has2Fa: boolean
+    }
+
+    const okUser: User = {
+      name: 'Bogdan',
+      has2Fa: true,
+    }
+
+    const either: TaskEither<string, User> = of(() =>
+      Promise.resolve(right(okUser)),
+    )
+
+    const nameValidation = jest.fn((user: User) => {
+      expect(
+        user.name === 'Bogdan' || user.name === 'Aa',
+      ).toBeTruthy()
+
+      return user.name.length >= 3
+    })
+
+    const onFalse = jest.fn((user: User) => {
+      expect(user === okUser).toBeTruthy()
+
+      return `${user.name} is too small`
+    })
+
+    const runned = await either
+      .ensureOrElse(nameValidation, onFalse)
+      .run()
+
+    expect(nameValidation).toHaveBeenCalled()
+    expect(onFalse).not.toHaveBeenCalled()
+    expect(runned.isRight()).toBeTruthy()
+  })
+  // }}}
+  // {{{ tryCatch
+  it('tryCatch', () => {
+    const throwable = jest.fn(() => {
+      throw 'test'
+    })
+    const nonThrowable = jest.fn(() => {
+      return Promise.resolve(10 * 2)
+    })
+    const catchFn = jest.fn((e) => {
+      expect(e).toBe('test')
+      return e
+    })
+
+    tryCatch(throwable, catchFn)
+      .run()
+      .then((either) =>
+        expect(either.isLeft()).toBeTruthy(),
+      )
+
+    expect(throwable).toHaveBeenCalled()
+    expect(throwable).toHaveBeenCalledWith()
+    expect(catchFn).toHaveBeenCalled()
+    expect(catchFn).toHaveBeenCalledWith('test')
+
+    tryCatch(nonThrowable, catchFn)
+      .run()
+      .then((either) =>
+        expect(either.isRight()).toBeTruthy(),
+      )
+
+    expect(nonThrowable).toHaveBeenCalled()
+    expect(nonThrowable).toHaveBeenCalledWith()
+    expect(catchFn).toHaveBeenCalledTimes(1)
+  })
   // }}}
 })

@@ -1,4 +1,9 @@
-import { Either, isRight, left } from '->/either'
+import {
+  Either,
+  left as eitherLeft,
+  right as eitherRight,
+  isRight,
+} from '->/either'
 import { LazyPromise } from '->/types/lazy-promise'
 
 // {{{ TaskEither interface
@@ -30,7 +35,7 @@ export interface TaskEither<Left, Right> {
  * @see {@link https://maybets.duckdns.org/task Task}
  * @returns {TaskEither<Left, Right>} - new TaskEither
  */
-export const of = <Left = never, Right = never>(
+export const of = <Left, Right>(
   task: LazyPromise<Either<Left, Right>>,
 ): TaskEither<Left, Right> => ({
   map: <R>(f: (v: Right) => R): TaskEither<Left, R> =>
@@ -42,7 +47,7 @@ export const of = <Left = never, Right = never>(
       task().then((either) =>
         isRight(either)
           ? f(either.right).run()
-          : left(either.left),
+          : eitherLeft(either.left),
       ),
     ),
   ensureOrElse: (
@@ -72,5 +77,16 @@ export const of = <Left = never, Right = never>(
     onRight: (v: Right) => Promise<R> | R,
   ): Promise<R> =>
     task().then((either) => either.fold(onLeft, onRight)),
+
   run: task,
 })
+
+export const right = <R, L = never>(
+  v: R,
+): TaskEither<L, R> =>
+  of(() => Promise.resolve(eitherRight(v)))
+
+export const left = <L, R = never>(
+  v: L,
+): TaskEither<L, R> =>
+  of(() => Promise.resolve(eitherLeft(v)))
