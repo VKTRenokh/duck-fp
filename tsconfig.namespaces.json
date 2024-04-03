@@ -5,46 +5,46 @@
         "name": "@unsplash/ts-namespace-import-plugin",
         "namespaces": {
           "E": {
-            "importPath": "@victorenokh/maybe.ts/either"
+            "importPath": "duck-fp/either"
           },
           "M": {
-            "importPath": "@victorenokh/maybe.ts/maybe"
+            "importPath": "duck-fp/maybe"
           },
           "L": {
-            "importPath": "@victorenokh/maybe.ts/lens"
+            "importPath": "duck-fp/lens"
           },
           "I": {
-            "importPath": "@victorenokh/maybe.ts/identity"
+            "importPath": "duck-fp/identity"
           },
           "O": {
-            "importPath": "@victorenokh/maybe.ts/observable"
+            "importPath": "duck-fp/observable"
           },
           "R": {
-            "importPath": "@victorenokh/maybe.ts/reader"
+            "importPath": "duck-fp/reader"
           },
           "RT": {
-            "importPath": "@victorenokh/maybe.ts/readerT"
+            "importPath": "duck-fp/readerT"
           },
           "S": {
-            "importPath": "@victorenokh/maybe.ts/state"
+            "importPath": "duck-fp/state"
           },
           "T": {
-            "importPath": "@victorenokh/maybe.ts/task"
+            "importPath": "duck-fp/task"
           },
           "TE": {
-            "importPath": "@victorenokh/maybe.ts/task-either"
+            "importPath": "duck-fp/task-either"
           },
           "TM": {
-            "importPath": "@victorenokh/maybe.ts/task-maybe"
+            "importPath": "duck-fp/task-maybe"
           },
           "F": {
-            "importPath": "@victorenokh/maybe.ts/functions"
+            "importPath": "duck-fp/functions"
           },
           "TY": {
-            "importPath": "@victorenokh/maybe.ts/types"
+            "importPath": "duck-fp/types"
           },
           "P": {
-            "importPath": "@victorenokh/maybe.ts/prism"
+            "importPath": "duck-fp/prism"
           }
         }
       }

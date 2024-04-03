@@ -1,6 +1,6 @@
 {
-  "name": "@victorenokh/maybe.ts",
-  "version": "1.11.0",
+  "name": "duck-fp",
+  "version": "1.11.2",
   "description": "Maybe, either, state, reader, readerT and identity in typescript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -94,10 +94,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vktrenokh/maybe.ts"
+    "url": "https://github.com/vktrenokh/duck-fp"
   },
   "bugs": {
-    "url": "https://github.com/vktrenokh/maybe.ts/issues"
+    "url": "https://github.com/vktrenokh/duck-fp/issues"
   },
   "keywords": [
     "fp",

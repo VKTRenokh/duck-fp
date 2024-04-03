@@ -1,14 +1,14 @@
 <div align="center">
     <p align="center">
-    <h1>@victorenokh/maybe.ts</h1>
-    <a href="https://www.npmjs.com/package/@victorenokh/maybe.ts">
-        <img alt="npm latest version" src="https://img.shields.io/npm/v/@victorenokh/maybe.ts/latest.svg">
+    <h1>duck-fp</h1>
+    <a href="https://www.npmjs.com/package/duck-fp">
+        <img alt="npm latest version" src="https://img.shields.io/npm/v/duck-fp/latest.svg">
     </a>
 </div>
 
 # Installation
 To install the latest version:
-`npm i @victorenokh/maybe.ts`
+`npm i duck-fp`
 
 ## Namespaces auto import
 Install ts-namespace-import-plugin:
@@ -18,7 +18,7 @@ Extend from namespaces tsconfig:
 ```json
 // tsconfig.json
 {
-  "extends": "./node_modules/@victorenokh/maybe.ts/tsconfig.namespaces.json"
+  "extends": "./node_modules/duck-fp/tsconfig.namespaces.json"
 }
 ```
 
@@ -37,7 +37,7 @@ Use project typescript version in vscode press <kbd>Ctrl</kbd> + <kbd>Shift</kbd
    - The tryCatch approach is useful because it gracefully handles potential errors without crashing our program using `Either` monad.
      It’s like saying, “Hey, let’s try to parse this JSON, and if anything goes wrong, we’ll handle it gracefully.”
 ```ts
-import { tryCatch, toError } from '@victorenokh/maybe.ts/either'
+import { tryCatch, toError } from 'duck-fp/either'
 
 const parse = (text: string) => {
   return tryCatch(

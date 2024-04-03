@@ -1,4 +1,16 @@
-# @victorenokh/maybe.ts
+# duck-fp
+
+## 1.11.2
+
+### Patch Changes
+
+- rename repository
+
+## 1.11.1
+
+### Patch Changes
+
+- cbe00f2: Implemented TaskEither left & right functions, TaskEither fromThrowable function
 
 ## 1.11.0
 
