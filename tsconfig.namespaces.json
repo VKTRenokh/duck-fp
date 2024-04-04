@@ -45,6 +45,9 @@
           },
           "P": {
             "importPath": "duck-fp/prism"
+          },
+          "RM": {
+            "importPath": "duck-fp/reader-maybe"
           }
         }
       }
