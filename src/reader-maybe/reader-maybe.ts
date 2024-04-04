@@ -1,6 +1,6 @@
 import { Maybe, none } from '->/maybe'
 
-interface ReaderMaybe<E, T> {
+export interface ReaderMaybe<E, T> {
   run: (e: E) => Maybe<T>
   runOrElse: (e: E, d: T) => T
   map: <R>(f: (v: T) => R) => ReaderMaybe<E, R>
