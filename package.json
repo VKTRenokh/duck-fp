@@ -1,6 +1,6 @@
 {
   "name": "duck-fp",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "Maybe, either, state, reader, readerT and identity in typescript",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

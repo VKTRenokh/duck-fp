@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.11.3
+
+### Patch Changes
+
+- 8a73d62: Implemented ReaderMaybe
+
 ## 1.11.2
 
 ### Patch Changes
