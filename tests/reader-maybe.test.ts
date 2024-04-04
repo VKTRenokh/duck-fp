@@ -1,5 +1,6 @@
 import * as M from '../src/maybe'
 import { ReaderMaybe, of } from '../src/reader-maybe'
+import { shouldNotBeCalled } from './utils/should-not-be-called'
 
 // {{{ helpers
 interface Env {
@@ -46,6 +47,12 @@ describe('reader-maybe.ts', () => {
 
     const runned = reader.flatMap(flatMapFn).run(e)
 
+    expect(
+      of(() => M.none())
+        .flatMap(shouldNotBeCalled)
+        .run(0).value,
+    ).toBeNull()
+
     expect(runned.value).toBe('testtest')
     expect(runned.isNothing()).toBeFalsy()
   })
@@ -67,6 +74,20 @@ describe('reader-maybe.ts', () => {
 
     expect(runnedNonNullable).toBe('test')
     expect(runnnedNullable).toBe('should be this')
+  })
+  // }}}
+  // {{{ orElse
+  it('orElse', () => {
+    const readerNone = of<Env, string>(() => M.none())
+    const readerSome = of<Env, string>((e) =>
+      M.fromUndefined(e.something),
+    )
+
+    const a = readerNone.orElse(readerSome).run(e)
+    const b = readerSome.orElse(readerNone).run(e)
+
+    expect(a.value).toBe('test')
+    expect(b.value).toBe('test')
   })
   // }}}
 })
