@@ -83,6 +83,11 @@
       "require": "./dist/task-maybe/index.js",
       "types": "./dist/task-maybe/index.d.ts"
     },
+    "./reader-maybe": {
+      "import": "./dist/reader-maybe/index.mjs",
+      "require": "./dist/reader-maybe/index.js",
+      "types": "./dist/reader-maybe/index.d.ts"
+    },
     "./functions": {
       "import": "./dist/functions/index.mjs",
       "require": "./dist/functions/index.js",
