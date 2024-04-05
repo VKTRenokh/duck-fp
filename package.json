@@ -6,7 +6,7 @@
   "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "build": "rm -rf dist && node esbuild.js && tsc --emitDeclarationOnly",
+    "build": "rm -rf dist && node esbuild.js && tsc -p tsconfig.json --emitDeclarationOnly && tsc-alias",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
     "test-coverage": "jest --coverage",
