@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.11.5
+
+### Patch Changes
+
+- c9d4022: Fixed incorrect pathes
+
 ## 1.11.4
 
 ### Patch Changes
