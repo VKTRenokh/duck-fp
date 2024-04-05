@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.11.6
+
+### Patch Changes
+
+- c5e167f: Paths aliases was not being resolved in .d.ts files
+
 ## 1.11.5
 
 ### Patch Changes
