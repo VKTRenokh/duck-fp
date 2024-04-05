@@ -12,19 +12,23 @@ const baseOptions = {
 
 esbuild.build({
   ...baseOptions,
-  outExtension: { '.js': '.mjs' },
-  format: 'esm',
-})
-
-esbuild.build({
-  ...baseOptions,
   format: 'cjs',
 })
 
-replaceTscAliasPaths({
-  configFile: 'tsconfig.json',
-  watch: false,
-  outDir: 'dist',
-  declarationDir: 'dist',
-  fileExtensions: '.mjs',
-})
+esbuild
+  .build({
+    ...baseOptions,
+    outExtension: { '.js': '.mjs' },
+    format: 'esm',
+  })
+  .then(() => {
+    replaceTscAliasPaths({
+      configFile: 'tsconfig.json',
+      watch: false,
+      outDir: 'dist',
+      declarationDir: 'dist',
+      fileExtensions: ['mjs'],
+    })
+      .then(() => console.log('replaced aliases'))
+      .catch(console.error)
+  })
