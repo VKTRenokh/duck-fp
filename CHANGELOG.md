@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.11.4
+
+### Patch Changes
+
+- 401b2a7: Performance: useless files wont be published to npm now
+
 ## 1.11.3
 
 ### Patch Changes
