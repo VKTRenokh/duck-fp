@@ -93,6 +93,11 @@
       "require": "./dist/functions/index.js",
       "types": "./dist/functions/index.d.ts"
     },
+    "./reader-either": {
+      "import": "./dist/reader-either/index.mjs",
+      "require": "./dist/reader-either/index.js",
+      "types": "./dist/reader-either/index.d.ts"
+    },
     "./types": {
       "types": "./dist/types/index.d.ts"
     }
