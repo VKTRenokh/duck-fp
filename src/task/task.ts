@@ -37,5 +37,8 @@ export const of = <T>(run: LazyPromise<T>): Task<T> => ({
   run,
 })
 
+export const run = <T>(v: T): Task<T> =>
+  of(() => Promise.resolve(v))
+
 export type UnwrapTask<T extends Task<unknown>> =
   T extends Task<infer U> ? U : never
