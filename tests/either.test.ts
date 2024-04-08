@@ -1,5 +1,5 @@
 import { E, M } from '../src'
-import { tryCatch } from '../src/either'
+import { fromPredicate, tryCatch } from '../src/either'
 
 // {{{ Functions that helps with tests
 const dontCallMePls = () => {
@@ -454,6 +454,17 @@ describe('either.ts', () => {
   it('isLeft', () => {
     expect(E.isLeft(E.right(null))).toBeFalsy()
     expect(E.isLeft(E.left(null))).toBeTruthy()
+  })
+  // }}}
+  // {{{ from-predicate
+  it('fromPredicate', () => {
+    const either = fromPredicate(
+      10,
+      (num) => num < 2,
+      (v) => `${v} is greater than 2.`,
+    )
+
+    expect(E.isLeft(either)).toBeTruthy()
   })
   // }}}
 })
