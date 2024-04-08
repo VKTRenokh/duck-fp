@@ -63,6 +63,7 @@ export interface Maybe<T> {
 
   /**
    * Asynchronously maps over the value contained in the Maybe monad.
+   * @deprecated use `TaskEither` instead
    * @template R - The type of the result after applying the mapping function.
    * @param {(v: T) => Promise<R>} fn - The async mapping function.
    * @param {(err: unknown) => void} [error] - Optional error handler.
