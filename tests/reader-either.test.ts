@@ -30,4 +30,7 @@ describe('reader-either.ts', () => {
     expect(runned['right']).toBe('test2')
   })
   // }}}
+  // {{{ flatMap
+  it('flatMap', () => {})
+  // }}}
 })

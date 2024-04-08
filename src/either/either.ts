@@ -1,4 +1,5 @@
 import { Merged } from '->t/merged'
+import { Refinement } from '->/types/refinement'
 
 // {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
@@ -22,10 +23,27 @@ export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
 ) => Either<Left, R>
 
-export type EnsureOrElseFunction<Left, Right> = (
-  p: (v: Right) => boolean,
-  fr: (v: Right) => Left,
-) => Either<Left, Right>
+export type EnsureOrElseRefinement<
+  Left,
+  Right,
+  T extends Right,
+> = (p: Refinement<Right, T>) => Either<Left, T>
+
+// export type EnsureOrElseFunction<Left, Right> = (
+//   p: (v: Right) => boolean,
+//   fr: (v: Right) => Left,
+// ) => Either<Left, Right>
+
+interface EnsureOrElseFunction<Left, Right> {
+  <T extends Right>(
+    p: Refinement<Right, T>,
+  ): Either<Left, T>
+
+  (
+    p: (v: Right) => boolean,
+    fr: (v: Right) => Left,
+  ): Either<Left, Right>
+}
 
 export type MergeFunction<Left, Right> = <Nr>(
   or: Either<Left, Nr>,
