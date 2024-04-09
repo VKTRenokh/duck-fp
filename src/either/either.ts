@@ -1,4 +1,6 @@
 import { Merged } from '->t/merged'
+import { Predicate } from '->t/predicate'
+import { Refinement } from '->t/refinement'
 
 // {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
@@ -22,10 +24,14 @@ export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
 ) => Either<Left, R>
 
-export type EnsureOrElseFunction<Left, Right> = (
-  p: (v: Right) => boolean,
-  fr: (v: Right) => Left,
-) => Either<Left, Right>
+interface EnsureOrElse<R> {
+  <E, T extends R>(
+    p: Refinement<R, T>,
+    c: (v: R) => E,
+  ): Either<E, T>
+
+  <E>(p: Predicate<R>, c: (v: R) => E): Either<E, R>
+}
 
 export type MergeFunction<Left, Right> = <Nr>(
   or: Either<Left, Nr>,
@@ -105,7 +111,7 @@ export interface Left<T, R> {
    * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
    * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
-  ensureOrElse: EnsureOrElseFunction<T, R>
+  ensureOrElse: EnsureOrElse<R>
 
   /**
    * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
@@ -149,7 +155,7 @@ export interface Right<T, R> {
 
   flatMap: FlatMapFunction<R, T>
 
-  ensureOrElse: EnsureOrElseFunction<R, T>
+  ensureOrElse: EnsureOrElse<T>
 
   merge: MergeFunction<R, T>
 }
@@ -188,8 +194,8 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
     left<L, Re>(e),
 
-  ensureOrElse: (_: (v: R) => boolean, __: (v: R) => L) =>
-    left(e),
+  ensureOrElse: ((_: (v: R) => boolean, __: (v: R) => L) =>
+    left(e)) as EnsureOrElse<R>,
 
   merge: <Nl, Nr, R>(_: Either<Nl, Nr>) => left<L, R>(e),
 
@@ -231,10 +237,10 @@ export const right = <R, L = never>(
 
   flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 
-  ensureOrElse: <Re>(
+  ensureOrElse: (<Re>(
     fn: (v: R) => boolean,
     fr: (v: R) => Re,
-  ) => (fn(v) ? right(v) : left(fr(v))),
+  ) => (fn(v) ? right(v) : left(fr(v)))) as EnsureOrElse<R>,
 
   merge: <Nr>(
     or: Either<L, Nr>,
@@ -260,8 +266,10 @@ export const right = <R, L = never>(
 export const of = <Right, Left>(value: Right) =>
   right<Right, Left>(value)
 
-export type GetRight<T extends Either<any, any>> =
+// {{{ Infers
+export type GetRight<T extends Either<unknown, unknown>> =
   T extends Either<infer _, infer U> ? U : never
 
-export type GetLeft<T extends Either<any, any>> =
+export type GetLeft<T extends Either<unknown, unknown>> =
   T extends Either<infer U, infer _> ? U : never
+// }}}

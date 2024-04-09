@@ -49,6 +49,9 @@
           },
           "RM": {
             "importPath": "duck-fp/reader-maybe"
+          },
+          "RE": {
+            "importPath": "duck-fp/reader-either"
           }
         }
       }

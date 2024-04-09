@@ -1,5 +1,10 @@
 import { E, M } from '../src'
-import { tryCatch } from '../src/either'
+import {
+  Left,
+  Right,
+  fromPredicate,
+  tryCatch,
+} from '../src/either'
 
 // {{{ Functions that helps with tests
 const dontCallMePls = () => {
@@ -454,6 +459,46 @@ describe('either.ts', () => {
   it('isLeft', () => {
     expect(E.isLeft(E.right(null))).toBeFalsy()
     expect(E.isLeft(E.left(null))).toBeTruthy()
+  })
+  // }}}
+  // {{{ from-predicate
+  it('fromPredicate', () => {
+    const eitherLeft = fromPredicate(
+      10,
+      (num) => num < 2,
+      (v) => `${v} is greater than 2.`,
+    )
+
+    const eitherRight = fromPredicate(
+      10,
+      (num: number) => num === 10,
+      (n: number) => `${n} is not ten.`,
+    )
+
+    expect(E.isRight(eitherRight)).toBeTruthy()
+    expect(
+      (eitherRight as Right<number, string>).right,
+    ).toBe(10)
+
+    expect(E.isLeft(eitherLeft)).toBeTruthy()
+    expect((eitherLeft as Left<string, number>).left).toBe(
+      '10 is greater than 2.',
+    )
+  })
+  // }}}
+  // {{{ from-predicate-c
+  it('fromPredicateC', () => {
+    const tester = E.fromPredicateC(
+      (num: number) => !!(num % 2),
+      (num) => `${num} is even.`,
+    )
+
+    expect((tester(1) as Right<number, string>).right).toBe(
+      1,
+    )
+    expect((tester(2) as Left<string, number>).left).toBe(
+      '2 is even.',
+    )
   })
   // }}}
 })

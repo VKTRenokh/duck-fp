@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.12.0
+
+### Minor Changes
+
+- 4a87cc8: Added ReaderEither, Either fromPredicate & fromPredicateC utils, Either ensureOrElse overload
+
 ## 1.11.6
 
 ### Patch Changes
