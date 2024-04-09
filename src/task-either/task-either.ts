@@ -4,18 +4,24 @@ import {
   right as eitherRight,
   isRight,
 } from '->/either'
+import { Predicate, Refinement } from '->/types'
 import { LazyPromise } from '->/types/lazy-promise'
 
 // {{{ TaskEither interface
+export interface EnsureOrElse<R> {
+  <E, T extends R>(
+    p: Refinement<R, T>,
+    c: (v: R) => E,
+  ): TaskEither<E, T>
+  <E>(p: Predicate<R>, c: (v: R) => E): TaskEither<E, R>
+}
+
 export interface TaskEither<Left, Right> {
   map: <R>(f: (v: Right) => R) => TaskEither<Left, R>
   flatMap: <R>(
     f: (v: Right) => TaskEither<Left, R>,
   ) => TaskEither<Left, R>
-  ensureOrElse: (
-    p: (v: Right) => boolean,
-    fr: (v: Right) => Left,
-  ) => TaskEither<Left, Right>
+  ensureOrElse: EnsureOrElse<Right>
   orElse: <R>(
     f: (e: Left) => TaskEither<R, Right>,
   ) => TaskEither<R, Right>

@@ -1,6 +1,6 @@
 import { Merged } from '->t/merged'
-import { Predicate } from '->/types/predicate'
-import { Refinement } from '->/types/refinement'
+import { Predicate } from '->t/predicate'
+import { Refinement } from '->t/refinement'
 
 // {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
