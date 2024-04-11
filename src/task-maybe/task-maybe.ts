@@ -34,5 +34,6 @@ export const of = <T>(
     ),
 })
 
-export const immediate = <T>(value: T): TaskMaybe<T> =>
-  of(() => Promise.resolve(maybe(value)))
+export const immediate = <T>(
+  value: T | null,
+): TaskMaybe<T> => of(() => Promise.resolve(maybe(value)))

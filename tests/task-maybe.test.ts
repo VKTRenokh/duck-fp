@@ -19,4 +19,20 @@ describe('task-maybe.ts', () => {
     expect(task.value).toBe(100)
   })
   // }}}
+  // {{{ orElse
+  it('orElse', async () => {
+    const some = TM.immediate(50)
+
+    const none = await TM.immediate<number>(null)
+      .orElse(some)
+      .run()
+
+    const someToNone = await some
+      .orElse(TM.immediate<number>(null))
+      .run()
+
+    expect(none.value).toBe(50)
+    expect(someToNone.value).toBe(50)
+  })
+  // }}}
 })
