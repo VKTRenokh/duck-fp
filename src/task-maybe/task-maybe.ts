@@ -1,5 +1,5 @@
+import { LazyPromise } from '->t/lazy-promise'
 import { Maybe, none } from '->/maybe'
-import { LazyPromise } from '->/types/lazy-promise'
 
 interface TaskMaybe<T> {
   run: LazyPromise<Maybe<T>>

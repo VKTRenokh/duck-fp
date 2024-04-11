@@ -51,7 +51,7 @@ export interface Maybe<T> {
    * @param {R} dv - The default value to return if the Maybe monad is empty.
    * @returns {R | Maybe<T>} The value contained in the Maybe monad, or the default value if the Maybe monad is empty.
    */
-  flatGetOrElse: <R>(dv: R) => R | Maybe<T>
+  orElse: <R>(dv: R) => R | Maybe<T>
 
   /**
    * Merges two Maybe monads into one, combining their values into an object.
@@ -63,7 +63,7 @@ export interface Maybe<T> {
 
   /**
    * Asynchronously maps over the value contained in the Maybe monad.
-   * @deprecated use `TaskEither` instead
+   * @deprecated use `TaskMaybe` instead
    * @template R - The type of the result after applying the mapping function.
    * @param {(v: T) => Promise<R>} fn - The async mapping function.
    * @param {(err: unknown) => void} [error] - Optional error handler.
@@ -121,7 +121,7 @@ export const of = <T>(value: T | null): Maybe<T> => ({
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : none<R>(),
   getOrElse: (dv) => (value === null ? dv : value),
-  flatGetOrElse: <R>(dv: R) =>
+  orElse: <R>(dv: R) =>
     value === null ? dv : of<T>(value),
   merge: <R>(om: Maybe<R>): Maybe<{ left: T; right: R }> =>
     of<T>(value).flatMap((v: T) =>

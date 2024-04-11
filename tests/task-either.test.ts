@@ -18,12 +18,10 @@ describe('task-either.ts', () => {
   it('map', async () => {
     const mapFn = jest.fn((num: number) => num * 2)
 
-    const task = of(() => Promise.resolve(right(40))).map(
-      mapFn,
-    )
+    const task = taskRight(40).map(mapFn)
 
-    const taskWithRight = of(() =>
-      Promise.resolve(left<string, number>('some error')),
+    const taskWithRight = taskLeft<string, number>(
+      'some error',
     ).map(mapFn)
 
     const onRightFn = jest.fn((num: number) => {
@@ -137,6 +135,17 @@ describe('task-either.ts', () => {
     expect(nonThrowable).toHaveBeenCalled()
     expect(nonThrowable).toHaveBeenCalledWith()
     expect(catchFn).toHaveBeenCalledTimes(1)
+  })
+  // }}}
+  // {{{ orElse
+  it('orElse', async () => {
+    const toRight = await taskLeft<number, string>(50)
+      .orElse((number) =>
+        taskRight<string, string>(number.toString()),
+      )
+      .run()
+
+    expect(toRight.isRight()).toBeTruthy()
   })
   // }}}
 })
