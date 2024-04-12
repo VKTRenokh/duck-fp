@@ -5,6 +5,7 @@ const config: Config.InitialOptions = {
   verbose: true,
   testEnvironment: 'node',
   maxWorkers: 4,
+  coveragePathIgnorePatterns: ['/tests/'],
   moduleNameMapper: {
     '->/(.*)': '<rootDir>/src/$1',
     '-->': '<rootDir>/src/index.ts',

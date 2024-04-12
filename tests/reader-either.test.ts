@@ -1,4 +1,4 @@
-import { isRight, left, right } from '../src/either'
+import { Left, isRight, left, right } from '../src/either'
 import { ReaderEither, of } from '../src/reader-either'
 
 // {{{ test helpers
@@ -31,6 +31,21 @@ describe('reader-either.ts', () => {
   })
   // }}}
   // {{{ flatMap
-  it('flatMap', () => {})
+  it('flatMap', () => {
+    const leftDouble = jest.fn(
+      (num: number): ReaderEither<Env, string, number> =>
+        of((env) => left(env.something + num * 2)),
+    )
+
+    const reader: ReaderEither<Env, string, number> = of(
+      (_e: Env) => right(40),
+    )
+
+    const runned = reader.flatMap(leftDouble).run(env)
+    expect(leftDouble).toHaveBeenCalledWith(40)
+    expect((runned as Left<string, number>).left).toBe(
+      'hello world80',
+    )
+  })
   // }}}
 })
