@@ -1,4 +1,4 @@
-import { LazyPromise } from '->/types/lazy-promise'
+import { LazyPromise } from '->t/lazy-promise'
 
 export interface Task<T> {
   map: <R>(f: (v: T) => R) => Task<R>

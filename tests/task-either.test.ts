@@ -1,4 +1,4 @@
-import { Left, left, right } from '../src/either'
+import { Left, right } from '../src/either'
 import {
   TaskEither,
   of,
@@ -55,12 +55,24 @@ describe('task-either.ts', () => {
     const taskEitherTrue: TaskEither<string, boolean> =
       taskRight(true)
 
+    const taskLeftBool = await taskLeft<string, boolean>(
+      'no boolean',
+    )
+      .flatMap(flatMapFn)
+      .run()
+
     const mapped = taskEitherTrue.flatMap(flatMapFn)
 
     const runned = await mapped.run()
 
     expect(runned.isLeft()).toBeTruthy()
     expect((runned as Left<string, string>).left).toBe('!')
+
+    expect(taskLeftBool.isLeft()).toBeTruthy()
+    expect(flatMapFn).toHaveReturnedTimes(1)
+    expect(
+      (taskLeftBool as Left<string, string>).left,
+    ).toBe('no boolean')
   })
   // }}}
   // {{{ ensureOrElse
@@ -145,7 +157,24 @@ describe('task-either.ts', () => {
       )
       .run()
 
+    const toRightRight = await taskRight<number, string>(50)
+      .orElse(shouldNotBeCalled)
+      .run()
+
     expect(toRight.isRight()).toBeTruthy()
+    expect(toRightRight.isRight()).toBeTruthy()
   })
   // }}}
+  //{{{ mapLeft
+  it('mapLeft', async () => {
+    const mapLeftFn = jest.fn((num: number) => num * 2)
+
+    const runned = await taskLeft(50)
+      .mapLeft(mapLeftFn)
+      .run()
+
+    expect(mapLeftFn).toHaveBeenCalledWith(50)
+    expect((runned as Left<number, never>).left).toBe(100)
+  })
+  //}}}
 })
