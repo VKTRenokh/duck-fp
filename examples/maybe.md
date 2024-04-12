@@ -15,7 +15,7 @@ const a = M.of(4).map(getOrNothing) // type is Maybe<number | null>
 const a = M.of(4).mapNullable(getOrNothing) // type is Maybe<number>
 ```
 
-## .asyncMap()
+## ~~.asyncMap()~~ deprecated
 ```ts
 const sleep = (ms: number): Promise<number> =>
   new Promise((res) => setTimeout(() => res(ms), ms));
@@ -57,10 +57,10 @@ const value = M.none<string>().getOrElse('default string') // value is 'default 
 const value1 = M.of<string>('some string').getOrElse('default string') // value is 'some string'
 ```
 
-## .flatGetOrElse()
+## .orElse()
 ```ts
-const value = M.none<number>().flatGetOrElse(maybe(42)) // value is 42
-const value = M.of(53).flatGetOrElse(maybe(42)) // value is 42
+const value = M.none<number>().flatGetOrElse(M.of(42)) // value is 42
+const value = M.of(53).flatGetOrElse(M.of(42)) // value is 42
 ```
 
 ## .merge()

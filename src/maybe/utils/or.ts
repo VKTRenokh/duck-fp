@@ -10,6 +10,6 @@ export const or = <MT extends Maybe<any>[]>(
   ...maybies: MT
 ): MT[number] =>
   maybies.reduce(
-    (acc, curr) => acc.flatGetOrElse(curr),
+    (acc, curr) => acc.orElse(curr),
     of<MT[number]>(null),
   )

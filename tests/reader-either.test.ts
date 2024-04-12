@@ -1,5 +1,9 @@
-import { isRight, left, right } from '../src/either'
-import { ReaderEither, of } from '../src/reader-either'
+import { Left, isRight, left, right } from '../src/either'
+import {
+  ReaderEither,
+  of,
+  tryCatch,
+} from '../src/reader-either'
 
 // {{{ test helpers
 interface Env {
@@ -31,6 +35,58 @@ describe('reader-either.ts', () => {
   })
   // }}}
   // {{{ flatMap
-  it('flatMap', () => {})
+  it('flatMap', () => {
+    const leftDouble = jest.fn(
+      (num: number): ReaderEither<Env, string, number> =>
+        of((env) => left(env.something + num * 2)),
+    )
+
+    const readerRight: ReaderEither<Env, string, number> =
+      of((_e: Env) => right(40))
+
+    const readerLeft: ReaderEither<Env, string, number> =
+      of((_e) => left('some error'))
+
+    const runnedRight = readerRight
+      .flatMap(leftDouble)
+      .run(env)
+
+    expect(leftDouble).toHaveBeenCalledWith(40)
+    expect((runnedRight as Left<string, number>).left).toBe(
+      'hello world80',
+    )
+
+    const runnedLeft = readerLeft
+      .flatMap(leftDouble)
+      .run(env)
+
+    expect(leftDouble).toHaveBeenCalledTimes(1)
+    expect((runnedLeft as Left<string, number>).left).toBe(
+      'some error',
+    )
+  })
+  // }}}
+  // {{{ tryCatch
+  it('tryCatch', () => {
+    const throwableTryFn = jest.fn((_: Env): number => {
+      throw 'throwable'
+    })
+    const throwableCatchFn = jest.fn((e: unknown) => {
+      return String(e).toUpperCase()
+    })
+
+    const throwable = tryCatch(
+      throwableTryFn,
+      throwableCatchFn,
+    ).run(env)
+
+    expect(throwableTryFn).toHaveBeenCalledWith(env)
+    expect(throwableCatchFn).toHaveBeenCalledWith(
+      'throwable',
+    )
+    expect((throwable as Left<string, number>).left).toBe(
+      'THROWABLE',
+    )
+  })
   // }}}
 })

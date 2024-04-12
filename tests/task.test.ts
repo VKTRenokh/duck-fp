@@ -1,11 +1,9 @@
-import { of } from '../src/task'
+import { immediate, of } from '../src/task'
 
 describe('task.ts', () => {
   // {{{ map
   it('map', async () => {
-    const task = of(() => Promise.resolve(40)).map(
-      (num) => num * 2,
-    )
+    const task = immediate(40).map((num) => num * 2)
 
     const result = await task.run()
 

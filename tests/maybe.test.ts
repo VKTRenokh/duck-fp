@@ -60,8 +60,8 @@ describe('maybe.ts', () => {
     const maybeFive = M.of(5)
     const maybeSix = M.of(6)
 
-    const get = M.none<number>().flatGetOrElse(maybeFive)
-    const m = maybeFive.flatGetOrElse(maybeSix)
+    const get = M.none<number>().orElse(maybeFive)
+    const m = maybeFive.orElse(maybeSix)
 
     expect(get.value).toBe(5)
     expect(m.value).toBe(5)
