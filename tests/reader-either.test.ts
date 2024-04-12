@@ -37,14 +37,28 @@ describe('reader-either.ts', () => {
         of((env) => left(env.something + num * 2)),
     )
 
-    const reader: ReaderEither<Env, string, number> = of(
-      (_e: Env) => right(40),
+    const readerRight: ReaderEither<Env, string, number> =
+      of((_e: Env) => right(40))
+
+    const readerLeft: ReaderEither<Env, string, number> =
+      of((_e) => left('some error'))
+
+    const runnedRight = readerRight
+      .flatMap(leftDouble)
+      .run(env)
+
+    expect(leftDouble).toHaveBeenCalledWith(40)
+    expect((runnedRight as Left<string, number>).left).toBe(
+      'hello world80',
     )
 
-    const runned = reader.flatMap(leftDouble).run(env)
-    expect(leftDouble).toHaveBeenCalledWith(40)
-    expect((runned as Left<string, number>).left).toBe(
-      'hello world80',
+    const runnedLeft = readerLeft
+      .flatMap(leftDouble)
+      .run(env)
+
+    expect(leftDouble).toHaveBeenCalledTimes(1)
+    expect((runnedLeft as Left<string, number>).left).toBe(
+      'some error',
     )
   })
   // }}}
