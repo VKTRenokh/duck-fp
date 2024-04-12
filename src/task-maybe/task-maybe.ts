@@ -1,7 +1,7 @@
 import { LazyPromise } from '->t/lazy-promise'
 import { Maybe, of as maybe, none } from '->/maybe'
 
-interface TaskMaybe<T> {
+export interface TaskMaybe<T> {
   run: LazyPromise<Maybe<T>>
   map: <R>(f: (v: T) => R) => TaskMaybe<R>
   flatMap: <R>(f: (v: T) => TaskMaybe<R>) => TaskMaybe<R>
@@ -35,5 +35,6 @@ export const of = <T>(
 })
 
 export const immediate = <T>(
-  value: T | null,
-): TaskMaybe<T> => of(() => Promise.resolve(maybe(value)))
+  value: T | null | undefined,
+): TaskMaybe<T> =>
+  of(() => Promise.resolve(maybe<T>(value ?? null)))
