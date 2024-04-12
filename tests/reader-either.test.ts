@@ -1,5 +1,9 @@
 import { Left, isRight, left, right } from '../src/either'
-import { ReaderEither, of } from '../src/reader-either'
+import {
+  ReaderEither,
+  of,
+  tryCatch,
+} from '../src/reader-either'
 
 // {{{ test helpers
 interface Env {
@@ -59,6 +63,29 @@ describe('reader-either.ts', () => {
     expect(leftDouble).toHaveBeenCalledTimes(1)
     expect((runnedLeft as Left<string, number>).left).toBe(
       'some error',
+    )
+  })
+  // }}}
+  // {{{ tryCatch
+  it('tryCatch', () => {
+    const throwableTryFn = jest.fn((_: Env): number => {
+      throw 'throwable'
+    })
+    const throwableCatchFn = jest.fn((e: unknown) => {
+      return String(e).toUpperCase()
+    })
+
+    const throwable = tryCatch(
+      throwableTryFn,
+      throwableCatchFn,
+    ).run(env)
+
+    expect(throwableTryFn).toHaveBeenCalledWith(env)
+    expect(throwableCatchFn).toHaveBeenCalledWith(
+      'throwable',
+    )
+    expect((throwable as Left<string, number>).left).toBe(
+      'THROWABLE',
     )
   })
   // }}}
