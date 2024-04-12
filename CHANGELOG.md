@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.12.1
+
+### Patch Changes
+
+- 3340a58: Renamed Maybe#flatGetOrElse => orElse, Added Task-Maybe orElse method
+
 ## 1.12.0
 
 ### Minor Changes
