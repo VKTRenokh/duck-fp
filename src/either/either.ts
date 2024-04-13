@@ -24,13 +24,13 @@ export type FlatMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Either<Left, R>,
 ) => Either<Left, R>
 
-interface EnsureOrElse<R> {
-  <E, T extends R>(
+export interface EnsureOrElse<L, R> {
+  <T extends R>(
     p: Refinement<R, T>,
-    c: (v: R) => E,
-  ): Either<E, T>
+    c: (v: R) => L,
+  ): Either<L, T>
 
-  <E>(p: Predicate<R>, c: (v: R) => E): Either<E, R>
+  (p: Predicate<R>, c: (v: R) => L): Either<L, R>
 }
 
 export type MergeFunction<Left, Right> = <Nr>(
@@ -111,7 +111,7 @@ export interface Left<T, R> {
    * @param {function(R): Re} fr The function to compute an alternative failure value if the predicate fails.
    * @returns {Either<L, R>} An `Either` instance with the same failure type `L` but potentially different success type.
    */
-  ensureOrElse: EnsureOrElse<R>
+  ensureOrElse: EnsureOrElse<T, R>
 
   /**
    * Merges two Either monads into one, combining their values if both are Right, or returning the first Left value otherwise.
@@ -155,7 +155,7 @@ export interface Right<T, R> {
 
   flatMap: FlatMapFunction<R, T>
 
-  ensureOrElse: EnsureOrElse<T>
+  ensureOrElse: EnsureOrElse<R, T>
 
   merge: MergeFunction<R, T>
 }
@@ -194,8 +194,10 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
     left<L, Re>(e),
 
-  ensureOrElse: ((_: (v: R) => boolean, __: (v: R) => L) =>
-    left(e)) as EnsureOrElse<R>,
+  ensureOrElse: <T extends R>(
+    _p: Refinement<R, T> | Predicate<R>,
+    _c: (v: R) => L,
+  ): Either<L, T> => left(e),
 
   merge: <Nl, Nr, R>(_: Either<Nl, Nr>) => left<L, R>(e),
 
@@ -237,10 +239,10 @@ export const right = <R, L = never>(
 
   flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 
-  ensureOrElse: (<Re>(
-    fn: (v: R) => boolean,
-    fr: (v: R) => Re,
-  ) => (fn(v) ? right(v) : left(fr(v)))) as EnsureOrElse<R>,
+  ensureOrElse: <T extends R>(
+    fn: Refinement<R, T> | Predicate<R>,
+    fr: (v: R) => L,
+  ): Either<L, R> => (fn(v) ? right(v) : left(fr(v))),
 
   merge: <Nr>(
     or: Either<L, Nr>,
