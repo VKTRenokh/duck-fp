@@ -124,7 +124,9 @@
     "transformer",
     "lens",
     "prisms",
-    "tasks"
+    "tasks",
+    "functional",
+    "programming"
   ],
   "author": "Victor Enokh Kuptsov <viktorenokh@gmail.com>",
   "publishConfig": {
