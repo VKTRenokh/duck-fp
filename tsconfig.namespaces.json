@@ -52,6 +52,12 @@
           },
           "RE": {
             "importPath": "duck-fp/reader-either"
+          },
+          "Bool": {
+            "importPath": "duck-fp/boolean"
+          },
+          "TY": {
+            "importPath": "duck-fp/types"
           }
         }
       }

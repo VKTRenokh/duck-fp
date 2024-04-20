@@ -1,7 +1,7 @@
 {
   "name": "duck-fp",
   "version": "1.12.1",
-  "description": "Maybe, either, state, reader, readerT and identity in typescript",
+  "description": "Monads library with 0 dependencies",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "typings": "./dist/index.d.ts",
@@ -100,6 +100,11 @@
     },
     "./types": {
       "types": "./dist/types/index.d.ts"
+    },
+    "./boolean": {
+      "types": "./dist/boolean/index.d.ts",
+      "import": "./dist/boolean/index.mjs",
+      "import": "./dist/boolean/index.mjs"
     }
   },
   "repository": {
