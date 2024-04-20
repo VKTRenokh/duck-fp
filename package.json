@@ -1,6 +1,6 @@
 {
   "name": "duck-fp",
-  "version": "1.12.1",
+  "version": "1.12.2",
   "description": "Monads library with 0 dependencies",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -103,7 +103,6 @@
     },
     "./boolean": {
       "types": "./dist/boolean/index.d.ts",
-      "import": "./dist/boolean/index.mjs",
       "import": "./dist/boolean/index.mjs"
     }
   },

@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.12.2
+
+### Patch Changes
+
+- ae09843: better ensureOrElse, new functions
+
 ## 1.12.1
 
 ### Patch Changes
