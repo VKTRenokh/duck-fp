@@ -35,4 +35,18 @@ describe('functions', () => {
     expect(something).toBe(2)
   })
   // }}}
+  // {{{ noop
+  it('noop', () => {
+    const a = F.noop()
+
+    expect(a).toBeUndefined()
+  })
+  // }}}
+  // {{{ identity
+  it('identity', () => {
+    const a = F.identity(40)
+
+    expect(a).toBe(40)
+  })
+  // }}}
 })
