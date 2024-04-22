@@ -1,5 +1,11 @@
 # duck-fp
 
+## 1.12.3
+
+### Patch Changes
+
+- e89e8d5: Renamed fromUndefined to fromNullable
+
 ## 1.12.2
 
 ### Patch Changes
