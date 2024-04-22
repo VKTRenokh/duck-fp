@@ -18,7 +18,7 @@ describe('reader-maybe.ts', () => {
   // {{{ map
   it('map', () => {
     const reader: ReaderMaybe<Env, string> = of((e) => {
-      return M.fromUndefined(e.something)
+      return M.fromNullable(e.something)
     })
 
     const mapFn = jest.fn((something: string) => {
@@ -35,10 +35,10 @@ describe('reader-maybe.ts', () => {
   // {{{ flatMap
   it('flatMap', () => {
     const reader = of<Env, string>((e) =>
-      M.fromUndefined(e.something),
+      M.fromNullable(e.something),
     )
     const otherReader = of<Env, string>((e) =>
-      M.fromUndefined(e.something).map((e: string) =>
+      M.fromNullable(e.something).map((e: string) =>
         e.repeat(2),
       ),
     )
@@ -60,7 +60,7 @@ describe('reader-maybe.ts', () => {
   // {{{ runOrElse
   it('runOrElse', () => {
     const reader = of<Env, string>((e) =>
-      M.fromUndefined(e.something),
+      M.fromNullable(e.something),
     )
 
     const runnedNonNullable = reader.runOrElse(
@@ -80,7 +80,7 @@ describe('reader-maybe.ts', () => {
   it('orElse', () => {
     const readerNone = of<Env, string>(() => M.none())
     const readerSome = of<Env, string>((e) =>
-      M.fromUndefined(e.something),
+      M.fromNullable(e.something),
     )
 
     const a = readerNone.orElse(readerSome).run(e)

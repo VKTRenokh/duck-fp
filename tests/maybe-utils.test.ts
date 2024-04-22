@@ -30,14 +30,9 @@ describe('utils.ts', () => {
     expect(merged.value).toBeNull()
   })
   // }}}
-  // {{{ fromUndefined
-  it('fromUndefined', () => {
-    expect(M.fromUndefined(42).value).toBe(42)
-  })
-  // }}}
-  // {{{ fromUndefined
-  it('fromUndefined with undefined', () => {
-    expect(M.fromUndefined(undefined).value).toBeNull()
+  // {{{ fromNullable
+  it('fromNullable', () => {
+    expect(M.fromNullable(42).value).toBe(42)
   })
   // }}}
   // {{{ mergeMap

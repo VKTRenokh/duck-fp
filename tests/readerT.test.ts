@@ -37,7 +37,7 @@ describe('readerT.ts', () => {
   it('flatMap', () => {
     const run = jest.fn((enviroment: Env) => {
       expect(enviroment).toBe(envWithoutMissingValues)
-      return M.fromUndefined(
+      return M.fromNullable(
         enviroment.stringValueThatMayNotExist,
       )
     })
