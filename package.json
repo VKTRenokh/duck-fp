@@ -9,6 +9,7 @@
     "build": "rm -rf dist && node esbuild.js && tsc -p tsconfig.json --emitDeclarationOnly && tsc-alias",
     "release": "npm run build && changeset publish",
     "version-packages": "changeset version",
+    "test": "bun run test",
     "test-coverage": "bun test --coverage",
     "prettier": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prepare": "husky",
