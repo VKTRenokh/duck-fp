@@ -1,3 +1,5 @@
+import { TaskMaybe, of as tOf } from '->/task-maybe'
+
 // {{{ maybe interface
 /**
  * Represents a Maybe monad, which can contain either a value of type `T` or `null`.
@@ -71,7 +73,7 @@ export interface Maybe<T> {
   asyncMap: <R>(
     fn: (v: T) => Promise<R>,
     error?: (err: unknown) => void,
-  ) => Promise<Maybe<R>>
+  ) => TaskMaybe<R>
 
   /**
    * Applies a function wrapped in a Maybe monad to the value contained in this Maybe monad.
@@ -136,19 +138,10 @@ export const of = <T>(value: T | null): Maybe<T> => ({
     value && mfn.value
       ? of<R>(mfn.value(value as T))
       : none,
-  // TODO: TaskMaybe
-  asyncMap: async <R>(
-    fn: (v: T) => Promise<R>,
-    error?: (err: unknown) => void,
-  ): Promise<Maybe<R>> =>
-    value === null
-      ? none
-      : fn(value)
-          .then((mapped) => of(mapped))
-          .catch((err) => {
-            error?.(err)
-            return none
-          }),
+  asyncMap: <R>(fn: (v: T) => Promise<R>): TaskMaybe<R> =>
+    tOf(() =>
+      value ? fn(value).then(of) : Promise.resolve(none),
+    ),
   toBoolean: () => !!value,
   get value() {
     return value

@@ -91,7 +91,7 @@ describe('maybe.ts', () => {
 
     M.of(500)
       .asyncMap((ms) => sleep(ms / 2))
-      .then((maybeTime) => {
+      .map((maybeTime) => {
         expect(maybeTime.value).toBe(250)
       })
 
