@@ -1,3 +1,5 @@
+import { TaskMaybe, of as tOf } from '->/task-maybe'
+
 // {{{ maybe interface
 /**
  * Represents a Maybe monad, which can contain either a value of type `T` or `null`.
@@ -63,7 +65,6 @@ export interface Maybe<T> {
 
   /**
    * Asynchronously maps over the value contained in the Maybe monad.
-   * @deprecated use `TaskMaybe` instead
    * @template R - The type of the result after applying the mapping function.
    * @param {(v: T) => Promise<R>} fn - The async mapping function.
    * @param {(err: unknown) => void} [error] - Optional error handler.
@@ -72,7 +73,7 @@ export interface Maybe<T> {
   asyncMap: <R>(
     fn: (v: T) => Promise<R>,
     error?: (err: unknown) => void,
-  ) => Promise<Maybe<R>>
+  ) => TaskMaybe<R>
 
   /**
    * Applies a function wrapped in a Maybe monad to the value contained in this Maybe monad.
@@ -86,6 +87,12 @@ export interface Maybe<T> {
   apply: <R>(mfn: Maybe<(v: T) => R>) => Maybe<R>
 
   isNothing: () => boolean
+
+  /**
+   * This is equal to `!!maybe.value`
+   * @returns boolean
+   */
+  toBoolean: () => boolean
 
   /**
    * The value contained in the Maybe monad.
@@ -104,22 +111,22 @@ export interface Maybe<T> {
 export const of = <T>(value: T | null): Maybe<T> => ({
   isNothing: () => value === null,
   map: <R>(fn: (v: T) => R) =>
-    value ? of<R>(fn(value)) : none<R>(),
+    value ? of<R>(fn(value)) : none,
   mapNullable: <R>(fn: (v: T) => R | undefined | null) => {
     if (value === null) {
-      return none<R>()
+      return none
     }
     const next = fn(value)
 
     if (next === null || next === undefined) {
-      return none<R>()
+      return none
     }
 
     return of<R>(next)
   },
   equals: (m) => m.value === value,
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
-    value ? f(value) : none<R>(),
+    value ? f(value) : none,
   getOrElse: (dv) => (value === null ? dv : value),
   orElse: <R>(dv: R) =>
     value === null ? dv : of<T>(value),
@@ -130,19 +137,12 @@ export const of = <T>(value: T | null): Maybe<T> => ({
   apply: <T, R>(mfn: Maybe<(v: T) => R>) =>
     value && mfn.value
       ? of<R>(mfn.value(value as T))
-      : none<R>(),
-  asyncMap: async <R>(
-    fn: (v: T) => Promise<R>,
-    error?: (err: unknown) => void,
-  ): Promise<Maybe<R>> =>
-    value === null
-      ? none<R>()
-      : fn(value)
-          .then((mapped) => of(mapped))
-          .catch((err) => {
-            error?.(err)
-            return none<R>()
-          }),
+      : none,
+  asyncMap: <R>(fn: (v: T) => Promise<R>): TaskMaybe<R> =>
+    tOf(() =>
+      value ? fn(value).then(of) : Promise.resolve(none),
+    ),
+  toBoolean: () => !!value,
   get value() {
     return value
   },
@@ -153,7 +153,7 @@ export const of = <T>(value: T | null): Maybe<T> => ({
  * @template T - The type of the value contained in the Maybe monad (implicitly `null` in this case).
  * @returns  A new Maybe monad representing absence of value.
  */
-export const none = <T = never>() => of<T>(null)
+export const none = of<any>(null)
 
 export type UnwrapMaybe<T extends Maybe<any>> =
   T extends Maybe<infer U> ? U : never

@@ -3,6 +3,7 @@
     "target": "esnext",
     "module": "commonjs",
     "strict": true,
+    "isolatedModules": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -22,7 +23,8 @@
     }
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "@types/bun"
   ],
   "exclude": [
     "node_modules",

@@ -200,7 +200,7 @@ describe('either.ts', () => {
       (v) => expect(v).toBe(42),
     )
 
-    E.fromMaybe(M.none<number>(), 'maybe is none').fold(
+    E.fromMaybe(M.none, 'maybe is none').fold(
       (e) => expect(e).toBe('maybe is none'),
       () => {
         throw new Error('should not be called')
@@ -324,12 +324,16 @@ describe('either.ts', () => {
       return sleep(number)
     })
 
-    const right =
-      await E.right<number>(50).asyncMap(mappingFn)
+    const right = await E.right<number>(50)
+      .asyncMap(mappingFn)
+      .run()
+
     expect(mappingFn).toHaveBeenCalled()
 
-    const left =
-      await E.left<string>('a').asyncMap(mappingFn)
+    const left = await E.left<string>('a')
+      .asyncMap(mappingFn)
+      .run()
+
     expect(mappingFn).toHaveBeenCalledTimes(1)
 
     left.fold(

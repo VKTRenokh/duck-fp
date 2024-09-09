@@ -49,7 +49,7 @@ describe('utils.ts', () => {
   it('merge map with nothing', () => {
     const add = (a: number, b: number) => a + b
 
-    const a = M.none<number>()
+    const a = M.none
     const b = M.of(2)
 
     expect(M.mergeMap(a, b, add).value).toBe(null)

@@ -1,6 +1,11 @@
 import { Merged } from '->t/merged'
 import { Predicate } from '->t/predicate'
 import { Refinement } from '->t/refinement'
+import {
+  TaskEither,
+  left as tLeft,
+  of as tOf,
+} from '->/task-either'
 
 // {{{ types for either functions
 export type FoldFunction<Left, Right> = <R>(
@@ -39,7 +44,7 @@ export type MergeFunction<Left, Right> = <Nr>(
 
 export type AsyncMapFunction<Left, Right> = <R>(
   fn: (v: Right) => Promise<R>,
-) => Promise<Either<Left, R>>
+) => TaskEither<Left, R>
 // }}}
 
 // {{{ interface for left
@@ -188,8 +193,9 @@ export const left = <L, R = never>(e: L): Either<L, R> => ({
   mapLeft: <Re>(f: (v: L) => Re): Either<Re, R> =>
     left(f(e)),
 
-  asyncMap: <Re>(_: (v: R) => Promise<Re>) =>
-    Promise.resolve<Either<L, Re>>(left(e)),
+  asyncMap: <Re>(
+    _: (v: R) => Promise<Re>,
+  ): TaskEither<L, Re> => tLeft(e),
 
   flatMap: <Re>(_: (v: R) => Either<L, Re>) =>
     left<L, Re>(e),
@@ -232,10 +238,12 @@ export const right = <R, L = never>(
 
   mapLeft: <Re>(_: (v: L) => Re): Either<Re, R> => right(v),
 
-  asyncMap: <Re>(
-    fn: (v: R) => Promise<Re>,
-  ): Promise<Either<L, Re>> =>
-    fn(v).then((mapped) => right<Re, L>(mapped)),
+  asyncMap: <Re>(fn: (v: R) => Promise<Re>) =>
+    tOf(() =>
+      fn(v).then<Either<L, Re>>((mapped) =>
+        right<Re, L>(mapped),
+      ),
+    ),
 
   flatMap: <Re>(fn: (v: R) => Either<L, Re>) => fn(v),
 

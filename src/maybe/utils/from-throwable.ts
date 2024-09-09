@@ -15,6 +15,6 @@ export const fromThrowable =
     try {
       return of(f(...a))
     } catch (e) {
-      return none<R>()
+      return none
     }
   }
