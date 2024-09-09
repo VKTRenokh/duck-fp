@@ -155,4 +155,8 @@ describe('maybe.ts', () => {
     expect(M.is(40)).toBeFalsy()
   })
   // }}}
+  it('toBoolean', () => {
+    expect(M.of('hello').toBoolean()).toBeTruthy()
+    expect(M.none.toBoolean()).toBeFalsy()
+  })
 })

@@ -87,6 +87,12 @@ export interface Maybe<T> {
   isNothing: () => boolean
 
   /**
+   * This is equal to `!!maybe.value`
+   * @returns boolean
+   */
+  toBoolean: () => boolean
+
+  /**
    * The value contained in the Maybe monad.
    * @type {T | null}
    */
@@ -143,6 +149,7 @@ export const of = <T>(value: T | null): Maybe<T> => ({
             error?.(err)
             return none
           }),
+  toBoolean: () => !!value,
   get value() {
     return value
   },
