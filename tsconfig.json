@@ -29,7 +29,6 @@
   "exclude": [
     "node_modules",
     "tests",
-    "jest.config.ts",
-    "bunbuild.ts"
+    "jest.config.ts"
   ]
 }
