@@ -1,5 +1,11 @@
 # duck-fp
 
+## 2.0.0
+
+### Major Changes
+
+- 7f119e5: Removed useless monads, updated asyncMap methods in maybe and either, updated packages
+
 ## 1.12.3
 
 ### Patch Changes
