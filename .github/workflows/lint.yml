@@ -23,10 +23,10 @@ jobs:
           bun-version: latest
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Run linter
-        run: npm run lint
+        run: bun run lint
 
       - name: Run tests
-        run: npm run test
+        run: bun run test
