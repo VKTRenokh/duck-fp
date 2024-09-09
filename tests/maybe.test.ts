@@ -13,7 +13,7 @@ describe('maybe.ts', () => {
 
     const mockedFunction = jest.fn(fn)
 
-    const num = M.none<number>()
+    const num = M.none
 
     num.map(mockedFunction)
 
@@ -28,7 +28,7 @@ describe('maybe.ts', () => {
 
     const a = M.of(32).mapNullable(() => undefined)
     const b = M.of(5).mapNullable(() => 5)
-    const c = M.none<number>().mapNullable(shouldntBeCalled)
+    const c = M.none.mapNullable(shouldntBeCalled)
 
     expect(a.value).toBeNull()
     expect(b.value).toBe(5)
@@ -48,7 +48,7 @@ describe('maybe.ts', () => {
   // }}}
   // {{{ getOrElse
   it('getOrElse', () => {
-    const get = M.none<number>().getOrElse(5)
+    const get = M.none.getOrElse(5)
     const m = M.of(10).getOrElse(6)
 
     expect(get).toBe(5)
@@ -60,7 +60,7 @@ describe('maybe.ts', () => {
     const maybeFive = M.of(5)
     const maybeSix = M.of(6)
 
-    const get = M.none<number>().orElse(maybeFive)
+    const get = M.none.orElse(maybeFive)
     const m = maybeFive.orElse(maybeSix)
 
     expect(get.value).toBe(5)
@@ -71,7 +71,7 @@ describe('maybe.ts', () => {
   it('merge', () => {
     const a = M.of(5)
     const b = M.of('decyat')
-    const nullable = M.none<string>()
+    const nullable = M.none
 
     expect(a.merge(b).value).toMatchObject({
       left: 5,
@@ -104,11 +104,9 @@ describe('maybe.ts', () => {
       catchError,
     )
 
-    const withNothing = await M.none<number>().asyncMap(
-      () => {
-        throw new Error('shouldntBeCalled')
-      },
-    )
+    const withNothing = await M.none.asyncMap(() => {
+      throw new Error('shouldntBeCalled')
+    })
 
     expect(withNothing.value).toBeNull()
     expect(catchError).toHaveBeenCalled()
@@ -133,14 +131,12 @@ describe('maybe.ts', () => {
     })
 
     expect(M.of(42).apply(double).value).toBe(84)
-    expect(
-      M.none<number>().apply(doubleNoCall).value,
-    ).toBeNull()
+    expect(M.none.apply(doubleNoCall).value).toBeNull()
   })
   // }}}
   // {{{ isNothing
   it('isNothing', () => {
-    expect(M.none().isNothing()).toBeTruthy()
+    expect(M.none.isNothing()).toBeTruthy()
     expect(M.of(2).isNothing()).toBeFalsy()
   })
   // }}}

@@ -12,4 +12,4 @@ import { Maybe, none, of } from '->/maybe'
  */
 export const toMaybe = <L, R>(
   either: Either<L, R>,
-): Maybe<R> => either.fold(() => none(), of)
+): Maybe<R> => either.fold(() => none, of)

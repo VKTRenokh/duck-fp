@@ -17,9 +17,7 @@ export const of = <T>(
   flatMap: <R>(f: (v: T) => TaskMaybe<R>): TaskMaybe<R> =>
     of(() =>
       run().then((maybe) =>
-        maybe.value !== null
-          ? f(maybe.value).run()
-          : none<R>(),
+        maybe.value !== null ? f(maybe.value).run() : none,
       ),
     ),
   orElse: <R>(def: TaskMaybe<R>): TaskMaybe<T | R> =>
