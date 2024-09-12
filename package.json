@@ -1,6 +1,6 @@
 {
   "name": "duck-fp",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Monads library with 0 dependencies",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

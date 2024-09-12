@@ -1,5 +1,11 @@
 # duck-fp
 
+## 2.1.0
+
+### Minor Changes
+
+- 8e1658f: updated orElse
+
 ## 2.0.0
 
 ### Major Changes
