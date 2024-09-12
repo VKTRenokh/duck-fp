@@ -53,7 +53,7 @@ export interface Maybe<T> {
    * @param {R} dv - The default value to return if the Maybe monad is empty.
    * @returns {R | Maybe<T>} The value contained in the Maybe monad, or the default value if the Maybe monad is empty.
    */
-  orElse: <R>(dv: R) => R | Maybe<T>
+  orElse: (dv: Maybe<T>) => Maybe<T>
 
   /**
    * Merges two Maybe monads into one, combining their values into an object.
@@ -128,7 +128,7 @@ export const of = <T>(value: T | null): Maybe<T> => ({
   flatMap: <R>(f: (value: T) => Maybe<R>) =>
     value ? f(value) : none,
   getOrElse: (dv) => (value === null ? dv : value),
-  orElse: <R>(dv: R) =>
+  orElse: (dv: Maybe<T>) =>
     value === null ? dv : of<T>(value),
   merge: <R>(om: Maybe<R>): Maybe<{ left: T; right: R }> =>
     of<T>(value).flatMap((v: T) =>

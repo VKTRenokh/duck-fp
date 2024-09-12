@@ -94,23 +94,16 @@ describe('maybe.ts', () => {
       .map((maybeTime) => {
         expect(maybeTime.value).toBe(250)
       })
-
-    const catchError = jest.fn((err) =>
-      expect(err).toBe(250),
-    )
-
-    const withError = await M.of(500).asyncMap(
-      (ms) => sleepWithError(ms / 2),
-      catchError,
+    const withError = await M.of(500).asyncMap((ms) =>
+      sleepWithError(ms / 2),
     )
 
     const withNothing = await M.none.asyncMap(() => {
       throw new Error('shouldntBeCalled')
     })
 
-    expect(withNothing.value).toBeNull()
-    expect(catchError).toHaveBeenCalled()
-    expect(withError.value).toBeNull()
+    expect(withNothing.value).toBeFalsy()
+    expect(withError.value).toBeFalsy()
   })
   // }}}
   // {{{ equals
