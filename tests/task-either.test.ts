@@ -1,6 +1,8 @@
+import { E } from '../src'
 import { Left, right } from '../src/either'
 import {
   TaskEither,
+  fromEither,
   of,
   left as taskLeft,
   right as taskRight,
@@ -177,4 +179,12 @@ describe('task-either.ts', () => {
     expect((runned as Left<number, never>).left).toBe(100)
   })
   //}}}
+  // {{{ fromEither
+  it('fromEither', () => {
+    const either: E.Either<string, string> = E.right('x')
+    const taskEither = fromEither<string, string>(either)
+
+    expect('run' in taskEither).toBeTruthy()
+  })
+  // }}}
 })
