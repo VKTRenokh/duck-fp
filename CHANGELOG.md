@@ -1,5 +1,11 @@
 # duck-fp
 
+## 2.2.0
+
+### Minor Changes
+
+- ea7cc62: Added fromEither function to taskEither module, added fromThrowable to exports in taskEither module.
+
 ## 2.1.0
 
 ### Minor Changes
